@@ -2,13 +2,12 @@ import { gql } from "@apollo/client"
 import React from "react"
 import { useQuery } from "@apollo/client"
 import Groups from "../../components/Groups/Groups"
-import { RouteComponentProps } from "react-router"
 
-interface FrontPageProps extends RouteComponentProps {}
+interface MyGroupsProps {}
 
-const GET_GROUPS = gql`
-    query {
-        groups {
+const GET_MY_GROUPS = gql`
+    query($leader: ID!) {
+        groups(where: { leader: $leader }) {
             id
             name
             open_slots
@@ -20,22 +19,28 @@ const GET_GROUPS = gql`
     }
 `
 
-const FrontPage: React.FC<FrontPageProps> = (props) => {
-    const { loading, error, data } = useQuery(GET_GROUPS)
+const MyGroups: React.FC<MyGroupsProps> = () => {
+    const { loading, error, data } = useQuery(GET_MY_GROUPS, {
+        variables: {
+            leader: 35, // TODO: HARD CODED...Setup in store
+        },
+    })
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error :(</p>
 
     const onGroupClick = (groupId: string) => {
-        props.history.push("/group/" + groupId)
+        // open edit group here
+        console.log("Clicked group: ", groupId)
     }
 
     return (
         <div>
-            <h1>Open Groups</h1>
+            <h1>My Groups</h1>
+            <button>Create New Group</button>
             <Groups groups={data.groups} clickedGroup={onGroupClick} />
         </div>
     )
 }
 
-export default FrontPage
+export default MyGroups

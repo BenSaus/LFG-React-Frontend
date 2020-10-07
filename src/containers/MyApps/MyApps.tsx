@@ -23,7 +23,7 @@ interface MyAppsProps {}
 export const MyApps: React.FC<MyAppsProps> = (props) => {
     const { loading, error, data } = useQuery(MY_APPLICATIONS, {
         variables: {
-            applicant: 34,
+            applicant: 34, // TODO: HARD CODED...Setup in store
         },
     })
 

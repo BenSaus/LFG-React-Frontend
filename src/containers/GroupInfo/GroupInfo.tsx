@@ -29,7 +29,6 @@ interface GroupInfoProps extends RouteComponentProps<GroupInfoParams> {}
 
 const GroupInfo: React.FC<GroupInfoProps> = (props) => {
     const groupId = props.match.params.id
-    console.log(groupId)
 
     const { loading, error, data } = useQuery(GET_GROUP, {
         variables: { id: groupId },
