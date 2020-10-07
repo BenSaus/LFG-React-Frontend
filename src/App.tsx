@@ -8,6 +8,7 @@ import { BrowserRouter, Route } from "react-router-dom"
 import Layout from "./components/Layout/Layout"
 import FrontPage from "./containers/FrontPage/FrontPage"
 import GroupInfo from "./containers/GroupInfo/GroupInfo"
+import UserInfo from "./containers/UserInfo/UserInfo"
 import Apply from "./containers/Apply/Apply"
 import MyApps from "./containers/MyApps/MyApps"
 import MyGroups from "./containers/MyGroups/MyGroups"
@@ -21,6 +22,7 @@ function App() {
                     <Layout>
                         <Route path="/" exact component={FrontPage} />
                         <Route path="/group/:id" exact component={GroupInfo} />
+                        <Route path="/user/:id" exact component={UserInfo} />
 
                         {/* Maybe this should be /group/id/apply? */}
                         <Route path="/apply/:id" exact component={Apply} />

@@ -5,6 +5,7 @@ import Groups from "../../components/Groups/Groups"
 
 interface MyGroupsProps {}
 
+// TODO: Use user(Id) {leading_groups} instead here
 const GET_MY_GROUPS = gql`
     query($leader: ID!) {
         groups(where: { leader: $leader }) {

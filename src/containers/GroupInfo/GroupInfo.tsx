@@ -3,6 +3,7 @@ import React from "react"
 import { useQuery } from "@apollo/client"
 import { RouteComponentProps } from "react-router"
 import * as Types from "../../types-and-hooks"
+import { Link } from "react-router-dom"
 
 const GET_GROUP = gql`
     query($id: ID!) {
@@ -13,6 +14,7 @@ const GET_GROUP = gql`
             min_age
             max_age
             leader {
+                id
                 username
             }
             description
@@ -38,9 +40,15 @@ const GroupInfo: React.FC<GroupInfoProps> = (props) => {
     if (error) return <p>Error :(</p>
 
     const groupInfo: Types.Group = data.group
-    const leader = groupInfo.leader
-        ? groupInfo.leader.username
-        : "Leader not found"
+    // const leader = groupInfo.leader
+    //     ? groupInfo.leader.username
+    //     : "Leader not found" // TODO: This should be a page error
+
+    const leader = (
+        <Link to={`/user/${groupInfo.leader?.id}`}>
+            <span>{groupInfo.leader?.username}</span>
+        </Link>
+    )
 
     const onApply = () => {
         props.history.push(`/apply/${groupId}`)
