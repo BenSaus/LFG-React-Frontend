@@ -1,16 +1,32 @@
-import React, { Component } from "react"
+import React, { useState } from "react"
+import Toolbar from "../Navigation/Toolbar/Toolbar"
+import styles from "./Layout.module.css"
 
-interface Props {}
-interface State {}
+interface LayoutProps {}
 
-export default class Layout extends Component<Props, State> {
-    state = {}
+export const Layout: React.FC<LayoutProps> = (props) => {
+    const [showSideDrawer, setShowSideDrawer] = useState(false)
 
-    render() {
-        return (
-            <React.Fragment>
-                <main>{this.props.children}</main>
-            </React.Fragment>
-        )
+    const sidedrawerClosedHandler = () => {
+        setShowSideDrawer(false)
     }
+
+    const sidedrawerToggleHandler = () => {
+        setShowSideDrawer(!showSideDrawer) // TODO: Is this the proper way to read and modify current state?????????????????
+    }
+
+    return (
+        <React.Fragment>
+            <div>
+                <Toolbar drawerToggleClicked={sidedrawerToggleHandler} />
+                {/* <Sidedrawer
+                    open={this.state.showSidedrawer}
+                    closed={this.sidedrawerClosedHandler}
+                /> */}
+            </div>
+            <main className={styles.Content}>{props.children}</main>
+        </React.Fragment>
+    )
 }
+
+export default Layout

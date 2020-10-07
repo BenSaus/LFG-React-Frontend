@@ -9,9 +9,12 @@ interface GroupProps {
 const Group: React.FC<GroupProps> = (props) => {
     return (
         <div className={styles.Group}>
-            <p>Id: {props.group.id}</p>
             <p>Name: {props.group.name}</p>
+            <p>Description: {props.group.description}</p>
             <p>Open Slots: {props.group.open_slots}</p>
+            <p>
+                Age Range: {props.group.min_age} - {props.group.max_age}
+            </p>
         </div>
     )
 }

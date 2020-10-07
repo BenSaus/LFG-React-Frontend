@@ -9,6 +9,7 @@ import Layout from "./components/Layout/Layout"
 import FrontPage from "./containers/FrontPage/FrontPage"
 import GroupInfo from "./containers/GroupInfo/GroupInfo"
 import Apply from "./containers/Apply/Apply"
+import MyApps from "./containers/MyApps/MyApps"
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
 
                         {/* Maybe this should be /group/id/apply? */}
                         <Route path="/apply/:id" exact component={Apply} />
+                        <Route path="/myApps" exact component={MyApps} />
                     </Layout>
                 </div>
             </BrowserRouter>

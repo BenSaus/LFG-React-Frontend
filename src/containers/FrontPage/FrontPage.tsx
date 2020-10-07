@@ -11,6 +11,10 @@ const GET_GROUPS = gql`
             id
             name
             open_slots
+            max_age
+            min_age
+            booking_status
+            description
         }
     }
 `
@@ -23,6 +27,7 @@ const FrontPage: React.FC<FrontPageProps> = () => {
 
     return (
         <div>
+            <h1>Open Groups</h1>
             <Groups groups={data.groups} />
         </div>
     )

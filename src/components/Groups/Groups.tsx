@@ -8,7 +8,7 @@ interface GroupsProps {
     groups: Types.Group[]
 }
 
-export default function Groups(props: GroupsProps): ReactElement {
+const Groups: React.FC<GroupsProps> = (props) => {
     let groupsJsx
     if (props.groups) {
         groupsJsx = props.groups.map((group: Types.Group) => {
@@ -20,10 +20,7 @@ export default function Groups(props: GroupsProps): ReactElement {
         })
     }
 
-    return (
-        <div className={styles.Groups}>
-            <h2>Groups</h2>
-            {groupsJsx}
-        </div>
-    )
+    return <div className={styles.Groups}>{groupsJsx}</div>
 }
+
+export default Groups
