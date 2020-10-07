@@ -2,7 +2,6 @@ import React from "react"
 import * as Types from "../../types-and-hooks"
 import Group from "../../components/Groups/Group/Group"
 import styles from "./Groups.module.css"
-import { Link } from "react-router-dom"
 
 interface GroupsProps {
     groups: Types.Group[]

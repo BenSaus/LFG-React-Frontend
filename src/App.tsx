@@ -11,6 +11,7 @@ import GroupInfo from "./containers/GroupInfo/GroupInfo"
 import Apply from "./containers/Apply/Apply"
 import MyApps from "./containers/MyApps/MyApps"
 import MyGroups from "./containers/MyGroups/MyGroups"
+import MyInvites from "./containers/MyInvites/MyInvites"
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                         <Route path="/apply/:id" exact component={Apply} />
                         <Route path="/myApps" exact component={MyApps} />
                         <Route path="/myGroups" exact component={MyGroups} />
+                        <Route path="/myInvites" exact component={MyInvites} />
                     </Layout>
                 </div>
             </BrowserRouter>

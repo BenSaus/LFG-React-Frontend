@@ -37,7 +37,7 @@ const MyGroups: React.FC<MyGroupsProps> = () => {
     return (
         <div>
             <h1>My Groups</h1>
-            <button>Create New Group</button>
+            <button style={{ padding: "0.5rem" }}>Create New Group</button>
             <Groups groups={data.groups} clickedGroup={onGroupClick} />
         </div>
     )
