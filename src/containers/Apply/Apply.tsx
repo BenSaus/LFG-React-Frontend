@@ -36,7 +36,7 @@ const Apply: React.FC<ApplyProps> = (props) => {
 
     const [createApplication, { data }] = useMutation(APPLY_TO_GROUP, {
         variables: {
-            applicant: 34,
+            applicant: 34, // HARDCODED...Move to store
             group: props.match.params.id,
             message: message,
         },

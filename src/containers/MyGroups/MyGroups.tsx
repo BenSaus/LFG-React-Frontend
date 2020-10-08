@@ -2,8 +2,9 @@ import { gql } from "@apollo/client"
 import React from "react"
 import { useQuery } from "@apollo/client"
 import Groups from "../../components/Groups/Groups"
+import { RouteComponentProps } from "react-router"
 
-interface MyGroupsProps {}
+interface MyGroupsProps extends RouteComponentProps {}
 
 // TODO: Use user(Id) {leading_groups} instead here
 const GET_MY_GROUPS = gql`
@@ -20,10 +21,10 @@ const GET_MY_GROUPS = gql`
     }
 `
 
-const MyGroups: React.FC<MyGroupsProps> = () => {
+const MyGroups: React.FC<MyGroupsProps> = (props) => {
     const { loading, error, data } = useQuery(GET_MY_GROUPS, {
         variables: {
-            leader: 35, // TODO: HARD CODED...Setup in store
+            leader: 34, // TODO: HARD CODED...Setup in store
         },
     })
 
@@ -38,7 +39,14 @@ const MyGroups: React.FC<MyGroupsProps> = () => {
     return (
         <div>
             <h1>My Groups</h1>
-            <button style={{ padding: "0.5rem" }}>Create New Group</button>
+            <button
+                style={{ padding: "0.5rem" }}
+                onClick={(_) => {
+                    props.history.push("/group/create")
+                }}
+            >
+                Create New Group
+            </button>
             <Groups groups={data.groups} clickedGroup={onGroupClick} />
         </div>
     )
