@@ -32,8 +32,8 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
     if (error) return <p>Error :(</p>
 
     const onGroupClick = (groupId: string) => {
-        // open edit group here
         console.log("Clicked group: ", groupId)
+        props.history.push("/group/manage/" + groupId)
     }
 
     return (

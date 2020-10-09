@@ -14,6 +14,7 @@ import MyApps from "./containers/MyApps/MyApps"
 import MyGroups from "./containers/MyGroups/MyGroups"
 import MyInvites from "./containers/MyInvites/MyInvites"
 import CreateGroup from "./containers/CreateGroup/CreateGroup"
+import ManageGroup from "./containers/ManageGroup/ManageGroup"
 
 function App() {
     return (
@@ -32,6 +33,11 @@ function App() {
                                 path="/group/create"
                                 exact
                                 component={CreateGroup}
+                            />
+                            <Route
+                                path="/group/manage/:id"
+                                exact
+                                component={ManageGroup}
                             />
                             <Route
                                 path="/group/:id"
