@@ -148,6 +148,7 @@ export type Application = {
     applicant?: Maybe<UsersPermissionsUser>
     message?: Maybe<Scalars["String"]>
     group?: Maybe<Group>
+    status?: Maybe<Enum_Application_Status>
     created_by?: Maybe<AdminUser>
     updated_by?: Maybe<AdminUser>
 }
@@ -201,6 +202,12 @@ export type ApplicationConnectionMessage = {
     connection?: Maybe<ApplicationConnection>
 }
 
+export type ApplicationConnectionStatus = {
+    __typename?: "ApplicationConnectionStatus"
+    key?: Maybe<Scalars["String"]>
+    connection?: Maybe<ApplicationConnection>
+}
+
 export type ApplicationConnectionUpdated_At = {
     __typename?: "ApplicationConnectionUpdated_at"
     key?: Maybe<Scalars["DateTime"]>
@@ -221,6 +228,7 @@ export type ApplicationGroupBy = {
     applicant?: Maybe<Array<Maybe<ApplicationConnectionApplicant>>>
     message?: Maybe<Array<Maybe<ApplicationConnectionMessage>>>
     group?: Maybe<Array<Maybe<ApplicationConnectionGroup>>>
+    status?: Maybe<Array<Maybe<ApplicationConnectionStatus>>>
     created_by?: Maybe<Array<Maybe<ApplicationConnectionCreated_By>>>
     updated_by?: Maybe<Array<Maybe<ApplicationConnectionUpdated_By>>>
 }
@@ -229,6 +237,7 @@ export type ApplicationInput = {
     applicant?: Maybe<Scalars["ID"]>
     message?: Maybe<Scalars["String"]>
     group?: Maybe<Scalars["ID"]>
+    status?: Maybe<Enum_Application_Status>
     created_by?: Maybe<Scalars["ID"]>
     updated_by?: Maybe<Scalars["ID"]>
 }
@@ -510,6 +519,7 @@ export type EditApplicationInput = {
     applicant?: Maybe<Scalars["ID"]>
     message?: Maybe<Scalars["String"]>
     group?: Maybe<Scalars["ID"]>
+    status?: Maybe<Enum_Application_Status>
     created_by?: Maybe<Scalars["ID"]>
     updated_by?: Maybe<Scalars["ID"]>
 }
@@ -557,6 +567,7 @@ export type EditGroupInput = {
     bookdate?: Maybe<Scalars["DateTime"]>
     name?: Maybe<Scalars["String"]>
     leader?: Maybe<Scalars["ID"]>
+    preferred_rooms?: Maybe<Array<Maybe<Scalars["ID"]>>>
     created_by?: Maybe<Scalars["ID"]>
     updated_by?: Maybe<Scalars["ID"]>
 }
@@ -565,6 +576,7 @@ export type EditInviteInput = {
     invitee?: Maybe<Scalars["ID"]>
     message?: Maybe<Scalars["String"]>
     group?: Maybe<Scalars["ID"]>
+    status?: Maybe<Enum_Invite_Status>
     created_by?: Maybe<Scalars["ID"]>
     updated_by?: Maybe<Scalars["ID"]>
 }
@@ -584,6 +596,7 @@ export type EditRoomInput = {
     description?: Maybe<Scalars["String"]>
     image?: Maybe<Scalars["ID"]>
     business?: Maybe<Scalars["ID"]>
+    groups_preferred?: Maybe<Array<Maybe<Scalars["ID"]>>>
     created_by?: Maybe<Scalars["ID"]>
     updated_by?: Maybe<Scalars["ID"]>
 }
@@ -610,9 +623,21 @@ export type EditUserInput = {
     updated_by?: Maybe<Scalars["ID"]>
 }
 
+export enum Enum_Application_Status {
+    Accepted = "accepted",
+    Rejected = "rejected",
+    Undecided = "undecided",
+}
+
 export enum Enum_Group_Booking_Status {
     Booked = "booked",
     NotBooked = "notBooked",
+}
+
+export enum Enum_Invite_Status {
+    Accepted = "accepted",
+    Rejected = "rejected",
+    Undecided = "undecided",
 }
 
 export type FileInfoInput = {
@@ -659,6 +684,7 @@ export type Group = {
     applications?: Maybe<Array<Maybe<Application>>>
     members?: Maybe<Array<Maybe<UsersPermissionsUser>>>
     invites?: Maybe<Array<Maybe<Invite>>>
+    preferred_rooms?: Maybe<Array<Maybe<Room>>>
 }
 
 export type GroupApplicationsArgs = {
@@ -676,6 +702,13 @@ export type GroupMembersArgs = {
 }
 
 export type GroupInvitesArgs = {
+    sort?: Maybe<Scalars["String"]>
+    limit?: Maybe<Scalars["Int"]>
+    start?: Maybe<Scalars["Int"]>
+    where?: Maybe<Scalars["JSON"]>
+}
+
+export type GroupPreferred_RoomsArgs = {
     sort?: Maybe<Scalars["String"]>
     limit?: Maybe<Scalars["Int"]>
     start?: Maybe<Scalars["Int"]>
@@ -834,6 +867,7 @@ export type GroupInput = {
     bookdate?: Maybe<Scalars["DateTime"]>
     name?: Maybe<Scalars["String"]>
     leader?: Maybe<Scalars["ID"]>
+    preferred_rooms?: Maybe<Array<Maybe<Scalars["ID"]>>>
     created_by?: Maybe<Scalars["ID"]>
     updated_by?: Maybe<Scalars["ID"]>
 }
@@ -850,6 +884,7 @@ export type Invite = {
     invitee?: Maybe<UsersPermissionsUser>
     message?: Maybe<Scalars["String"]>
     group?: Maybe<Group>
+    status?: Maybe<Enum_Invite_Status>
     created_by?: Maybe<AdminUser>
     updated_by?: Maybe<AdminUser>
 }
@@ -903,6 +938,12 @@ export type InviteConnectionMessage = {
     connection?: Maybe<InviteConnection>
 }
 
+export type InviteConnectionStatus = {
+    __typename?: "InviteConnectionStatus"
+    key?: Maybe<Scalars["String"]>
+    connection?: Maybe<InviteConnection>
+}
+
 export type InviteConnectionUpdated_At = {
     __typename?: "InviteConnectionUpdated_at"
     key?: Maybe<Scalars["DateTime"]>
@@ -923,6 +964,7 @@ export type InviteGroupBy = {
     invitee?: Maybe<Array<Maybe<InviteConnectionInvitee>>>
     message?: Maybe<Array<Maybe<InviteConnectionMessage>>>
     group?: Maybe<Array<Maybe<InviteConnectionGroup>>>
+    status?: Maybe<Array<Maybe<InviteConnectionStatus>>>
     created_by?: Maybe<Array<Maybe<InviteConnectionCreated_By>>>
     updated_by?: Maybe<Array<Maybe<InviteConnectionUpdated_By>>>
 }
@@ -931,6 +973,7 @@ export type InviteInput = {
     invitee?: Maybe<Scalars["ID"]>
     message?: Maybe<Scalars["String"]>
     group?: Maybe<Scalars["ID"]>
+    status?: Maybe<Enum_Invite_Status>
     created_by?: Maybe<Scalars["ID"]>
     updated_by?: Maybe<Scalars["ID"]>
 }
@@ -965,6 +1008,7 @@ export type Morph =
     | ApplicationConnectionApplicant
     | ApplicationConnectionMessage
     | ApplicationConnectionGroup
+    | ApplicationConnectionStatus
     | ApplicationConnectionCreated_By
     | ApplicationConnectionUpdated_By
     | CreateApplicationPayload
@@ -1021,6 +1065,7 @@ export type Morph =
     | InviteConnectionInvitee
     | InviteConnectionMessage
     | InviteConnectionGroup
+    | InviteConnectionStatus
     | InviteConnectionCreated_By
     | InviteConnectionUpdated_By
     | CreateInvitePayload
@@ -1504,6 +1549,14 @@ export type Room = {
     business?: Maybe<Business>
     created_by?: Maybe<AdminUser>
     updated_by?: Maybe<AdminUser>
+    groups_preferred?: Maybe<Array<Maybe<Group>>>
+}
+
+export type RoomGroups_PreferredArgs = {
+    sort?: Maybe<Scalars["String"]>
+    limit?: Maybe<Scalars["Int"]>
+    start?: Maybe<Scalars["Int"]>
+    where?: Maybe<Scalars["JSON"]>
 }
 
 export type RoomAggregator = {
@@ -1591,6 +1644,7 @@ export type RoomInput = {
     description?: Maybe<Scalars["String"]>
     image?: Maybe<Scalars["ID"]>
     business?: Maybe<Scalars["ID"]>
+    groups_preferred?: Maybe<Array<Maybe<Scalars["ID"]>>>
     created_by?: Maybe<Scalars["ID"]>
     updated_by?: Maybe<Scalars["ID"]>
 }

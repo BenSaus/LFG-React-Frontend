@@ -1,5 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client"
-import React from "react"
+import React, { useState } from "react"
 import { RouteComponentProps } from "react-router"
 import * as Types from "../../types-and-hooks"
 import Applicants from "../../components/Applicants/Applicants"
@@ -29,6 +29,8 @@ const GET_GROUP = gql`
             members {
                 id
                 username
+                age
+                about
             }
             invites {
                 id
@@ -43,11 +45,24 @@ const GET_GROUP = gql`
     }
 `
 
-const ACCEPT_REJECT_APPLICATION = gql`
-    mutation($id: ID!, $status: ENUM_APPLICATION_STATUS!) {
-        updateApplication(
-            input: { where: { id: $id }, data: { status: $status } }
-        ) {
+const ACCEPT_APPLICATION = gql`
+    mutation($id: ID!) {
+        acceptApplication(id: $id) {
+            application {
+                id
+                status
+                message
+            }
+            group {
+                id
+                name
+            }
+        }
+    }
+`
+const REJECT_APPLICATION = gql`
+    mutation($id: ID!) {
+        rejectApplication(id: $id) {
             application {
                 id
                 status
@@ -58,41 +73,77 @@ const ACCEPT_REJECT_APPLICATION = gql`
 `
 
 interface ManageGroupParams {
-    id: string | undefined
+    id: string
 }
 
 interface ManageGroupProps extends RouteComponentProps<ManageGroupParams> {}
 
 const ManageGroup: React.FC<ManageGroupProps> = (props) => {
-    const { loading, error, data: groupGQLData } = useQuery(GET_GROUP, {
+    const [applications, setApplications] = useState<Types.Application[]>([])
+    const [members, setMembers] = useState<Types.UsersPermissionsUser[]>([])
+
+    const { loading, error, data: groupRespData } = useQuery(GET_GROUP, {
         variables: { id: props.match.params.id },
+        onCompleted: () => {
+            console.log(groupRespData.group.applications)
+            setApplications(groupRespData.group.applications)
+
+            console.log(groupRespData.group.members)
+            setMembers(groupRespData.group.members)
+        },
     })
 
-    const [acceptRejectApplication, { data: acceptData }] = useMutation(
-        ACCEPT_REJECT_APPLICATION
+    const [acceptApplication, { data: acceptData }] = useMutation(
+        ACCEPT_APPLICATION
+    )
+    const [rejectApplication, { data: rejectData }] = useMutation(
+        REJECT_APPLICATION
     )
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error :(</p>
 
-    const groupData: Types.Group = groupGQLData.group
-    const applications: Types.Application[] = groupGQLData.group.applications
-    const members: Types.UsersPermissionsUser[] = groupGQLData.group.members
-    console.log(members)
+    const groupData: Types.Group = groupRespData.group
 
     const handleAcceptApplication = async (applicationId: string) => {
-        console.log("Accept", applicationId)
-        const result = await acceptRejectApplication({
-            variables: { id: applicationId, status: "accepted" },
+        const result = await acceptApplication({
+            variables: {
+                id: applicationId,
+            },
         })
-        console.log(result)
+        // TODO: Check result here
+
+        const acceptedApplication = applications.find(
+            (app) => app.id === applicationId
+        )
+        const acceptedApplicant = acceptedApplication?.applicant
+
+        if (acceptedApplicant !== null && acceptedApplicant !== undefined) {
+            const updatedMembers = [...members]
+            updatedMembers.push(acceptedApplicant)
+
+            setMembers(updatedMembers)
+            const updatedApplications = applications.filter(
+                (app) => app.id !== applicationId
+            )
+            setApplications(updatedApplications)
+        } else {
+            // TODO: Throw error here
+        }
     }
 
-    const handleRejectApplication = (applicationId: string) => {
-        console.log(applicationId)
-        acceptRejectApplication({
-            variables: { id: applicationId, status: "rejected" },
+    const handleRejectApplication = async (applicationId: string) => {
+        const result = await rejectApplication({
+            variables: {
+                id: applicationId,
+            },
         })
+        // TODO: Check result here
+
+        const updatedApplications = applications.filter(
+            (app) => app.id !== applicationId
+        )
+        setApplications(updatedApplications)
     }
 
     return (

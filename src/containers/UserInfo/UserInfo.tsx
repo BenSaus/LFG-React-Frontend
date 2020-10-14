@@ -48,9 +48,22 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
 
     const userInfo: Types.UsersPermissionsUser = data.user
 
+    let editButton = null
+    const myId = 34 // TODO: HARDCODED....this should be the user's id
+    const viewingMyProfile = myId === Number(userId)
+
+    if (viewingMyProfile) {
+        editButton = (
+            <button style={{ padding: "0.5rem", margin: "0.25rem" }}>
+                Edit
+            </button>
+        )
+    }
+
     return (
         <div>
             <h1>User Profile</h1>
+            {editButton}
             <User user={userInfo} />
         </div>
     )

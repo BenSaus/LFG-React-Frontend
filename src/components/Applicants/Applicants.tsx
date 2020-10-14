@@ -6,7 +6,7 @@ import styles from "./Applicants.module.css"
 interface ApplicantsProps {
     acceptApplication: (applicationId: string) => void
     rejectApplication: (applicationId: string) => void
-    applications: Types.Application[]
+    applications?: Types.Application[]
 }
 
 const Applicants: React.FC<ApplicantsProps> = (props) => {

@@ -4,7 +4,7 @@ import styles from "./Members.module.css"
 import Member from "./Member/Member"
 
 interface MembersProps {
-    members: Types.UsersPermissionsUser[]
+    members?: Types.UsersPermissionsUser[]
 }
 
 const Members: React.FC<MembersProps> = (props) => {
