@@ -2,10 +2,10 @@ import React from "react"
 import {useDispatch, useSelector} from 'react-redux'
 
 import * as Types from '../../types-and-hooks'
-import { increment } from '../../store/counter'
-import { RootState } from '../../store/rootReducer'
-import { add, fetchTasks } from '../../store/tasks'
-import { fetchApplications } from "../../store/applications"
+import { increment } from '../../store/slices/counter'
+import { RootType } from '../../store/rootReducer'
+import { add, fetchTasks } from '../../store/slices/tasks'
+import { fetchApplications } from "../../store/slices/applications"
 
 
 
@@ -14,13 +14,13 @@ interface UserProps {}
 const User: React.FC<UserProps> = () => {
 
     const dispatch = useDispatch()
-    const counter = useSelector<RootState, number>(state => state.counter)
+    const counter = useSelector<RootType, number>(state => state.counter)
     console.log('counter', counter)
 
-    const applications = useSelector<RootState, Types.Application[]>(state => state.applications.applications)
+    const applications = useSelector<RootType, Types.Application[]>(state => state.applications.applications)
     console.log('applications', applications);
     
-    const tasks = useSelector<RootState, string[]> (state => state.tasks.tasks)
+    const tasks = useSelector<RootType, string[]> (state => state.tasks.tasks)
     console.log('tasks', tasks);
 
     

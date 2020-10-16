@@ -1,29 +1,16 @@
-import { gql } from "@apollo/client"
 import React from "react"
 import { useQuery } from "@apollo/client"
 import Groups from "../../components/Groups/Groups"
 import { RouteComponentProps } from "react-router"
-
+import { GET_OPEN_GROUPS } from '../../graphql/queries'
 import ReduxExample from '../../components/ReduxExample/ReduxExample'
 
 interface FrontPageProps extends RouteComponentProps {}
 
-const GET_GROUPS = gql`
-    query {
-        groups {
-            id
-            name
-            open_slots
-            max_age
-            min_age
-            booking_status
-            description
-        }
-    }
-`
+
 
 const FrontPage: React.FC<FrontPageProps> = (props) => {
-    const { loading, error, data } = useQuery(GET_GROUPS)
+    const { loading, error, data } = useQuery(GET_OPEN_GROUPS)
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error :(</p>

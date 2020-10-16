@@ -1,34 +1,13 @@
-import { gql, useQuery } from "@apollo/client"
+import { useQuery } from "@apollo/client"
 import React from "react"
 import { RouteComponentProps } from "react-router"
 import * as Types from "../../types-and-hooks"
 import User from "../../components/User/User"
+import { useSelector } from "react-redux"
+import { RootType } from '../../store/rootReducer'
+import { UserState } from '../../store/slices/user'
+import { GET_USER } from '../../graphql/queries'
 
-const GET_USER = gql`
-    query($id: ID!) {
-        user(id: $id) {
-            id
-            username
-            email
-            age
-            image {
-                url
-                previewUrl
-            }
-            about
-            open_to_invite
-            hide_age
-            achievements {
-                id
-                name
-                image {
-                    previewUrl
-                    url
-                }
-            }
-        }
-    }
-`
 
 interface UserInfoParams {
     id: string | undefined
@@ -38,7 +17,9 @@ interface UserInfoProps extends RouteComponentProps<UserInfoParams> {}
 
 const UserInfo: React.FC<UserInfoProps> = (props) => {
     const userId = props.match.params.id
-
+    const myUser = useSelector<RootType, UserState>(state => state.user)
+    console.log('myUser', myUser)
+  
     const { loading, error, data } = useQuery(GET_USER, {
         variables: { id: userId },
     })
@@ -49,8 +30,9 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
     const userInfo: Types.UsersPermissionsUser = data.user
 
     let editButton = null
-    const myId = 34 // TODO: HARDCODED....this should be the user's id
+    const myId = Number(myUser.user.id)
     const viewingMyProfile = myId === Number(userId)
+    console.log('myId === userId', myId, userId, myId === Number(myId))
 
     if (viewingMyProfile) {
         editButton = (

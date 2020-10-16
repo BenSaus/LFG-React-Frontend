@@ -1,68 +1,40 @@
-import { gql } from "@apollo/client"
 import React from "react"
 import { useQuery } from "@apollo/client"
 import Groups from "../../components/Groups/Groups"
 import { RouteComponentProps } from "react-router"
+import { RootType } from '../../store/rootReducer'
+import { UserState } from '../../store/slices/user'
+import { useSelector } from "react-redux"
+import {MY_GROUPS} from '../../graphql/queries'
 
 interface MyGroupsProps extends RouteComponentProps {}
 
-// TODO: Use user(Id) {leading_groups} instead here
-const GET_GROUPS_LEADER = gql`
-    query($leader: ID!) {
-        groups(where: { leader: $leader }) {
-            id
-            name
-            open_slots
-            max_age
-            min_age
-            booking_status
-            description
-        }
-    }
-`
 
-const GET_GROUPS = gql`
-    query($id: ID!) {
-        user(id: $id) {
-            id
-            username
-            groups {
-                id
-                name
-                open_slots
-                max_age
-                min_age
-                booking_status
-                description
-            }
-        }
-    }
-`
 
 const MyGroups: React.FC<MyGroupsProps> = (props) => {
-    const { loading: loadingLead, error: errorLead, data: dataLead } = useQuery(
-        GET_GROUPS_LEADER,
-        {
-            variables: {
-                leader: 34, // TODO: HARD CODED...Setup in store
-            },
-        }
-    )
-    const { loading, error, data } = useQuery(GET_GROUPS, {
+    const myUser = useSelector<RootType, UserState>(state => state.user)
+    const myId = Number(myUser.user.id)
+
+    const { loading, error, data } = useQuery(MY_GROUPS, {
         variables: {
-            id: 34, // TODO: HARD CODED...Setup in store
+            id: myId,
         },
         onCompleted: () => {
             // filter out leadership groups and store in state here
+            console.log('completed GET_GROUPS')
         },
     })
+
+    console.log('data', data?.user)
+
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error :(</p>
 
     const onGroupLeadClick = (groupId: string) => {
         console.log("Clicked group: ", groupId)
-        // If it's a group I lead then
+
+        // This is a group the user leads so send to manage
         props.history.push("/group/manage/" + groupId)
     }
 
@@ -70,7 +42,6 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
         console.log("Clicked member group: ", groupId)
     }
 
-    console.log(data)
 
     return (
         <div>
@@ -84,7 +55,7 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
                 Create New Group
             </button>
             <h3>Groups I Lead</h3>
-            <Groups groups={dataLead.groups} clickedGroup={onGroupLeadClick} />
+            <Groups groups={data.user.leading_groups} clickedGroup={onGroupLeadClick} />
             <h3>Groups I'm a member of </h3>
             <Groups
                 groups={data.user.groups}

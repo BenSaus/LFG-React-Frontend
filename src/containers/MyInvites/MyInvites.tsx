@@ -3,29 +3,21 @@ import React, { useState } from "react"
 import { useQuery } from "@apollo/client"
 import Invites from "../../components/Invites/Invites"
 import * as Types from "../../types-and-hooks"
+import { GET_MY_INVITES } from '../../graphql/queries'
+import { useSelector } from "react-redux"
+import { RootType } from "../../store/rootReducer"
+import { UserState } from "../../store/slices/user"
 
-// TODO: WARNING: ID should be ID! yet this causes a strange error. Check over this
-const GET_MY_INVITES = gql`
-    query($invitee: ID) {
-        invites(where: { invitee: { id: $invitee }, status: "undecided" }) {
-            id
-            message
-            group {
-                name
-            }
-        }
-    }
-`
 
-const UPDATE_INVITE_STATUS = gql`
-    mutation($id: ID!, $status: ENUM_INVITE_STATUS) {
-        updateInvite(input: { where: { id: $id }, data: { status: $status } }) {
-            invite {
-                id
-            }
-        }
-    }
-`
+// const UPDATE_INVITE_STATUS = gql`
+//     mutation($id: ID!, $status: ENUM_INVITE_STATUS) {
+//         updateInvite(input: { where: { id: $id }, data: { status: $status } }) {
+//             invite {
+//                 id
+//             }
+//         }
+//     }
+// `
 
 const ACCEPT_INVITE = gql`
     mutation($id: ID!) {
@@ -45,10 +37,13 @@ const ACCEPT_INVITE = gql`
 interface MyInvitesProps {}
 
 const MyInvites: React.FC<MyInvitesProps> = () => {
+    const myUser = useSelector<RootType, UserState>(state => state.user)
+    const myId = Number(myUser.user.id)
+
     const [invites, setInvites] = useState<Types.Invite[]>()
     const { loading, error, data } = useQuery(GET_MY_INVITES, {
         variables: {
-            invitee: 34, // TODO: HARD CODED...Setup in store
+            invitee: myId,
         },
         onCompleted: () => {
             setInvites(data.invites)

@@ -1,27 +1,10 @@
-import { gql } from "@apollo/client"
 import React from "react"
 import { useQuery } from "@apollo/client"
 import { RouteComponentProps } from "react-router"
 import * as Types from "../../types-and-hooks"
 import { Link } from "react-router-dom"
+import { GET_GROUP } from '../../graphql/queries'
 
-const GET_GROUP = gql`
-    query($id: ID!) {
-        group(id: $id) {
-            id
-            name
-            booking_status
-            min_age
-            max_age
-            leader {
-                id
-                username
-            }
-            description
-            open_slots
-        }
-    }
-`
 
 interface GroupInfoParams {
     id: string | undefined

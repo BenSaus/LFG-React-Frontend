@@ -1,16 +1,22 @@
 import React from "react"
-import { gql, useQuery } from "@apollo/client"
+import { useQuery } from "@apollo/client"
 // import * as Types from "../../types-and-hooks"
 import Applications from "../../components/Applications/Applications"
 import {MY_APPLICATIONS} from '../../graphql/queries'
+import { useSelector } from "react-redux"
+import { RootType } from "../../store/rootReducer"
+import { UserState } from "../../store/slices/user"
 
 
 interface MyAppsProps {}
 
 export const MyApps: React.FC<MyAppsProps> = () => {
+    const myUser = useSelector<RootType, UserState>(state => state.user)
+    const myId = Number(myUser.user.id)
+    
     const { loading, error, data } = useQuery(MY_APPLICATIONS, {
         variables: {
-            applicant: 34, // TODO: HARD CODED...Setup in store
+            applicant: myId,
         },
     })
 

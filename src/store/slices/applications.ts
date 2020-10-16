@@ -1,12 +1,7 @@
-import {
-    createAction,
-    createAsyncThunk,
-    createSlice,
-    PayloadAction,
-} from "@reduxjs/toolkit"
-import * as Types from "../types-and-hooks"
-import apolloClient from "../apollo-setup"
-import { MY_APPLICATIONS } from "../graphql/queries"
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
+import * as Types from "../../types-and-hooks"
+import apolloClient from "../../apollo-setup"
+import { MY_APPLICATIONS } from "../../graphql/queries"
 
 interface ApplicationsState {
     applications: Types.Application[]
@@ -44,6 +39,7 @@ const applicationsSlice = createSlice({
     reducers: {
         set: (state, action: PayloadAction<Types.Application[]>) => {
             state.applications = action.payload
+            // WARNING: TODO: Return here????
             return state
         },
         add: (state, action: PayloadAction<Types.Application>) => {
