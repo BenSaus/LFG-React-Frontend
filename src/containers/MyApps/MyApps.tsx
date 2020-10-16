@@ -2,25 +2,12 @@ import React from "react"
 import { gql, useQuery } from "@apollo/client"
 // import * as Types from "../../types-and-hooks"
 import Applications from "../../components/Applications/Applications"
+import {MY_APPLICATIONS} from '../../graphql/queries'
 
-const MY_APPLICATIONS = gql`
-    query($applicant: ID!) {
-        applications(where: { applicant: $applicant }) {
-            id
-            message
-            applicant {
-                username
-            }
-            group {
-                name
-            }
-        }
-    }
-`
 
 interface MyAppsProps {}
 
-export const MyApps: React.FC<MyAppsProps> = (props) => {
+export const MyApps: React.FC<MyAppsProps> = () => {
     const { loading, error, data } = useQuery(MY_APPLICATIONS, {
         variables: {
             applicant: 34, // TODO: HARD CODED...Setup in store

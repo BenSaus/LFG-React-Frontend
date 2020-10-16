@@ -4,6 +4,8 @@ import { useQuery } from "@apollo/client"
 import Groups from "../../components/Groups/Groups"
 import { RouteComponentProps } from "react-router"
 
+import ReduxExample from '../../components/ReduxExample/ReduxExample'
+
 interface FrontPageProps extends RouteComponentProps {}
 
 const GET_GROUPS = gql`
@@ -34,6 +36,7 @@ const FrontPage: React.FC<FrontPageProps> = (props) => {
         <div>
             <h1>Open Groups</h1>
             <Groups groups={data.groups} clickedGroup={onGroupClick} />
+            <ReduxExample />
         </div>
     )
 }
