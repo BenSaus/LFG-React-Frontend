@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { useQuery } from "@apollo/client"
 import Groups from "../../components/Groups/Groups"
 import { RouteComponentProps } from "react-router"
@@ -6,12 +6,16 @@ import { RootType } from '../../store/rootReducer'
 import { UserState } from '../../store/slices/user'
 import { useSelector } from "react-redux"
 import {MY_GROUPS} from '../../graphql/queries'
+import * as Types from '../../types-and-hooks'
 
 interface MyGroupsProps extends RouteComponentProps {}
 
 
 
 const MyGroups: React.FC<MyGroupsProps> = (props) => {
+    const [memberGroups, setMemberGroups] = useState<Types.Group[]>([])
+    const [leadingGroups, setLeadingGroups] = useState<Types.Group[]>([])
+
     const myUser = useSelector<RootType, UserState>(state => state.user)
     const myId = Number(myUser.user.id)
 
@@ -20,8 +24,9 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
             id: myId,
         },
         onCompleted: () => {
-            // filter out leadership groups and store in state here
-            console.log('completed GET_GROUPS')
+            setLeadingGroups(data.user.leading_groups)
+            // filter out groups this user leads
+            setMemberGroups(data.user.groups.filter((group: Types.Group) => Number(group.leader?.id) !== myId))
         },
     })
 
@@ -30,6 +35,10 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error :(</p>
+
+
+    
+
 
     const onGroupLeadClick = (groupId: string) => {
         console.log("Clicked group: ", groupId)
@@ -55,10 +64,10 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
                 Create New Group
             </button>
             <h3>Groups I Lead</h3>
-            <Groups groups={data.user.leading_groups} clickedGroup={onGroupLeadClick} />
+            <Groups groups={leadingGroups} clickedGroup={onGroupLeadClick} />
             <h3>Groups I'm a member of </h3>
             <Groups
-                groups={data.user.groups}
+                groups={memberGroups}
                 clickedGroup={onGroupMemberClick}
             />
         </div>

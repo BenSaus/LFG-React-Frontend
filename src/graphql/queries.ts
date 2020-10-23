@@ -51,6 +51,9 @@ export const MY_GROUPS = gql`
                 min_age
                 booking_status
                 description
+                leader {
+                    id
+                }
             }
         }
     }

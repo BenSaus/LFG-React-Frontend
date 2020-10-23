@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit"
+import { combineReducers } from "@reduxjs/toolkit"
 
 import applicationsSlice from "./slices/applications"
 import counterSlice from "./slices/counter"

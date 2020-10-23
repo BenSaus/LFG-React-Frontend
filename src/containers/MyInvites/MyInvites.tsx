@@ -88,7 +88,7 @@ const MyInvites: React.FC<MyInvitesProps> = () => {
     return (
         <div>
             <h1>My Invites</h1>
-            {typeof invites !== "undefined" && invites.length > 0 ? (
+            {invites !== undefined && invites.length > 0 ? (
                 <Invites
                     invites={invites}
                     clickedAccept={handleInviteAcceptClicked}

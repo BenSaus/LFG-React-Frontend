@@ -23,7 +23,7 @@ const FrontPage: React.FC<FrontPageProps> = (props) => {
         <div>
             <h1>Open Groups</h1>
             <Groups groups={data.groups} clickedGroup={onGroupClick} />
-            <ReduxExample />
+            {/* <ReduxExample /> */}
         </div>
     )
 }

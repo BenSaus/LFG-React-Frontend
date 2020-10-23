@@ -1,6 +1,5 @@
 import React from "react"
 import { useQuery } from "@apollo/client"
-// import * as Types from "../../types-and-hooks"
 import Applications from "../../components/Applications/Applications"
 import {MY_APPLICATIONS} from '../../graphql/queries'
 import { useSelector } from "react-redux"
@@ -26,7 +25,11 @@ export const MyApps: React.FC<MyAppsProps> = () => {
     return (
         <React.Fragment>
             <h1>My Applications</h1>
-            <Applications applications={data.applications} />
+            {data.applications !== undefined && data.applications.length > 0 ? (
+                <Applications applications={data.applications} />
+            ) : (
+                <h4>No Applications Found</h4>
+            )}
         </React.Fragment>
     )
 }
