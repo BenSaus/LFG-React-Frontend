@@ -16,6 +16,7 @@ import MyGroups from "./containers/MyGroups/MyGroups"
 import MyInvites from "./containers/MyInvites/MyInvites"
 import CreateGroup from "./containers/CreateGroup/CreateGroup"
 import ManageGroup from "./containers/ManageGroup/ManageGroup"
+import NotFound404 from "./containers/404NotFound/NotFound404"
 
 function App() {
     return (
@@ -60,6 +61,7 @@ function App() {
                                 exact
                                 component={MyInvites}
                             />
+                            <Route path="*" component={NotFound404} />
                         </Switch>
                     </Layout>
                 </div>
