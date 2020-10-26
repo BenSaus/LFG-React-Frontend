@@ -10,16 +10,7 @@ interface LoginProps extends RouteComponentProps {}
 
 
 const Login: React.FC<LoginProps> = (props) => {
-    // const [username, setUsername] = useState<string>('')
-    // const [password, setPassword] = useState<string>('')
-    // const [error, setError] = useState(null)
     const dispatch = useDispatch()
-
-    // const [login, {data}] = useMutation(LOG_IN, {variables: {
-    //     identifier: 'Ben',
-    //     password: '123456'
-    // }})
-
 
     const formik = useFormik({
         initialValues: {
@@ -31,20 +22,7 @@ const Login: React.FC<LoginProps> = (props) => {
 
             // sanitize and check that both are valid here...
             try {
-                // const resp = await login()
-                
-                // console.log(resp)
-
-                // // TODO: Need some kind of status check here
-                // if(resp.data){
-                //     // WARNING: TODO: This is an insecure way to store JWT. Meant for testing purposes only
-                //     localStorage.setItem('token', resp.data.login.jwt)
-
-                //     console.log('user', resp.data.login.user)
-                //     dispatch(setUser(resp.data.login.user))
-                // }
-
-                await dispatch(fetchAuth('Ben', '123456'))
+                await dispatch(fetchAuth(formik.values.username, formik.values.password))
                 
                 props.history.push('/myGroups')
             }

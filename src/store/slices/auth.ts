@@ -1,7 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import client from "../../apollo-setup"
 import { LOG_IN } from "../../graphql/queries"
 import * as Types from "../../types-and-hooks"
+import { ApolloClient, InMemoryCache } from "@apollo/client"
+
+// Setup the apollo client
+const client = new ApolloClient({
+    uri: "http://localhost:1337/graphql",
+    cache: new InMemoryCache(),
+    defaultOptions: {
+        watchQuery: {
+            fetchPolicy: "network-only",
+        },
+    },
+})
 
 export interface AuthState {
     auth: any | null

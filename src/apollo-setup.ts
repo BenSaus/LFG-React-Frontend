@@ -10,11 +10,10 @@ if (item != null) {
 const client = new ApolloClient({
     uri: "http://localhost:1337/graphql",
     cache: new InMemoryCache(),
-
     // The auth header can only be added after the token is obtained
-    // headers: {
-    //     Authorization: token ? `Bearer ${token}` : "",
-    // },
+    headers: {
+        Authorization: token ? `Bearer ${token}` : "",
+    },
 
     //https://www.apollographql.com/docs/react/api/core/ApolloClient/#example-defaultoptions-object
     defaultOptions: {
