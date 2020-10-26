@@ -1,23 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import * as Types from "../../types-and-hooks"
 
-export interface FakeUser {
-    id: string
-    username: string
-}
-
 export interface UserState {
-    // user: Types.UsersPermissionsUser | null
-    user: FakeUser
+    user: any | null
     loading: string
 }
 
 const initialState: UserState = {
-    // user: null
-    user: {
-        id: "34",
-        username: "Ben",
-    },
+    user: null,
     loading: "idle",
 }
 
@@ -25,11 +15,12 @@ const userSlice = createSlice({
     name: "user",
     initialState: initialState,
     reducers: {
-        set: (state, action: PayloadAction<Types.UsersPermissionsUser>) => {
+        setUser: (state, action: PayloadAction<any>) => {
+            console.log("Got payload", action.payload)
             state.user = action.payload
         },
     },
 })
 
-export const { set } = userSlice.actions
+export const { setUser } = userSlice.actions
 export default userSlice.reducer

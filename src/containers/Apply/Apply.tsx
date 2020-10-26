@@ -4,33 +4,7 @@ import { gql, useMutation, useQuery } from "@apollo/client"
 import { RootType } from "../../store/rootReducer"
 import { useSelector } from "react-redux"
 import { UserState } from "../../store/slices/user"
-import { MY_APPLICATIONS } from "../../graphql/queries"
-
-const APPLY_TO_GROUP = gql`
-    mutation($group: ID!, $applicant: ID!, $message: String!) {
-        createApplication(
-            input: {
-                data: {
-                    applicant: $applicant
-                    message: $message
-                    group: $group
-                }
-            }
-        ) {
-            application {
-                id
-                message
-                group {
-                    name
-                    
-                }
-            }
-        }
-    }
-`
-
-
-
+import { MY_APPLICATIONS, APPLY_TO_GROUP } from "../../graphql/queries"
 
 
 interface ApplyParams {
@@ -41,7 +15,11 @@ interface ApplyProps extends RouteComponentProps<ApplyParams> {}
 
 const Apply: React.FC<ApplyProps> = (props) => {
     const myUser = useSelector<RootType, UserState>(state => state.user)
-    const myId = Number(myUser.user.id)
+    
+    let myId
+    if(myUser.user !== null){
+        myId = Number(myUser.user.id)
+    } 
 
     let [appSent, setAppSent] = useState(false)
     let [message, setMessage] = useState("")

@@ -6,6 +6,7 @@ import client from "./apollo-setup"
 import { BrowserRouter, Route, Switch } from "react-router-dom"
 
 import Layout from "./components/Layout/Layout"
+import Login from "./containers/Login/Login"
 import FrontPage from "./containers/FrontPage/FrontPage"
 import GroupInfo from "./containers/GroupInfo/GroupInfo"
 import UserInfo from "./containers/UserInfo/UserInfo"
@@ -23,7 +24,8 @@ function App() {
                 <div className="App">
                     <Layout>
                         <Switch>
-                            <Route path="/" exact component={FrontPage} />
+                            <Route path="/login" exact component={Login} />
+                            <Route path="/frontpage" exact component={FrontPage} />
                             <Route
                                 path="/user/:id"
                                 exact

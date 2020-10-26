@@ -17,8 +17,11 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
     const [leadingGroups, setLeadingGroups] = useState<Types.Group[]>([])
 
     const myUser = useSelector<RootType, UserState>(state => state.user)
-    const myId = Number(myUser.user.id)
-
+    let myId:string = ''
+    if(myUser.user !== null){
+        myId = myUser.user.id
+    } 
+ 
     const { loading, error, data } = useQuery(MY_GROUPS, {
         variables: {
             id: myId,
@@ -26,7 +29,7 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
         onCompleted: () => {
             setLeadingGroups(data.user.leading_groups)
             // filter out groups this user leads
-            setMemberGroups(data.user.groups.filter((group: Types.Group) => Number(group.leader?.id) !== myId))
+            setMemberGroups(data.user.groups.filter((group: Types.Group) => Number(group.leader?.id) !== Number(myId)))
         },
     })
 

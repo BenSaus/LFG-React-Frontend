@@ -11,7 +11,11 @@ interface MyAppsProps {}
 
 export const MyApps: React.FC<MyAppsProps> = () => {
     const myUser = useSelector<RootType, UserState>(state => state.user)
-    const myId = Number(myUser.user.id)
+    
+    let myId:string = ''
+    if(myUser.user !== null){
+        myId = myUser.user.id
+    } 
     
     const { loading, error, data } = useQuery(MY_APPLICATIONS, {
         variables: {

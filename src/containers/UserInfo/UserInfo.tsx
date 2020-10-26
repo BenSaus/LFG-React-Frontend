@@ -30,9 +30,12 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
     const userInfo: Types.UsersPermissionsUser = data.user
 
     let editButton = null
-    const myId = Number(myUser.user.id)
-    const viewingMyProfile = myId === Number(userId)
-    console.log('myId === userId', myId, userId, myId === Number(myId))
+    let myId:string = ''
+    if(myUser.user !== null){
+        myId = myUser.user.id
+    } 
+    const viewingMyProfile = Number(myId) === Number(userId)
+    console.log('myId === userId', myId, userId, Number(myId) === Number(myId))
 
     if (viewingMyProfile) {
         editButton = (

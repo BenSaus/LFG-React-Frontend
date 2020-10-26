@@ -115,3 +115,37 @@ export const GET_MY_INVITES = gql`
         }
     }
 `
+
+export const APPLY_TO_GROUP = gql`
+    mutation($group: ID!, $applicant: ID!, $message: String!) {
+        createApplication(
+            input: {
+                data: {
+                    applicant: $applicant
+                    message: $message
+                    group: $group
+                }
+            }
+        ) {
+            application {
+                id
+                message
+                group {
+                    name
+                }
+            }
+        }
+    }
+`
+
+export const LOG_IN = gql`
+    mutation($identifier: String!, $password: String!) {
+        login(input: { identifier: $identifier, password: $password }) {
+            jwt
+            user {
+                id
+                username
+            }
+        }
+    }
+`
