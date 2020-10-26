@@ -17,6 +17,7 @@ import MyInvites from "./containers/MyInvites/MyInvites"
 import CreateGroup from "./containers/CreateGroup/CreateGroup"
 import ManageGroup from "./containers/ManageGroup/ManageGroup"
 import NotFound404 from "./containers/404NotFound/NotFound404"
+import LandingPage from "./containers/LandingPage/LandingPage"
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                 <div className="App">
                     <Layout>
                         <Switch>
+                            <Route path="/" exact component={LandingPage} />
                             <Route path="/login" exact component={Login} />
                             <Route path="/frontpage" exact component={FrontPage} />
                             <Route
