@@ -1,15 +1,24 @@
-import { useMutation } from '@apollo/client'
-import { useFormik } from 'formik'
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { RouteComponentProps } from 'react-router'
-import { fetchAuth } from '../../store/slices/auth'
-
+import { useMutation } from "@apollo/client"
+import { useFormik } from "formik"
+import React, { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Redirect, RouteComponentProps } from "react-router"
+import { RootType } from "../../store/rootReducer"
+import { login } from "../../store/slices/auth"
 
 interface LoginProps extends RouteComponentProps {}
 
-
 const Login: React.FC<LoginProps> = (props) => {
+    const loading = useSelector<RootType, boolean>(
+        (state) => state.auth.loading
+    )
+    const loginError = useSelector<RootType, string | null>(
+        (state) => state.auth.error
+    )
+    const isAuthenticated = useSelector<RootType, boolean>(
+        (state) => state.auth.token !== null
+    )
+
     const dispatch = useDispatch()
 
     const formik = useFormik({
@@ -22,32 +31,54 @@ const Login: React.FC<LoginProps> = (props) => {
 
             // sanitize and check that both are valid here...
             try {
-                await dispatch(fetchAuth(formik.values.username, formik.values.password))
-                
-                props.history.push('/myGroups')
-            }
-            catch(error){
-                // setError(error)
+                await dispatch(
+                    login(formik.values.username, formik.values.password)
+                )
+            } catch (error) {
                 console.error(error)
             }
-
         },
     })
 
-    return (
-        <React.Fragment>
-            <h1>Login</h1>
-            <form onSubmit={formik.handleSubmit}>
-                <label htmlFor="">Username:</label>
-                <input id="username" name="username" type="text" value={formik.values.username} onChange={formik.handleChange}/>
-                <br />
-                <label htmlFor="">Password:</label>
-                <input id="password" name="password" type="password" value={formik.values.password} onChange={formik.handleChange}/>
-                <br />
-                <button type="submit">Submit</button>
-            </form>
-        </React.Fragment>
-    )
+    if (loading) {
+        return (
+            <React.Fragment>
+                <h1>Login</h1>
+                <h3>Loading...</h3>
+            </React.Fragment>
+        )
+    } else if (isAuthenticated) {
+        return <Redirect to="/myGroups" />
+    } else {
+        return (
+            <React.Fragment>
+                <h1>Login</h1>
+
+                <form onSubmit={formik.handleSubmit}>
+                    <label htmlFor="">Username:</label>
+                    <input
+                        id="username"
+                        name="username"
+                        type="text"
+                        value={formik.values.username}
+                        onChange={formik.handleChange}
+                    />
+                    <br />
+                    <label htmlFor="">Password:</label>
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                    />
+                    <br />
+                    <button type="submit">Submit</button>
+                </form>
+                {loginError}
+            </React.Fragment>
+        )
+    }
 }
 
 export default Login

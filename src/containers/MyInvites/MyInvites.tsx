@@ -2,11 +2,10 @@ import { gql, useMutation, useQuery } from "@apollo/client"
 import React, { useState } from "react"
 import Invites from "../../components/Invites/Invites"
 import * as Types from "../../types-and-hooks"
-import { GET_MY_INVITES } from '../../graphql/queries'
+import { GET_MY_INVITES } from "../../graphql/queries"
 import { useSelector } from "react-redux"
 import { RootType } from "../../store/rootReducer"
-import { UserState } from "../../store/slices/user"
-
+import { AuthState } from "../../store/slices/auth"
 
 const ACCEPT_INVITE = gql`
     mutation($id: ID!) {
@@ -26,16 +25,21 @@ const ACCEPT_INVITE = gql`
 interface MyInvitesProps {}
 
 const MyInvites: React.FC<MyInvitesProps> = () => {
-    const myUser = useSelector<RootType, UserState>(state => state.user)
-    let myId:string = ''
-    if(myUser.user !== null){
-        myId = myUser.user.id
-    } 
+    const auth = useSelector<RootType, AuthState>((state) => state.auth)
+    let myId: string = ""
+    if (auth.user !== null) {
+        myId = auth.user.id
+    }
 
     const [invites, setInvites] = useState<Types.Invite[]>()
     const { loading, error, data } = useQuery(GET_MY_INVITES, {
         variables: {
             invitee: myId,
+        },
+        context: {
+            headers: {
+                Authorization: "Bearer " + auth.token,
+            },
         },
         onCompleted: () => {
             setInvites(data.invites)

@@ -1,25 +1,28 @@
 import React from "react"
 import { useQuery } from "@apollo/client"
 import Applications from "../../components/Applications/Applications"
-import {MY_APPLICATIONS} from '../../graphql/queries'
+import { MY_APPLICATIONS } from "../../graphql/queries"
 import { useSelector } from "react-redux"
 import { RootType } from "../../store/rootReducer"
-import { UserState } from "../../store/slices/user"
-
+import { AuthState } from "../../store/slices/auth"
 
 interface MyAppsProps {}
 
 export const MyApps: React.FC<MyAppsProps> = () => {
-    const myUser = useSelector<RootType, UserState>(state => state.user)
-    
-    let myId:string = ''
-    if(myUser.user !== null){
-        myId = myUser.user.id
-    } 
-    
+    const auth = useSelector<RootType, AuthState>((state) => state.auth)
+    let myId: string = ""
+    if (auth.user !== null) {
+        myId = auth.user.id
+    }
+
     const { loading, error, data } = useQuery(MY_APPLICATIONS, {
         variables: {
             applicant: myId,
+        },
+        context: {
+            headers: {
+                Authorization: "Bearer " + auth.token,
+            },
         },
     })
 

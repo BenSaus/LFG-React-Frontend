@@ -1,9 +1,7 @@
-import React from 'react'
-import { RouteComponentProps } from 'react-router'
+import React from "react"
+import { RouteComponentProps } from "react-router"
 
-interface LandingPageProps extends RouteComponentProps {
-
-}
+interface LandingPageProps extends RouteComponentProps {}
 
 const LandingPage: React.FC<LandingPageProps> = (props) => {
     return (
@@ -11,7 +9,13 @@ const LandingPage: React.FC<LandingPageProps> = (props) => {
             <h1>Welcome to LFG</h1>
             <p>Find others that love Escape rooms like you do</p>
             <button>Sign-up</button>
-            <button onClick={() => {props.history.push('/login')}}>Login</button>
+            <button
+                onClick={() => {
+                    props.history.push("/login")
+                }}
+            >
+                Login
+            </button>
         </div>
     )
 }

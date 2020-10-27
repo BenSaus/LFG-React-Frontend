@@ -1,13 +1,13 @@
-import React from "react"
+import React, { useEffect } from "react"
 import "./App.css"
 
 import { ApolloProvider } from "@apollo/client"
 import client from "./apollo-setup"
 import { BrowserRouter, Route, Switch } from "react-router-dom"
 
-import Layout from "./components/Layout/Layout"
+import Layout from "./containers/Layout/Layout"
 import Login from "./containers/Login/Login"
-import FrontPage from "./containers/FrontPage/FrontPage"
+import OpenGroups from "./containers/OpenGroups/OpenGroups"
 import GroupInfo from "./containers/GroupInfo/GroupInfo"
 import UserInfo from "./containers/UserInfo/UserInfo"
 import Apply from "./containers/Apply/Apply"
@@ -18,8 +18,17 @@ import CreateGroup from "./containers/CreateGroup/CreateGroup"
 import ManageGroup from "./containers/ManageGroup/ManageGroup"
 import NotFound404 from "./containers/404NotFound/NotFound404"
 import LandingPage from "./containers/LandingPage/LandingPage"
+import Logout from "./containers/Logout/Logout"
+import { loginIfOldTokenPresent } from "./store/slices/auth"
+import { useDispatch } from "react-redux"
 
 function App() {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(loginIfOldTokenPresent())
+    }, [])
+
     return (
         <ApolloProvider client={client}>
             <BrowserRouter>
@@ -28,7 +37,12 @@ function App() {
                         <Switch>
                             <Route path="/" exact component={LandingPage} />
                             <Route path="/login" exact component={Login} />
-                            <Route path="/frontpage" exact component={FrontPage} />
+                            <Route path="/logout" exact component={Logout} />
+                            <Route
+                                path="/openGroups"
+                                exact
+                                component={OpenGroups}
+                            />
                             <Route
                                 path="/user/:id"
                                 exact

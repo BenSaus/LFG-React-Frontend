@@ -5,6 +5,7 @@ import { ApolloClient, InMemoryCache } from "@apollo/client"
 
 // Setup the apollo client
 const client = new ApolloClient({
+    // TODO: Move to config file
     uri: "http://localhost:1337/graphql",
     cache: new InMemoryCache(),
     defaultOptions: {
@@ -15,39 +16,67 @@ const client = new ApolloClient({
 })
 
 export interface AuthState {
-    auth: any | null
+    token: any | null
+    user: Types.UsersPermissionsMe | null
     error: string | null
+    loading: boolean
 }
 
 const initialState: AuthState = {
-    auth: null,
+    token: null,
+    user: null,
     error: null,
+    loading: false,
 }
 
 const authSlice = createSlice({
     name: "auth",
     initialState: initialState,
     reducers: {
-        getAuthSuccess: (state, action: PayloadAction<any>) => {
-            console.log("Got payload", action.payload)
-            state.auth = action.payload
+        authStart: (state) => {
+            state.loading = true
         },
-        getAuthFailure: (state, action: PayloadAction<any>) => {
+        authSuccess: (
+            state,
+            action: PayloadAction<Types.UsersPermissionsLoginPayload>
+        ) => {
+            console.log("Got payload", action.payload)
+            state.token = action.payload.jwt
+            state.user = action.payload.user
+            state.loading = false
+            // Remove previous errors if we successfully login
+            state.error = null
+        },
+        authFailure: (state, action: PayloadAction<string>) => {
             console.log("Failed to login -- ", action.payload)
             state.error = action.payload
+            state.loading = false
+        },
+        authLogout: (state) => {
+            console.log("Logging out")
+            state.token = null
+            state.user = null
+            state.loading = false
         },
     },
 })
 
-export const { getAuthSuccess, getAuthFailure } = authSlice.actions
+export const {
+    authSuccess,
+    authFailure,
+    authStart,
+    authLogout,
+} = authSlice.actions
 export default authSlice.reducer
 
-export const fetchAuth = (username: string, password: string) => async (
+export const login = (username: string, password: string) => async (
     // TODO: Get the type for the dispatch function
     dispatch: any
 ) => {
     try {
-        console.log("Calling auth api")
+        console.log("Logging-in...")
+        dispatch(authStart())
+
         const resp = await client.mutate({
             mutation: LOG_IN,
             variables: {
@@ -59,8 +88,40 @@ export const fetchAuth = (username: string, password: string) => async (
         })
         console.log("resp", resp)
 
-        dispatch(getAuthSuccess(resp.data.login))
+        // WARNING: TODO: This is insecure
+        localStorage.setItem("authJSON", JSON.stringify(resp.data.login))
+        const auth = resp.data.login
+
+        dispatch(authSuccess(auth))
     } catch (err) {
-        dispatch(getAuthFailure(err.toString()))
+        dispatch(authFailure(err.toString()))
+    }
+}
+
+const checkAuthExpiration = (expirationTime: number) => {
+    return (dispatch: any) => {
+        setTimeout(() => {
+            dispatch(authLogout())
+        }, expirationTime)
+    }
+}
+
+export const logout = () => async (dispatch: any) => {
+    try {
+        console.log("Logging out...")
+
+        localStorage.removeItem("authJSON")
+        dispatch(authLogout())
+    } catch (err) {}
+}
+
+export const loginIfOldTokenPresent = () => {
+    return (dispatch: any) => {
+        const authJSON = localStorage.getItem("authJSON")
+
+        if (authJSON !== null) {
+            const auth = JSON.parse(authJSON)
+            dispatch(authSuccess(auth))
+        }
     }
 }

@@ -1,11 +1,17 @@
 import React, { useState } from "react"
-import Toolbar from "../Navigation/Toolbar/Toolbar"
+import { useSelector } from "react-redux"
+import Toolbar from "../../components/Navigation/Toolbar/Toolbar"
 import styles from "./Layout.module.css"
+import { RootType } from "../../store/rootReducer"
 
 interface LayoutProps {}
 
 export const Layout: React.FC<LayoutProps> = (props) => {
     const [showSideDrawer, setShowSideDrawer] = useState(false)
+
+    const isAuthenticated = useSelector<RootType, boolean>(
+        (state) => state.auth.token !== null
+    )
 
     const sidedrawerClosedHandler = () => {
         setShowSideDrawer(false)
@@ -18,7 +24,10 @@ export const Layout: React.FC<LayoutProps> = (props) => {
     return (
         <React.Fragment>
             <div>
-                <Toolbar drawerToggleClicked={sidedrawerToggleHandler} />
+                <Toolbar
+                    isAuthenticated={isAuthenticated}
+                    drawerToggleClicked={sidedrawerToggleHandler}
+                />
                 {/* <Sidedrawer
                     open={this.state.showSidedrawer}
                     closed={this.sidedrawerClosedHandler}

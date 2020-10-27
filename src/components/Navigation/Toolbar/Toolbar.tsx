@@ -9,6 +9,7 @@ interface ToolbarProps {
     drawerToggleClicked: (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>
     ) => void
+    isAuthenticated: boolean
 }
 
 export const Toolbar: React.FC<ToolbarProps> = (props) => {
@@ -21,7 +22,7 @@ export const Toolbar: React.FC<ToolbarProps> = (props) => {
                 </Link>
             </div>
             <nav className={styles.DesktopOnly}>
-                <NavigationItems />
+                <NavigationItems isAuthenticated={props.isAuthenticated} />
             </nav>
         </header>
     )

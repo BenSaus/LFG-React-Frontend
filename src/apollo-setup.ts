@@ -1,19 +1,26 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client"
+import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client"
+import { setContext } from "@apollo/client/link/context"
 
-// TODO: Gotta be a better way to do this
-let token = ""
-const item = localStorage.getItem("token")
-if (item != null) {
-    token = item
-}
+const httpLink = createHttpLink({
+    uri: "http://localhost:1337/graphql",
+})
+
+// const authLink = setContext((_, { headers }) => {
+//     // WARNING: TODO: This is not safe and should only be done for testing
+//     const token = localStorage.getItem("token")
+
+//     return {
+//         headers: {
+//             ...headers,
+//             Authorization: token ? `Bearer ${token}` : "",
+//         },
+//     }
+// })
 
 const client = new ApolloClient({
-    uri: "http://localhost:1337/graphql",
+    // link: authLink.concat(httpLink),
+    link: httpLink,
     cache: new InMemoryCache(),
-    // The auth header can only be added after the token is obtained
-    headers: {
-        Authorization: token ? `Bearer ${token}` : "",
-    },
 
     //https://www.apollographql.com/docs/react/api/core/ApolloClient/#example-defaultoptions-object
     defaultOptions: {

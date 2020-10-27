@@ -31,29 +31,16 @@ export const MY_APPLICATIONS = gql`
 
 export const MY_GROUPS = gql`
     query($id: ID!) {
-        user(id: $id) {
+        groups(where: { members: { id: $id } }) {
             id
-            username
-            leading_groups {
+            name
+            open_slots
+            max_age
+            min_age
+            booking_status
+            description
+            leader {
                 id
-                name
-                open_slots
-                max_age
-                min_age
-                booking_status
-                description
-            }
-            groups {
-                id
-                name
-                open_slots
-                max_age
-                min_age
-                booking_status
-                description
-                leader {
-                    id
-                }
             }
         }
     }
