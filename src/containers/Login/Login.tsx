@@ -29,7 +29,7 @@ const Login: React.FC<LoginProps> = (props) => {
         onSubmit: async (values, actions) => {
             console.log(values)
 
-            // sanitize and check that both are valid here...
+            // TODO: sanitize and check that both are valid here...
             try {
                 await dispatch(
                     login(formik.values.username, formik.values.password)
@@ -40,6 +40,8 @@ const Login: React.FC<LoginProps> = (props) => {
         },
     })
 
+    console.log("Login", loading, isAuthenticated)
+
     if (loading) {
         return (
             <React.Fragment>
@@ -47,38 +49,41 @@ const Login: React.FC<LoginProps> = (props) => {
                 <h3>Loading...</h3>
             </React.Fragment>
         )
-    } else if (isAuthenticated) {
-        return <Redirect to="/myGroups" />
-    } else {
-        return (
-            <React.Fragment>
-                <h1>Login</h1>
-
-                <form onSubmit={formik.handleSubmit}>
-                    <label htmlFor="">Username:</label>
-                    <input
-                        id="username"
-                        name="username"
-                        type="text"
-                        value={formik.values.username}
-                        onChange={formik.handleChange}
-                    />
-                    <br />
-                    <label htmlFor="">Password:</label>
-                    <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                    />
-                    <br />
-                    <button type="submit">Submit</button>
-                </form>
-                {loginError}
-            </React.Fragment>
-        )
     }
+
+    if (isAuthenticated) {
+        console.log("Login isAuthenticated", isAuthenticated)
+        return <Redirect to="/myGroups" />
+    }
+
+    return (
+        <React.Fragment>
+            <h1>Login</h1>
+
+            <form onSubmit={formik.handleSubmit}>
+                <label htmlFor="">Username:</label>
+                <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    value={formik.values.username}
+                    onChange={formik.handleChange}
+                />
+                <br />
+                <label htmlFor="">Password:</label>
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                />
+                <br />
+                <button type="submit">Submit</button>
+            </form>
+            {loginError}
+        </React.Fragment>
+    )
 }
 
 export default Login

@@ -40,7 +40,7 @@ const authSlice = createSlice({
             state,
             action: PayloadAction<Types.UsersPermissionsLoginPayload>
         ) => {
-            console.log("Got payload", action.payload)
+            console.log("Auth Success", action.payload)
             state.token = action.payload.jwt
             state.user = action.payload.user
             state.loading = false
@@ -53,7 +53,7 @@ const authSlice = createSlice({
             state.loading = false
         },
         authLogout: (state) => {
-            console.log("Logging out")
+            console.log("Auth Logging out")
             state.token = null
             state.user = null
             state.loading = false
@@ -106,13 +106,13 @@ const checkAuthExpiration = (expirationTime: number) => {
     }
 }
 
-export const logout = () => async (dispatch: any) => {
-    try {
+export const logout = () => {
+    return (dispatch: any) => {
         console.log("Logging out...")
 
         localStorage.removeItem("authJSON")
         dispatch(authLogout())
-    } catch (err) {}
+    }
 }
 
 export const loginIfOldTokenPresent = () => {
