@@ -1,11 +1,10 @@
-import React, { ChangeEvent, useState } from "react"
+import React, { useState } from "react"
 import { RouteComponentProps } from "react-router"
-import { gql, useMutation, useQuery } from "@apollo/client"
+import { useMutation, useQuery } from "@apollo/client"
 import { RootType } from "../../store/rootReducer"
 import { useSelector } from "react-redux"
 import { UserState } from "../../store/slices/user"
 import { MY_APPLICATIONS, APPLY_TO_GROUP } from "../../graphql/queries"
-
 
 interface ApplyParams {
     id: string | undefined
@@ -14,12 +13,12 @@ interface ApplyParams {
 interface ApplyProps extends RouteComponentProps<ApplyParams> {}
 
 const Apply: React.FC<ApplyProps> = (props) => {
-    const myUser = useSelector<RootType, UserState>(state => state.user)
-    
+    const myUser = useSelector<RootType, UserState>((state) => state.user)
+
     let myId
-    if(myUser.user !== null){
+    if (myUser.user !== null) {
         myId = Number(myUser.user.id)
-    } 
+    }
 
     let [appSent, setAppSent] = useState(false)
     let [message, setMessage] = useState("")
@@ -32,19 +31,14 @@ const Apply: React.FC<ApplyProps> = (props) => {
         },
     })
 
-
-
     // TODO: Check through these. If we have already applied to this group
-    //      Disable the apply button 
+    //      Disable the apply button
     //          Add a tooltip that says, "You've already applied to this group"
     const { loading, error, data: myAppsData } = useQuery(MY_APPLICATIONS, {
         variables: {
             applicant: myId,
         },
     })
-
-
-
 
     console.log("Appling to group: ", props.match.params.id)
 

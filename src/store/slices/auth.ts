@@ -98,13 +98,14 @@ export const login = (username: string, password: string) => async (
     }
 }
 
-const checkAuthExpiration = (expirationTime: number) => {
-    return (dispatch: any) => {
-        setTimeout(() => {
-            dispatch(authLogout())
-        }, expirationTime)
-    }
-}
+// TODO: Enable to check token expiration
+// const checkAuthExpiration = (expirationTime: number) => {
+//     return (dispatch: any) => {
+//         setTimeout(() => {
+//             dispatch(authLogout())
+//         }, expirationTime)
+//     }
+// }
 
 export const logout = () => {
     return (dispatch: any) => {

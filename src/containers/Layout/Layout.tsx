@@ -13,12 +13,13 @@ export const Layout: React.FC<LayoutProps> = (props) => {
         (state) => state.auth.token !== null
     )
 
-    const sidedrawerClosedHandler = () => {
-        setShowSideDrawer(false)
-    }
+    // const sidedrawerClosedHandler = () => {
+    //     setShowSideDrawer(false)
+    // }
 
     const sidedrawerToggleHandler = () => {
-        setShowSideDrawer(!showSideDrawer) // TODO: Is this the proper way to read and modify current state?????????????????
+        // TODO: Is this the proper way to read and modify current state?????????????????
+        setShowSideDrawer(!showSideDrawer)
     }
 
     return (

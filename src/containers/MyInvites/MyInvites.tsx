@@ -47,13 +47,18 @@ const MyInvites: React.FC<MyInvitesProps> = () => {
         },
     })
 
-    // const [updateInviteStatus, { data: updateData }] = useMutation(
-    //     UPDATE_INVITE_STATUS
-    // )
     const [acceptInvite, { data: accpetData }] = useMutation(ACCEPT_INVITE)
 
     if (loading) return <p>Loading...</p>
-    if (error) return <h2>Error ☹️</h2>
+    if (error)
+        return (
+            <h2>
+                Error{" "}
+                <span aria-label="sad face" role="img">
+                    ☹️
+                </span>
+            </h2>
+        )
 
     const handleInviteAcceptClicked = (inviteId: string) => {
         console.log("Clicked inviteId: ", inviteId)
@@ -65,13 +70,6 @@ const MyInvites: React.FC<MyInvitesProps> = () => {
                 (invite) => invite.id !== inviteId
             )
             setInvites(newInvites)
-
-            // updateInviteStatus({
-            //     variables: {
-            //         id: inviteId,
-            //         status: Types.Enum_Invite_Status.Accepted,
-            //     },
-            // })
 
             acceptInvite({
                 variables: {

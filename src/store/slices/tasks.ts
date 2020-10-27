@@ -11,9 +11,7 @@ const initialState: TaskState = {
 }
 
 export const fetchTasks = createAsyncThunk("tasks/fetch", async () => {
-    try {
-        return ["Test", "Another String", "Redux Blows", "Heya"]
-    } catch (error) {}
+    return ["Test", "Another String", "Redux Blows", "Heya"]
 })
 
 const tasksSlice = createSlice({
