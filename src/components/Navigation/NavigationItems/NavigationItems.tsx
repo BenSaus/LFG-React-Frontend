@@ -11,12 +11,10 @@ const NavigationItems: React.FC<NavigationItemsProps> = (props) => {
         return (
             <ul className={style.NavigationItems}>
                 <NavigationItem link="/openGroups">Open Groups</NavigationItem>
-                {/* <NavigationItem link={`/user/${myId}`}>
-                    My Profile
-                </NavigationItem> */}
                 <NavigationItem link="/myGroups">My Groups</NavigationItem>
                 <NavigationItem link="/myInvites">My Invites</NavigationItem>
                 <NavigationItem link="/myApps">My Applications</NavigationItem>
+                <NavigationItem link="/myProfile">My Profile</NavigationItem>
                 <NavigationItem link="/logout">Log Out</NavigationItem>
             </ul>
         )

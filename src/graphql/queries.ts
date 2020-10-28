@@ -136,3 +136,70 @@ export const LOG_IN = gql`
         }
     }
 `
+
+export const ACCEPT_APPLICATION = gql`
+    mutation($id: ID!) {
+        acceptApplication(id: $id) {
+            application {
+                id
+                status
+                message
+            }
+            group {
+                id
+                name
+            }
+        }
+    }
+`
+export const REJECT_APPLICATION = gql`
+    mutation($id: ID!) {
+        rejectApplication(id: $id) {
+            application {
+                id
+                status
+                message
+            }
+        }
+    }
+`
+
+export const MANAGE_GET_GROUP = gql`
+    query($id: ID!) {
+        group(id: $id) {
+            id
+            name
+            open_slots
+            booking_status
+            description
+            min_age
+            max_age
+            applications(where: { status: "undecided" }) {
+                id
+                message
+                status
+                applicant {
+                    id
+                    username
+                    age
+                    about
+                }
+            }
+            members {
+                id
+                username
+                age
+                about
+            }
+            invites {
+                id
+                message
+                status
+            }
+            preferred_rooms {
+                id
+                name
+            }
+        }
+    }
+`

@@ -36,11 +36,6 @@ const MyInvites: React.FC<MyInvitesProps> = () => {
         variables: {
             invitee: myId,
         },
-        context: {
-            headers: {
-                Authorization: "Bearer " + auth.token,
-            },
-        },
         onCompleted: () => {
             setInvites(data.invites)
             console.log(data.invites)

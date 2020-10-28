@@ -19,11 +19,6 @@ export const MyApps: React.FC<MyAppsProps> = () => {
         variables: {
             applicant: myId,
         },
-        context: {
-            headers: {
-                Authorization: "Bearer " + auth.token,
-            },
-        },
     })
 
     if (loading) return <p>Loading...</p>

@@ -1,76 +1,17 @@
-import { gql, useMutation, useQuery } from "@apollo/client"
+import { useMutation, useQuery } from "@apollo/client"
 import React, { useState } from "react"
 import { RouteComponentProps } from "react-router"
 import * as Types from "../../types-and-hooks"
 import Applicants from "../../components/Applicants/Applicants"
 import Members from "../../components/Members/Members"
-
-const GET_GROUP = gql`
-    query($id: ID!) {
-        group(id: $id) {
-            id
-            name
-            open_slots
-            booking_status
-            description
-            min_age
-            max_age
-            applications(where: { status: "undecided" }) {
-                id
-                message
-                status
-                applicant {
-                    id
-                    username
-                    age
-                    about
-                }
-            }
-            members {
-                id
-                username
-                age
-                about
-            }
-            invites {
-                id
-                message
-                status
-            }
-            preferred_rooms {
-                id
-                name
-            }
-        }
-    }
-`
-
-const ACCEPT_APPLICATION = gql`
-    mutation($id: ID!) {
-        acceptApplication(id: $id) {
-            application {
-                id
-                status
-                message
-            }
-            group {
-                id
-                name
-            }
-        }
-    }
-`
-const REJECT_APPLICATION = gql`
-    mutation($id: ID!) {
-        rejectApplication(id: $id) {
-            application {
-                id
-                status
-                message
-            }
-        }
-    }
-`
+import { RootType } from "../../store/rootReducer"
+import { AuthState } from "../../store/slices/auth"
+import { useSelector } from "react-redux"
+import {
+    ACCEPT_APPLICATION,
+    REJECT_APPLICATION,
+    MANAGE_GET_GROUP,
+} from "../../graphql/queries"
 
 interface ManageGroupParams {
     id: string
@@ -79,16 +20,14 @@ interface ManageGroupParams {
 interface ManageGroupProps extends RouteComponentProps<ManageGroupParams> {}
 
 const ManageGroup: React.FC<ManageGroupProps> = (props) => {
+    const auth = useSelector<RootType, AuthState>((state) => state.auth)
+
     const [applications, setApplications] = useState<Types.Application[]>([])
     const [members, setMembers] = useState<Types.UsersPermissionsUser[]>([])
-
-    const { loading, error, data: groupRespData } = useQuery(GET_GROUP, {
+    const { loading, error, data: groupRespData } = useQuery(MANAGE_GET_GROUP, {
         variables: { id: props.match.params.id },
         onCompleted: () => {
-            console.log(groupRespData.group.applications)
             setApplications(groupRespData.group.applications)
-
-            console.log(groupRespData.group.members)
             setMembers(groupRespData.group.members)
         },
     })
@@ -101,7 +40,10 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
     )
 
     if (loading) return <p>Loading...</p>
-    if (error) return <p>Error :(</p>
+    if (error) {
+        console.log(error)
+        return <p>Error :(</p>
+    }
 
     const groupData: Types.Group = groupRespData.group
 
@@ -109,6 +51,11 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         const result = await acceptApplication({
             variables: {
                 id: applicationId,
+            },
+            context: {
+                headers: {
+                    Authorization: "Bearer " + auth.token,
+                },
             },
         })
         // TODO: Check result here
@@ -136,6 +83,11 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         const result = await rejectApplication({
             variables: {
                 id: applicationId,
+            },
+            context: {
+                headers: {
+                    Authorization: "Bearer " + auth.token,
+                },
             },
         })
         // TODO: Check result here

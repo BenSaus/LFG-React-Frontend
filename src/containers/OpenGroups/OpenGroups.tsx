@@ -4,21 +4,11 @@ import Groups from "../../components/Groups/Groups"
 import { RouteComponentProps } from "react-router"
 import { GET_OPEN_GROUPS } from "../../graphql/queries"
 // import ReduxExample from "../../components/ReduxExample/ReduxExample"
-import { RootType } from "../../store/rootReducer"
-import { AuthState } from "../../store/slices/auth"
-import { useSelector } from "react-redux"
 
 interface OpenGroupsProps extends RouteComponentProps {}
 
 const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
-    const auth = useSelector<RootType, AuthState>((state) => state.auth)
-    const { loading, error, data } = useQuery(GET_OPEN_GROUPS, {
-        context: {
-            headers: {
-                Authorization: "Bearer " + auth.token,
-            },
-        },
-    })
+    const { loading, error, data } = useQuery(GET_OPEN_GROUPS)
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error :(</p>

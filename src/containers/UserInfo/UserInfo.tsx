@@ -5,8 +5,8 @@ import * as Types from "../../types-and-hooks"
 import User from "../../components/User/User"
 import { useSelector } from "react-redux"
 import { RootType } from "../../store/rootReducer"
-import { UserState } from "../../store/slices/user"
 import { GET_USER } from "../../graphql/queries"
+import { AuthState } from "../../store/slices/auth"
 
 interface UserInfoParams {
     id: string | undefined
@@ -15,8 +15,9 @@ interface UserInfoParams {
 interface UserInfoProps extends RouteComponentProps<UserInfoParams> {}
 
 const UserInfo: React.FC<UserInfoProps> = (props) => {
+    const auth = useSelector<RootType, AuthState>((state) => state.auth)
     const userId = props.match.params.id
-    const myUser = useSelector<RootType, UserState>((state) => state.user)
+    const myUser = auth.user
     console.log("myUser", myUser)
 
     const { loading, error, data } = useQuery(GET_USER, {
@@ -30,8 +31,8 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
 
     let editButton = null
     let myId: string = ""
-    if (myUser.user !== null) {
-        myId = myUser.user.id
+    if (myUser !== null) {
+        myId = myUser.id
     }
     const viewingMyProfile = Number(myId) === Number(userId)
     console.log(

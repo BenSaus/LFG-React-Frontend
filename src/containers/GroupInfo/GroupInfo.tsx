@@ -4,9 +4,6 @@ import { RouteComponentProps } from "react-router"
 import * as Types from "../../types-and-hooks"
 import { Link } from "react-router-dom"
 import { GET_GROUP } from "../../graphql/queries"
-import { useSelector } from "react-redux"
-import { RootType } from "../../store/rootReducer"
-import { AuthState } from "../../store/slices/auth"
 
 interface GroupInfoParams {
     id: string | undefined
@@ -15,17 +12,10 @@ interface GroupInfoParams {
 interface GroupInfoProps extends RouteComponentProps<GroupInfoParams> {}
 
 const GroupInfo: React.FC<GroupInfoProps> = (props) => {
-    const auth = useSelector<RootType, AuthState>((state) => state.auth)
-
     const groupId = props.match.params.id
 
     const { loading, error, data } = useQuery(GET_GROUP, {
         variables: { id: groupId },
-        context: {
-            headers: {
-                Authorization: "Bearer " + auth.token,
-            },
-        },
     })
 
     if (loading) return <p>Loading...</p>

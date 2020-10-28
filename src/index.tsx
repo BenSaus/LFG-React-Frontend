@@ -4,6 +4,8 @@ import "./index.css"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 import { Provider } from "react-redux"
+import { ApolloProvider } from "@apollo/client"
+import client from "./apollo-setup"
 
 import { configureStore } from "@reduxjs/toolkit"
 import rootReducer from "./store/rootReducer"
@@ -14,9 +16,11 @@ const store = configureStore({
 
 ReactDOM.render(
     <Provider store={store}>
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>
+        <ApolloProvider client={client}>
+            <React.StrictMode>
+                <App />
+            </React.StrictMode>
+        </ApolloProvider>
     </Provider>,
     document.getElementById("root")
 )

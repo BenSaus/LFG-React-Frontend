@@ -24,11 +24,6 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
         variables: {
             id: myId,
         },
-        context: {
-            headers: {
-                Authorization: "Bearer " + auth.token,
-            },
-        },
         onCompleted: () => {
             const groups: Types.Group[] = data.groups
             console.log("data.groups", groups)

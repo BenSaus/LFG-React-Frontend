@@ -1,8 +1,6 @@
 import React, { useEffect } from "react"
 import "./App.css"
 
-import { ApolloProvider } from "@apollo/client"
-import client from "./apollo-setup"
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
 
 import Layout from "./containers/Layout/Layout"
@@ -14,11 +12,12 @@ import Apply from "./containers/Apply/Apply"
 import MyApps from "./containers/MyApps/MyApps"
 import MyGroups from "./containers/MyGroups/MyGroups"
 import MyInvites from "./containers/MyInvites/MyInvites"
+import MyProfile from "./containers/MyProfile/MyProfile"
 import CreateGroup from "./containers/CreateGroup/CreateGroup"
 import ManageGroup from "./containers/ManageGroup/ManageGroup"
-// import NotFound404 from "./containers/404NotFound/NotFound404"
 import LandingPage from "./containers/LandingPage/LandingPage"
 import Logout from "./containers/Logout/Logout"
+// import NotFound404 from "./containers/404NotFound/NotFound404"
 import { loginIfOldTokenPresent } from "./store/slices/auth"
 import { useDispatch, useSelector } from "react-redux"
 import { RootType } from "./store/rootReducer"
@@ -63,6 +62,7 @@ function App() {
                 <Route path="/myApps" exact component={MyApps} />
                 <Route path="/myGroups" exact component={MyGroups} />
                 <Route path="/myInvites" exact component={MyInvites} />
+                <Route path="/myProfile" exact component={MyProfile} />
                 {/* <Route path="*" component={NotFound404} /> */}
                 <Redirect to="/" />
             </Switch>
@@ -70,13 +70,11 @@ function App() {
     }
 
     return (
-        <ApolloProvider client={client}>
-            <BrowserRouter>
-                <div className="App">
-                    <Layout>{routes}</Layout>
-                </div>
-            </BrowserRouter>
-        </ApolloProvider>
+        <BrowserRouter>
+            <div className="App">
+                <Layout>{routes}</Layout>
+            </div>
+        </BrowserRouter>
     )
 }
 
