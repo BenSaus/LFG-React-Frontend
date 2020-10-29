@@ -25,8 +25,9 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
             id: myId,
         },
         onCompleted: () => {
+            console.log("GetMyGroupsDocument Completed")
+
             const groups: Types.Group[] = data.groups
-            console.log("data.groups", groups)
 
             // Seperate groups this user leads and groups this user is just a member of
             const leadingGroups = groups.filter(
@@ -47,11 +48,7 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
         return <p>Error :(</p>
     }
 
-    console.log("data", data)
-
     const onGroupLeadClick = (groupId: string) => {
-        console.log("Clicked group: ", groupId)
-
         // This is a group the user leads so send the user to manage
         props.history.push("/group/manage/" + groupId)
     }

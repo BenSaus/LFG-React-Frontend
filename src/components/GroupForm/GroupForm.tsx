@@ -1,53 +1,56 @@
-import { useQuery, useMutation } from "@apollo/client"
-import React from "react"
-import RoomSelect from "../../components/RoomSelect/RoomSelect"
 import { useFormik } from "formik"
-import { RouteComponentProps } from "react-router"
-import { CreateGroupDocument, GetRoomsDocument } from "../../generated/graphql"
+import React, { useEffect } from "react"
 
-interface CreateGroupProps extends RouteComponentProps {}
+interface GroupFormProps {
+    leader: string
+    onSubmit: (values: any) => void
+    onCancel: () => void
+    data: {
+        name: string
+        open_slots: number
+        min_age: number
+        max_age: number
+        description: string
+        rooms: null
+    }
+    submitButtonText: string
+}
 
-const CreateGroup: React.FC<CreateGroupProps> = (props) => {
-    const { loading, error, data } = useQuery(GetRoomsDocument)
-    const [createGroup] = useMutation(CreateGroupDocument)
-
+const GroupForm: React.FC<GroupFormProps> = (props) => {
+    // State
     const formik = useFormik({
         initialValues: {
-            name: "",
-            open_slots: 1,
-            min_age: 18,
-            max_age: 90,
-            description: "",
+            name: props.data.name,
+            open_slots: props.data.open_slots,
+            min_age: props.data.min_age,
+            max_age: props.data.max_age,
+            description: props.data.description,
+            rooms: null,
+            // name: "",
+            // open_slots: 0,
+            // min_age: 0,
+            // max_age: 0,
+            // description: "",
+            // rooms: null,
         },
-        onSubmit: (values, actions) => {
-            console.log(values)
-            createGroup({
-                variables: {
-                    name: formik.values.name,
-                    open_slots: formik.values.open_slots,
-                    booking_status: "notBooked",
-                    max_age: formik.values.max_age,
-                    min_age: formik.values.min_age,
-                    leader: 34, // TODO: HARDCODED
-                    description: formik.values.description,
-                },
-            })
-
-            // TODO: Move to the group management page
-            props.history.push("/")
-        },
+        onSubmit: props.onSubmit,
     })
 
-    if (loading) return <p>Loading...</p>
-    if (error) return <p>Error :(</p>
+    // useEffect(() => {
+    //     formik.setValues({
+    //         name: props.data.name,
+    //         open_slots: props.data.open_slots,
+    //         min_age: props.data.min_age,
+    //         max_age: props.data.max_age,
+    //         description: props.data.description,
+    //         rooms: null,
+    //     })
+    // }, [props.data])
 
-    const leader = "Ben" // TODO:  HARDCODED... move to store
-
+    // Render
     return (
         <React.Fragment>
-            <h1>Create Group</h1>
-            <p>Leader: {leader}</p>
-
+            <p>Leader: {props.leader}</p>
             <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="">Name: </label>
                 <input
@@ -76,7 +79,7 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
                 />
                 <br />
                 <label htmlFor="">Room Preference: </label>
-                <RoomSelect rooms={data.rooms} />
+                {/* <RoomSelect rooms={data.rooms} /> */}
                 <br />
                 <label htmlFor="">Age Range: </label>
                 <br />
@@ -107,11 +110,20 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
                 <br />
 
                 <button style={{ margin: "1rem 0" }} type="submit">
-                    Create Group
+                    {props.submitButtonText}
+                </button>
+                <button
+                    style={{ margin: "1rem 0" }}
+                    onClick={(event) => {
+                        event.preventDefault()
+                        props.onCancel()
+                    }}
+                >
+                    Cancel
                 </button>
             </form>
         </React.Fragment>
     )
 }
 
-export default CreateGroup
+export default GroupForm

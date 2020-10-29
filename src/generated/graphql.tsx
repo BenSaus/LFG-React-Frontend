@@ -2369,6 +2369,27 @@ export type RejectApplicationMutation = (
   )> }
 );
 
+export type UpdateGroupMutationVariables = Exact<{
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  open_slots?: Maybe<Scalars['Int']>;
+  min_age?: Maybe<Scalars['Int']>;
+  max_age?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type UpdateGroupMutation = (
+  { __typename?: 'Mutation' }
+  & { updateGroup?: Maybe<(
+    { __typename?: 'updateGroupPayload' }
+    & { group?: Maybe<(
+      { __typename?: 'Group' }
+      & Pick<Group, 'id' | 'name' | 'description' | 'open_slots' | 'min_age' | 'max_age'>
+    )> }
+  )> }
+);
+
 export type GetGroupQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2382,7 +2403,10 @@ export type GetGroupQuery = (
     & { leader?: Maybe<(
       { __typename?: 'UsersPermissionsUser' }
       & Pick<UsersPermissionsUser, 'id' | 'username'>
-    )> }
+    )>, preferred_rooms?: Maybe<Array<Maybe<(
+      { __typename?: 'Room' }
+      & Pick<Room, 'id' | 'name'>
+    )>>> }
   )> }
 );
 
@@ -2758,6 +2782,50 @@ export function useRejectApplicationMutation(baseOptions?: Apollo.MutationHookOp
 export type RejectApplicationMutationHookResult = ReturnType<typeof useRejectApplicationMutation>;
 export type RejectApplicationMutationResult = Apollo.MutationResult<RejectApplicationMutation>;
 export type RejectApplicationMutationOptions = Apollo.BaseMutationOptions<RejectApplicationMutation, RejectApplicationMutationVariables>;
+export const UpdateGroupDocument = gql`
+    mutation updateGroup($id: ID!, $name: String, $description: String, $open_slots: Int, $min_age: Int, $max_age: Int) {
+  updateGroup(input: {where: {id: $id}, data: {name: $name, description: $description, open_slots: $open_slots, min_age: $min_age, max_age: $max_age}}) {
+    group {
+      id
+      name
+      description
+      open_slots
+      min_age
+      max_age
+    }
+  }
+}
+    `;
+export type UpdateGroupMutationFn = Apollo.MutationFunction<UpdateGroupMutation, UpdateGroupMutationVariables>;
+
+/**
+ * __useUpdateGroupMutation__
+ *
+ * To run a mutation, you first call `useUpdateGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateGroupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateGroupMutation, { data, loading, error }] = useUpdateGroupMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      name: // value for 'name'
+ *      description: // value for 'description'
+ *      open_slots: // value for 'open_slots'
+ *      min_age: // value for 'min_age'
+ *      max_age: // value for 'max_age'
+ *   },
+ * });
+ */
+export function useUpdateGroupMutation(baseOptions?: Apollo.MutationHookOptions<UpdateGroupMutation, UpdateGroupMutationVariables>) {
+        return Apollo.useMutation<UpdateGroupMutation, UpdateGroupMutationVariables>(UpdateGroupDocument, baseOptions);
+      }
+export type UpdateGroupMutationHookResult = ReturnType<typeof useUpdateGroupMutation>;
+export type UpdateGroupMutationResult = Apollo.MutationResult<UpdateGroupMutation>;
+export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<UpdateGroupMutation, UpdateGroupMutationVariables>;
 export const GetGroupDocument = gql`
     query getGroup($id: ID!) {
   group(id: $id) {
@@ -2772,6 +2840,10 @@ export const GetGroupDocument = gql`
     }
     description
     open_slots
+    preferred_rooms {
+      id
+      name
+    }
   }
 }
     `;

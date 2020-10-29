@@ -9,10 +9,10 @@ const authLink = setContext((_, { headers }) => {
     // WARNING: TODO: This is not safe and should only be done for testing
     const authJSON = localStorage.getItem("authJSON")
 
-    console.log("AuthLink", authJSON)
+    // console.log("AuthLink", authJSON)
 
     if (authJSON !== null) {
-        console.log("AuthLink", "Setting Auth Header")
+        // console.log("AuthLink", "Setting Auth Header")
         const auth = JSON.parse(authJSON)
         return {
             headers: {
@@ -21,7 +21,7 @@ const authLink = setContext((_, { headers }) => {
             },
         }
     } else {
-        console.log("AuthLink", "No Auth Header")
+        // console.log("AuthLink", "No Auth Header")
         return {
             headers: {
                 ...headers,

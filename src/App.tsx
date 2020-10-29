@@ -17,10 +17,11 @@ import CreateGroup from "./containers/CreateGroup/CreateGroup"
 import ManageGroup from "./containers/ManageGroup/ManageGroup"
 import LandingPage from "./containers/LandingPage/LandingPage"
 import Logout from "./containers/Logout/Logout"
-// import NotFound404 from "./containers/404NotFound/NotFound404"
+import NotFound404 from "./containers/404NotFound/NotFound404"
 import { loginIfOldTokenPresent } from "./store/slices/auth"
 import { useDispatch, useSelector } from "react-redux"
 import { RootType } from "./store/rootReducer"
+import EditGroup from "./containers/EditGroup/EditGroup"
 
 function App() {
     const isAuthenticated = useSelector<RootType, boolean>(
@@ -29,7 +30,6 @@ function App() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        console.log("Checking for old token...")
         dispatch(loginIfOldTokenPresent())
     }, [])
 
@@ -37,16 +37,12 @@ function App() {
         <Switch>
             <Route path="/" exact component={LandingPage} />
             <Route path="/login" exact component={Login} />
-            {/* <Route path="*" component={NotFound404} /> */}
-            <Redirect to="/" />
+            <Route path="*" component={NotFound404} />
+            {/* <Redirect to="/" /> */}
         </Switch>
     )
 
-    console.log("App: ", isAuthenticated)
-
     if (isAuthenticated) {
-        console.log("Using authenticated routes")
-
         routes = (
             <Switch>
                 <Route path="/" exact component={LandingPage} />
@@ -56,6 +52,7 @@ function App() {
                 <Route path="/user/:id" exact component={UserInfo} />
                 <Route path="/group/create" exact component={CreateGroup} />
                 <Route path="/group/manage/:id" exact component={ManageGroup} />
+                <Route path="/group/edit/:id" exact component={EditGroup} />
                 <Route path="/group/:id" exact component={GroupInfo} />
                 {/* TODO: this should be /group/apply/:id  */}
                 <Route path="/apply/:id" exact component={Apply} />
@@ -63,8 +60,8 @@ function App() {
                 <Route path="/myGroups" exact component={MyGroups} />
                 <Route path="/myInvites" exact component={MyInvites} />
                 <Route path="/myProfile" exact component={MyProfile} />
-                {/* <Route path="*" component={NotFound404} /> */}
-                <Redirect to="/" />
+                <Route path="*" component={NotFound404} />
+                {/* <Redirect to="/" /> */}
             </Switch>
         )
     }

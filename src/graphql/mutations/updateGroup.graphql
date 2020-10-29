@@ -1,0 +1,30 @@
+mutation updateGroup(
+    $id: ID!
+    $name: String
+    $description: String
+    $open_slots: Int
+    $min_age: Int
+    $max_age: Int
+) {
+    updateGroup(
+        input: {
+            where: { id: $id }
+            data: {
+                name: $name
+                description: $description
+                open_slots: $open_slots
+                min_age: $min_age
+                max_age: $max_age
+            }
+        }
+    ) {
+        group {
+            id
+            name
+            description
+            open_slots
+            min_age
+            max_age
+        }
+    }
+}

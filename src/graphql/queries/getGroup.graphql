@@ -11,5 +11,9 @@ query getGroup($id: ID!) {
         }
         description
         open_slots
+        preferred_rooms {
+            id
+            name
+        }
     }
 }

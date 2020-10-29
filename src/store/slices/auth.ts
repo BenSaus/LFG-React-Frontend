@@ -40,7 +40,7 @@ const authSlice = createSlice({
             state,
             action: PayloadAction<Types.UsersPermissionsLoginPayload>
         ) => {
-            console.log("Auth Success", action.payload)
+            // console.log("Auth Success", action.payload)
             state.token = action.payload.jwt
             state.user = action.payload.user
             state.loading = false
@@ -48,12 +48,12 @@ const authSlice = createSlice({
             state.error = null
         },
         authFailure: (state, action: PayloadAction<string>) => {
-            console.log("Failed to login -- ", action.payload)
+            // console.log("Failed to login -- ", action.payload)
             state.error = action.payload
             state.loading = false
         },
         authLogout: (state) => {
-            console.log("Auth Logging out")
+            // console.log("Auth Logging out")
             state.token = null
             state.user = null
             state.loading = false
@@ -74,7 +74,7 @@ export const login = (username: string, password: string) => async (
     dispatch: any
 ) => {
     try {
-        console.log("Logging-in...")
+        // console.log("Logging-in...")
         dispatch(authStart())
 
         const resp = await client.mutate({
@@ -86,7 +86,7 @@ export const login = (username: string, password: string) => async (
             // Ensure that we do not cache the token
             fetchPolicy: "no-cache",
         })
-        console.log("resp", resp)
+        // console.log("resp", resp)
 
         // WARNING: TODO: This is insecure
         localStorage.setItem("authJSON", JSON.stringify(resp.data.login))
@@ -109,7 +109,7 @@ export const login = (username: string, password: string) => async (
 
 export const logout = () => {
     return (dispatch: any) => {
-        console.log("Logging out...")
+        // console.log("Logging out...")
 
         localStorage.removeItem("authJSON")
         dispatch(authLogout())

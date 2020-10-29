@@ -20,21 +20,42 @@ interface ManageGroupParams {
 interface ManageGroupProps extends RouteComponentProps<ManageGroupParams> {}
 
 const ManageGroup: React.FC<ManageGroupProps> = (props) => {
+    // Redux
     const auth = useSelector<RootType, AuthState>((state) => state.auth)
+    let myId: string = ""
+    if (auth.user !== null) {
+        myId = auth.user.id
+    }
 
+    // State
     const [applications, setApplications] = useState<Types.Application[]>([])
     const [members, setMembers] = useState<Types.UsersPermissionsUser[]>([])
+
+    // GraphQL
     const { loading, error, data: groupRespData } = useQuery(
         ManageGetGroupDocument,
         {
             variables: { id: props.match.params.id },
-            onCompleted: () => {
-                setApplications(groupRespData.group.applications)
-                setMembers(groupRespData.group.members)
+            onCompleted: (data) => {
+                setApplications(data.group.applications)
+
+                console.log("withLeader:", data.group.members, myId)
+
+                const membersWithoutLeader = data.group.members.filter(
+                    (group: Types.Group) => {
+                        console.log(group)
+
+                        console.log(group?.id, myId, group?.id !== myId)
+
+                        return group?.id !== myId
+                    }
+                )
+                console.log("withoutLeader:", membersWithoutLeader)
+
+                setMembers(membersWithoutLeader)
             },
         }
     )
-
     const [acceptApplication, { data: acceptData }] = useMutation(
         AcceptApplicationDocument
     )
@@ -42,13 +63,12 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         RejectApplicationDocument
     )
 
+    // Render
     if (loading) return <p>Loading...</p>
     if (error) {
         console.log(error)
         return <p>Error :(</p>
     }
-
-    const groupData: Types.Group = groupRespData.group
 
     const handleAcceptApplication = async (applicationId: string) => {
         const result = await acceptApplication({
@@ -101,18 +121,37 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         setApplications(updatedApplications)
     }
 
-    return (
-        <React.Fragment>
-            <h1>Manage Group</h1>
-            <h2>{groupData.name}</h2>
-            <h3>Applicants</h3>
+    let applicantsJSX = <p>No Applicants</p>
+    if (applications.length > 0) {
+        applicantsJSX = (
             <Applicants
                 applications={applications}
                 acceptApplication={handleAcceptApplication}
                 rejectApplication={handleRejectApplication}
             />
+        )
+    }
+
+    let membersJSX = <p>No Members</p>
+    if (members.length > 0) {
+        membersJSX = <Members members={members} />
+    }
+
+    return (
+        <React.Fragment>
+            <h1>Manage Group</h1>
+            <h2>{groupRespData.group.name}</h2>
+            <button
+                onClick={() => {
+                    props.history.push(`/group/edit/${props.match.params.id}`)
+                }}
+            >
+                Edit Group Details
+            </button>
+            <h3>Applicants</h3>
+            {applicantsJSX}
             <h3>Members</h3>
-            <Members members={members} />
+            {membersJSX}
             <button style={{ padding: "1rem" }}>Finalize Group</button>
         </React.Fragment>
     )
