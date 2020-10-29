@@ -1,0 +1,1597 @@
+type acceptApplicationPayload {
+  group: Group
+  application: Application
+}
+
+type acceptInvitePayload {
+  group: Group
+  invite: Invite
+}
+
+type Achievement {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  description: String
+  image: UploadFile
+  name: String
+  created_by: AdminUser
+  updated_by: AdminUser
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+}
+
+type AchievementAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type AchievementConnection {
+  values: [Achievement]
+  groupBy: AchievementGroupBy
+  aggregate: AchievementAggregator
+}
+
+type AchievementConnectionCreated_at {
+  key: DateTime
+  connection: AchievementConnection
+}
+
+type AchievementConnectionCreated_by {
+  key: ID
+  connection: AchievementConnection
+}
+
+type AchievementConnectionDescription {
+  key: String
+  connection: AchievementConnection
+}
+
+type AchievementConnectionId {
+  key: ID
+  connection: AchievementConnection
+}
+
+type AchievementConnectionImage {
+  key: ID
+  connection: AchievementConnection
+}
+
+type AchievementConnectionName {
+  key: String
+  connection: AchievementConnection
+}
+
+type AchievementConnectionUpdated_at {
+  key: DateTime
+  connection: AchievementConnection
+}
+
+type AchievementConnectionUpdated_by {
+  key: ID
+  connection: AchievementConnection
+}
+
+type AchievementGroupBy {
+  id: [AchievementConnectionId]
+  created_at: [AchievementConnectionCreated_at]
+  updated_at: [AchievementConnectionUpdated_at]
+  description: [AchievementConnectionDescription]
+  image: [AchievementConnectionImage]
+  name: [AchievementConnectionName]
+  created_by: [AchievementConnectionCreated_by]
+  updated_by: [AchievementConnectionUpdated_by]
+}
+
+input AchievementInput {
+  description: String
+  image: ID
+  name: String
+  users: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+type AdminUser {
+  id: ID!
+  username: String
+}
+
+type Application {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  applicant: UsersPermissionsUser
+  message: String
+  group: Group
+  status: ENUM_APPLICATION_STATUS
+  created_by: AdminUser
+  updated_by: AdminUser
+}
+
+type ApplicationAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type ApplicationConnection {
+  values: [Application]
+  groupBy: ApplicationGroupBy
+  aggregate: ApplicationAggregator
+}
+
+type ApplicationConnectionApplicant {
+  key: ID
+  connection: ApplicationConnection
+}
+
+type ApplicationConnectionCreated_at {
+  key: DateTime
+  connection: ApplicationConnection
+}
+
+type ApplicationConnectionCreated_by {
+  key: ID
+  connection: ApplicationConnection
+}
+
+type ApplicationConnectionGroup {
+  key: ID
+  connection: ApplicationConnection
+}
+
+type ApplicationConnectionId {
+  key: ID
+  connection: ApplicationConnection
+}
+
+type ApplicationConnectionMessage {
+  key: String
+  connection: ApplicationConnection
+}
+
+type ApplicationConnectionStatus {
+  key: String
+  connection: ApplicationConnection
+}
+
+type ApplicationConnectionUpdated_at {
+  key: DateTime
+  connection: ApplicationConnection
+}
+
+type ApplicationConnectionUpdated_by {
+  key: ID
+  connection: ApplicationConnection
+}
+
+type ApplicationGroupBy {
+  id: [ApplicationConnectionId]
+  created_at: [ApplicationConnectionCreated_at]
+  updated_at: [ApplicationConnectionUpdated_at]
+  applicant: [ApplicationConnectionApplicant]
+  message: [ApplicationConnectionMessage]
+  group: [ApplicationConnectionGroup]
+  status: [ApplicationConnectionStatus]
+  created_by: [ApplicationConnectionCreated_by]
+  updated_by: [ApplicationConnectionUpdated_by]
+}
+
+input ApplicationInput {
+  applicant: ID
+  message: String
+  group: ID
+  status: ENUM_APPLICATION_STATUS
+  created_by: ID
+  updated_by: ID
+}
+
+type Business {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String
+  address: String
+  website_url: String
+  description: String
+  image: UploadFile
+  created_by: AdminUser
+  updated_by: AdminUser
+  rooms(sort: String, limit: Int, start: Int, where: JSON): [Room]
+}
+
+type BusinessAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type BusinessConnection {
+  values: [Business]
+  groupBy: BusinessGroupBy
+  aggregate: BusinessAggregator
+}
+
+type BusinessConnectionAddress {
+  key: String
+  connection: BusinessConnection
+}
+
+type BusinessConnectionCreated_at {
+  key: DateTime
+  connection: BusinessConnection
+}
+
+type BusinessConnectionCreated_by {
+  key: ID
+  connection: BusinessConnection
+}
+
+type BusinessConnectionDescription {
+  key: String
+  connection: BusinessConnection
+}
+
+type BusinessConnectionId {
+  key: ID
+  connection: BusinessConnection
+}
+
+type BusinessConnectionImage {
+  key: ID
+  connection: BusinessConnection
+}
+
+type BusinessConnectionName {
+  key: String
+  connection: BusinessConnection
+}
+
+type BusinessConnectionUpdated_at {
+  key: DateTime
+  connection: BusinessConnection
+}
+
+type BusinessConnectionUpdated_by {
+  key: ID
+  connection: BusinessConnection
+}
+
+type BusinessConnectionWebsite_url {
+  key: String
+  connection: BusinessConnection
+}
+
+type BusinessGroupBy {
+  id: [BusinessConnectionId]
+  created_at: [BusinessConnectionCreated_at]
+  updated_at: [BusinessConnectionUpdated_at]
+  name: [BusinessConnectionName]
+  address: [BusinessConnectionAddress]
+  website_url: [BusinessConnectionWebsite_url]
+  description: [BusinessConnectionDescription]
+  image: [BusinessConnectionImage]
+  created_by: [BusinessConnectionCreated_by]
+  updated_by: [BusinessConnectionUpdated_by]
+}
+
+input BusinessInput {
+  name: String
+  address: String
+  website_url: String
+  description: String
+  image: ID
+  rooms: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input createAchievementInput {
+  data: AchievementInput
+}
+
+type createAchievementPayload {
+  achievement: Achievement
+}
+
+input createApplicationInput {
+  data: ApplicationInput
+}
+
+type createApplicationPayload {
+  application: Application
+}
+
+input createBusinessInput {
+  data: BusinessInput
+}
+
+type createBusinessPayload {
+  business: Business
+}
+
+input createGroupInput {
+  data: GroupInput
+}
+
+type createGroupPayload {
+  group: Group
+}
+
+input createInviteInput {
+  data: InviteInput
+}
+
+type createInvitePayload {
+  invite: Invite
+}
+
+input createRoleInput {
+  data: RoleInput
+}
+
+type createRolePayload {
+  role: UsersPermissionsRole
+}
+
+input createRoomInput {
+  data: RoomInput
+}
+
+type createRoomPayload {
+  room: Room
+}
+
+input createUserInput {
+  data: UserInput
+}
+
+type createUserPayload {
+  user: UsersPermissionsUser
+}
+
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format
+outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for
+representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
+`date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
+8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+input deleteAchievementInput {
+  where: InputID
+}
+
+type deleteAchievementPayload {
+  achievement: Achievement
+}
+
+input deleteApplicationInput {
+  where: InputID
+}
+
+type deleteApplicationPayload {
+  application: Application
+}
+
+input deleteBusinessInput {
+  where: InputID
+}
+
+type deleteBusinessPayload {
+  business: Business
+}
+
+input deleteGroupInput {
+  where: InputID
+}
+
+type deleteGroupPayload {
+  group: Group
+}
+
+input deleteInviteInput {
+  where: InputID
+}
+
+type deleteInvitePayload {
+  invite: Invite
+}
+
+input deleteRoleInput {
+  where: InputID
+}
+
+type deleteRolePayload {
+  role: UsersPermissionsRole
+}
+
+input deleteRoomInput {
+  where: InputID
+}
+
+type deleteRoomPayload {
+  room: Room
+}
+
+input deleteUserInput {
+  where: InputID
+}
+
+type deleteUserPayload {
+  user: UsersPermissionsUser
+}
+
+input editAchievementInput {
+  description: String
+  image: ID
+  name: String
+  users: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input editApplicationInput {
+  applicant: ID
+  message: String
+  group: ID
+  status: ENUM_APPLICATION_STATUS
+  created_by: ID
+  updated_by: ID
+}
+
+input editBusinessInput {
+  name: String
+  address: String
+  website_url: String
+  description: String
+  image: ID
+  rooms: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input editFileInput {
+  name: String
+  alternativeText: String
+  caption: String
+  width: Int
+  height: Int
+  formats: JSON
+  hash: String
+  ext: String
+  mime: String
+  size: Float
+  url: String
+  previewUrl: String
+  provider: String
+  provider_metadata: JSON
+  related: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input editGroupInput {
+  description: String
+  open_slots: Int
+  booking_status: ENUM_GROUP_BOOKING_STATUS
+  applications: [ID]
+  members: [ID]
+  invites: [ID]
+  max_age: Int
+  min_age: Int
+  bookdate: DateTime
+  name: String
+  leader: ID
+  preferred_rooms: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input editInviteInput {
+  invitee: ID
+  message: String
+  group: ID
+  status: ENUM_INVITE_STATUS
+  created_by: ID
+  updated_by: ID
+}
+
+input editRoleInput {
+  name: String
+  description: String
+  type: String
+  permissions: [ID]
+  users: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input editRoomInput {
+  name: String
+  description: String
+  image: ID
+  business: ID
+  groups_preferred: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input editUserInput {
+  username: String
+  email: String
+  provider: String
+  password: String
+  resetPasswordToken: String
+  confirmed: Boolean
+  blocked: Boolean
+  role: ID
+  groups: [ID]
+  age: Int
+  image: ID
+  about: String
+  open_to_invite: Boolean
+  hide_age: Boolean
+  approved: Boolean
+  leading_groups: [ID]
+  achievements: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+enum ENUM_APPLICATION_STATUS {
+  accepted
+  rejected
+  undecided
+}
+
+enum ENUM_GROUP_BOOKING_STATUS {
+  booked
+  notBooked
+}
+
+enum ENUM_INVITE_STATUS {
+  accepted
+  rejected
+  undecided
+}
+
+input FileInfoInput {
+  name: String
+  alternativeText: String
+  caption: String
+}
+
+input FileInput {
+  name: String!
+  alternativeText: String
+  caption: String
+  width: Int
+  height: Int
+  formats: JSON
+  hash: String!
+  ext: String
+  mime: String!
+  size: Float!
+  url: String!
+  previewUrl: String
+  provider: String!
+  provider_metadata: JSON
+  related: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+type Group {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  description: String
+  open_slots: Int
+  booking_status: ENUM_GROUP_BOOKING_STATUS
+  max_age: Int
+  min_age: Int
+  bookdate: DateTime
+  name: String
+  leader: UsersPermissionsUser
+  created_by: AdminUser
+  updated_by: AdminUser
+  applications(sort: String, limit: Int, start: Int, where: JSON): [Application]
+  members(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  invites(sort: String, limit: Int, start: Int, where: JSON): [Invite]
+  preferred_rooms(sort: String, limit: Int, start: Int, where: JSON): [Room]
+}
+
+type GroupAggregator {
+  count: Int
+  totalCount: Int
+  sum: GroupAggregatorSum
+  avg: GroupAggregatorAvg
+  min: GroupAggregatorMin
+  max: GroupAggregatorMax
+}
+
+type GroupAggregatorAvg {
+  open_slots: Float
+  max_age: Float
+  min_age: Float
+}
+
+type GroupAggregatorMax {
+  open_slots: Float
+  max_age: Float
+  min_age: Float
+}
+
+type GroupAggregatorMin {
+  open_slots: Float
+  max_age: Float
+  min_age: Float
+}
+
+type GroupAggregatorSum {
+  open_slots: Float
+  max_age: Float
+  min_age: Float
+}
+
+type GroupConnection {
+  values: [Group]
+  groupBy: GroupGroupBy
+  aggregate: GroupAggregator
+}
+
+type GroupConnectionBookdate {
+  key: DateTime
+  connection: GroupConnection
+}
+
+type GroupConnectionBooking_status {
+  key: String
+  connection: GroupConnection
+}
+
+type GroupConnectionCreated_at {
+  key: DateTime
+  connection: GroupConnection
+}
+
+type GroupConnectionCreated_by {
+  key: ID
+  connection: GroupConnection
+}
+
+type GroupConnectionDescription {
+  key: String
+  connection: GroupConnection
+}
+
+type GroupConnectionId {
+  key: ID
+  connection: GroupConnection
+}
+
+type GroupConnectionLeader {
+  key: ID
+  connection: GroupConnection
+}
+
+type GroupConnectionMax_age {
+  key: Int
+  connection: GroupConnection
+}
+
+type GroupConnectionMin_age {
+  key: Int
+  connection: GroupConnection
+}
+
+type GroupConnectionName {
+  key: String
+  connection: GroupConnection
+}
+
+type GroupConnectionOpen_slots {
+  key: Int
+  connection: GroupConnection
+}
+
+type GroupConnectionUpdated_at {
+  key: DateTime
+  connection: GroupConnection
+}
+
+type GroupConnectionUpdated_by {
+  key: ID
+  connection: GroupConnection
+}
+
+type GroupGroupBy {
+  id: [GroupConnectionId]
+  created_at: [GroupConnectionCreated_at]
+  updated_at: [GroupConnectionUpdated_at]
+  description: [GroupConnectionDescription]
+  open_slots: [GroupConnectionOpen_slots]
+  booking_status: [GroupConnectionBooking_status]
+  max_age: [GroupConnectionMax_age]
+  min_age: [GroupConnectionMin_age]
+  bookdate: [GroupConnectionBookdate]
+  name: [GroupConnectionName]
+  leader: [GroupConnectionLeader]
+  created_by: [GroupConnectionCreated_by]
+  updated_by: [GroupConnectionUpdated_by]
+}
+
+input GroupInput {
+  description: String
+  open_slots: Int
+  booking_status: ENUM_GROUP_BOOKING_STATUS
+  applications: [ID]
+  members: [ID]
+  invites: [ID]
+  max_age: Int
+  min_age: Int
+  bookdate: DateTime
+  name: String
+  leader: ID
+  preferred_rooms: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+input InputID {
+  id: ID!
+}
+
+type Invite {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  invitee: UsersPermissionsUser
+  message: String
+  group: Group
+  status: ENUM_INVITE_STATUS
+  created_by: AdminUser
+  updated_by: AdminUser
+}
+
+type InviteAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type InviteConnection {
+  values: [Invite]
+  groupBy: InviteGroupBy
+  aggregate: InviteAggregator
+}
+
+type InviteConnectionCreated_at {
+  key: DateTime
+  connection: InviteConnection
+}
+
+type InviteConnectionCreated_by {
+  key: ID
+  connection: InviteConnection
+}
+
+type InviteConnectionGroup {
+  key: ID
+  connection: InviteConnection
+}
+
+type InviteConnectionId {
+  key: ID
+  connection: InviteConnection
+}
+
+type InviteConnectionInvitee {
+  key: ID
+  connection: InviteConnection
+}
+
+type InviteConnectionMessage {
+  key: String
+  connection: InviteConnection
+}
+
+type InviteConnectionStatus {
+  key: String
+  connection: InviteConnection
+}
+
+type InviteConnectionUpdated_at {
+  key: DateTime
+  connection: InviteConnection
+}
+
+type InviteConnectionUpdated_by {
+  key: ID
+  connection: InviteConnection
+}
+
+type InviteGroupBy {
+  id: [InviteConnectionId]
+  created_at: [InviteConnectionCreated_at]
+  updated_at: [InviteConnectionUpdated_at]
+  invitee: [InviteConnectionInvitee]
+  message: [InviteConnectionMessage]
+  group: [InviteConnectionGroup]
+  status: [InviteConnectionStatus]
+  created_by: [InviteConnectionCreated_by]
+  updated_by: [InviteConnectionUpdated_by]
+}
+
+input InviteInput {
+  invitee: ID
+  message: String
+  group: ID
+  status: ENUM_INVITE_STATUS
+  created_by: ID
+  updated_by: ID
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+"""The `Long` scalar type represents 52-bit integers"""
+scalar Long
+
+union Morph = acceptApplicationPayload | rejectApplicationPayload | acceptInvitePayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | UsersPermissionsMeExtra | Achievement | AchievementConnection | AchievementAggregator | AchievementGroupBy | AchievementConnectionId | AchievementConnectionCreated_at | AchievementConnectionUpdated_at | AchievementConnectionDescription | AchievementConnectionImage | AchievementConnectionName | AchievementConnectionCreated_by | AchievementConnectionUpdated_by | createAchievementPayload | updateAchievementPayload | deleteAchievementPayload | Application | ApplicationConnection | ApplicationAggregator | ApplicationGroupBy | ApplicationConnectionId | ApplicationConnectionCreated_at | ApplicationConnectionUpdated_at | ApplicationConnectionApplicant | ApplicationConnectionMessage | ApplicationConnectionGroup | ApplicationConnectionStatus | ApplicationConnectionCreated_by | ApplicationConnectionUpdated_by | createApplicationPayload | updateApplicationPayload | deleteApplicationPayload | Business | BusinessConnection | BusinessAggregator | BusinessGroupBy | BusinessConnectionId | BusinessConnectionCreated_at | BusinessConnectionUpdated_at | BusinessConnectionName | BusinessConnectionAddress | BusinessConnectionWebsite_url | BusinessConnectionDescription | BusinessConnectionImage | BusinessConnectionCreated_by | BusinessConnectionUpdated_by | createBusinessPayload | updateBusinessPayload | deleteBusinessPayload | Group | GroupConnection | GroupAggregator | GroupAggregatorSum | GroupAggregatorAvg | GroupAggregatorMin | GroupAggregatorMax | GroupGroupBy | GroupConnectionId | GroupConnectionCreated_at | GroupConnectionUpdated_at | GroupConnectionDescription | GroupConnectionOpen_slots | GroupConnectionBooking_status | GroupConnectionMax_age | GroupConnectionMin_age | GroupConnectionBookdate | GroupConnectionName | GroupConnectionLeader | GroupConnectionCreated_by | GroupConnectionUpdated_by | createGroupPayload | updateGroupPayload | deleteGroupPayload | Invite | InviteConnection | InviteAggregator | InviteGroupBy | InviteConnectionId | InviteConnectionCreated_at | InviteConnectionUpdated_at | InviteConnectionInvitee | InviteConnectionMessage | InviteConnectionGroup | InviteConnectionStatus | InviteConnectionCreated_by | InviteConnectionUpdated_by | createInvitePayload | updateInvitePayload | deleteInvitePayload | Room | RoomConnection | RoomAggregator | RoomGroupBy | RoomConnectionId | RoomConnectionCreated_at | RoomConnectionUpdated_at | RoomConnectionName | RoomConnectionDescription | RoomConnectionImage | RoomConnectionBusiness | RoomConnectionCreated_by | RoomConnectionUpdated_by | createRoomPayload | updateRoomPayload | deleteRoomPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_at | UploadFileConnectionUpdated_at | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_metadata | UploadFileConnectionCreated_by | UploadFileConnectionUpdated_by | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | UsersPermissionsRoleConnectionCreated_by | UsersPermissionsRoleConnectionUpdated_by | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserAggregatorSum | UsersPermissionsUserAggregatorAvg | UsersPermissionsUserAggregatorMin | UsersPermissionsUserAggregatorMax | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_at | UsersPermissionsUserConnectionUpdated_at | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionAge | UsersPermissionsUserConnectionImage | UsersPermissionsUserConnectionAbout | UsersPermissionsUserConnectionOpen_to_invite | UsersPermissionsUserConnectionHide_age | UsersPermissionsUserConnectionApproved | UsersPermissionsUserConnectionCreated_by | UsersPermissionsUserConnectionUpdated_by | createUserPayload | updateUserPayload | deleteUserPayload
+
+type Mutation {
+  createAchievement(input: createAchievementInput): createAchievementPayload
+  updateAchievement(input: updateAchievementInput): updateAchievementPayload
+  deleteAchievement(input: deleteAchievementInput): deleteAchievementPayload
+  createApplication(input: createApplicationInput): createApplicationPayload
+  updateApplication(input: updateApplicationInput): updateApplicationPayload
+  deleteApplication(input: deleteApplicationInput): deleteApplicationPayload
+  createBusiness(input: createBusinessInput): createBusinessPayload
+  updateBusiness(input: updateBusinessInput): updateBusinessPayload
+  deleteBusiness(input: deleteBusinessInput): deleteBusinessPayload
+  createGroup(input: createGroupInput): createGroupPayload
+  updateGroup(input: updateGroupInput): updateGroupPayload
+  deleteGroup(input: deleteGroupInput): deleteGroupPayload
+  createInvite(input: createInviteInput): createInvitePayload
+  updateInvite(input: updateInviteInput): updateInvitePayload
+  deleteInvite(input: deleteInviteInput): deleteInvitePayload
+  createRoom(input: createRoomInput): createRoomPayload
+  updateRoom(input: updateRoomInput): updateRoomPayload
+  deleteRoom(input: deleteRoomInput): deleteRoomPayload
+
+  """Create a new role"""
+  createRole(input: createRoleInput): createRolePayload
+
+  """Update an existing role"""
+  updateRole(input: updateRoleInput): updateRolePayload
+
+  """Delete an existing role"""
+  deleteRole(input: deleteRoleInput): deleteRolePayload
+
+  """Create a new user"""
+  createUser(input: createUserInput): createUserPayload
+
+  """Update an existing user"""
+  updateUser(input: updateUserInput): updateUserPayload
+
+  """Delete an existing user"""
+  deleteUser(input: deleteUserInput): deleteUserPayload
+  acceptApplication(id: ID): acceptApplicationPayload
+  rejectApplication(id: ID): rejectApplicationPayload
+  acceptInvite(id: ID): acceptInvitePayload
+  upload(refId: ID, ref: String, field: String, source: String, file: Upload!): UploadFile!
+  multipleUpload(refId: ID, ref: String, field: String, source: String, files: [Upload]!): [UploadFile]!
+  updateFileInfo(id: ID!, info: FileInfoInput!): UploadFile!
+  login(input: UsersPermissionsLoginInput!): UsersPermissionsLoginPayload!
+  register(input: UsersPermissionsRegisterInput!): UsersPermissionsLoginPayload!
+  forgotPassword(email: String!): UserPermissionsPasswordPayload
+  resetPassword(password: String!, passwordConfirmation: String!, code: String!): UsersPermissionsLoginPayload
+  emailConfirmation(confirmation: String!): UsersPermissionsLoginPayload
+}
+
+type Query {
+  achievement(id: ID!): Achievement
+  achievements(sort: String, limit: Int, start: Int, where: JSON): [Achievement]
+  achievementsConnection(sort: String, limit: Int, start: Int, where: JSON): AchievementConnection
+  application(id: ID!): Application
+  applications(sort: String, limit: Int, start: Int, where: JSON): [Application]
+  applicationsConnection(sort: String, limit: Int, start: Int, where: JSON): ApplicationConnection
+  business(id: ID!): Business
+  businesses(sort: String, limit: Int, start: Int, where: JSON): [Business]
+  businessesConnection(sort: String, limit: Int, start: Int, where: JSON): BusinessConnection
+  group(id: ID!): Group
+  groups(sort: String, limit: Int, start: Int, where: JSON): [Group]
+  groupsConnection(sort: String, limit: Int, start: Int, where: JSON): GroupConnection
+  invite(id: ID!): Invite
+  invites(sort: String, limit: Int, start: Int, where: JSON): [Invite]
+  invitesConnection(sort: String, limit: Int, start: Int, where: JSON): InviteConnection
+  room(id: ID!): Room
+  rooms(sort: String, limit: Int, start: Int, where: JSON): [Room]
+  roomsConnection(sort: String, limit: Int, start: Int, where: JSON): RoomConnection
+  files(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
+  filesConnection(sort: String, limit: Int, start: Int, where: JSON): UploadFileConnection
+  role(id: ID!): UsersPermissionsRole
+
+  """
+  Retrieve all the existing roles. You can't apply filters on this query.
+  """
+  roles(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsRole]
+  rolesConnection(sort: String, limit: Int, start: Int, where: JSON): UsersPermissionsRoleConnection
+  user(id: ID!): UsersPermissionsUser
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  usersConnection(sort: String, limit: Int, start: Int, where: JSON): UsersPermissionsUserConnection
+  me: UsersPermissionsMe
+  meExtra: UsersPermissionsMeExtra
+}
+
+type rejectApplicationPayload {
+  application: Application
+}
+
+input RoleInput {
+  name: String!
+  description: String
+  type: String
+  permissions: [ID]
+  users: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+type Room {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String!
+  description: String
+  image: UploadFile
+  business: Business
+  created_by: AdminUser
+  updated_by: AdminUser
+  groups_preferred(sort: String, limit: Int, start: Int, where: JSON): [Group]
+}
+
+type RoomAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type RoomConnection {
+  values: [Room]
+  groupBy: RoomGroupBy
+  aggregate: RoomAggregator
+}
+
+type RoomConnectionBusiness {
+  key: ID
+  connection: RoomConnection
+}
+
+type RoomConnectionCreated_at {
+  key: DateTime
+  connection: RoomConnection
+}
+
+type RoomConnectionCreated_by {
+  key: ID
+  connection: RoomConnection
+}
+
+type RoomConnectionDescription {
+  key: String
+  connection: RoomConnection
+}
+
+type RoomConnectionId {
+  key: ID
+  connection: RoomConnection
+}
+
+type RoomConnectionImage {
+  key: ID
+  connection: RoomConnection
+}
+
+type RoomConnectionName {
+  key: String
+  connection: RoomConnection
+}
+
+type RoomConnectionUpdated_at {
+  key: DateTime
+  connection: RoomConnection
+}
+
+type RoomConnectionUpdated_by {
+  key: ID
+  connection: RoomConnection
+}
+
+type RoomGroupBy {
+  id: [RoomConnectionId]
+  created_at: [RoomConnectionCreated_at]
+  updated_at: [RoomConnectionUpdated_at]
+  name: [RoomConnectionName]
+  description: [RoomConnectionDescription]
+  image: [RoomConnectionImage]
+  business: [RoomConnectionBusiness]
+  created_by: [RoomConnectionCreated_by]
+  updated_by: [RoomConnectionUpdated_by]
+}
+
+input RoomInput {
+  name: String!
+  description: String
+  image: ID
+  business: ID
+  groups_preferred: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+"""A time string with format: HH:mm:ss.SSS"""
+scalar Time
+
+input updateAchievementInput {
+  where: InputID
+  data: editAchievementInput
+}
+
+type updateAchievementPayload {
+  achievement: Achievement
+}
+
+input updateApplicationInput {
+  where: InputID
+  data: editApplicationInput
+}
+
+type updateApplicationPayload {
+  application: Application
+}
+
+input updateBusinessInput {
+  where: InputID
+  data: editBusinessInput
+}
+
+type updateBusinessPayload {
+  business: Business
+}
+
+input updateGroupInput {
+  where: InputID
+  data: editGroupInput
+}
+
+type updateGroupPayload {
+  group: Group
+}
+
+input updateInviteInput {
+  where: InputID
+  data: editInviteInput
+}
+
+type updateInvitePayload {
+  invite: Invite
+}
+
+input updateRoleInput {
+  where: InputID
+  data: editRoleInput
+}
+
+type updateRolePayload {
+  role: UsersPermissionsRole
+}
+
+input updateRoomInput {
+  where: InputID
+  data: editRoomInput
+}
+
+type updateRoomPayload {
+  room: Room
+}
+
+input updateUserInput {
+  where: InputID
+  data: editUserInput
+}
+
+type updateUserPayload {
+  user: UsersPermissionsUser
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type UploadFile {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String!
+  alternativeText: String
+  caption: String
+  width: Int
+  height: Int
+  formats: JSON
+  hash: String!
+  ext: String
+  mime: String!
+  size: Float!
+  url: String!
+  previewUrl: String
+  provider: String!
+  provider_metadata: JSON
+  created_by: AdminUser
+  updated_by: AdminUser
+  related(sort: String, limit: Int, start: Int, where: JSON): [Morph]
+}
+
+type UploadFileAggregator {
+  count: Int
+  totalCount: Int
+  sum: UploadFileAggregatorSum
+  avg: UploadFileAggregatorAvg
+  min: UploadFileAggregatorMin
+  max: UploadFileAggregatorMax
+}
+
+type UploadFileAggregatorAvg {
+  width: Float
+  height: Float
+  size: Float
+}
+
+type UploadFileAggregatorMax {
+  width: Float
+  height: Float
+  size: Float
+}
+
+type UploadFileAggregatorMin {
+  width: Float
+  height: Float
+  size: Float
+}
+
+type UploadFileAggregatorSum {
+  width: Float
+  height: Float
+  size: Float
+}
+
+type UploadFileConnection {
+  values: [UploadFile]
+  groupBy: UploadFileGroupBy
+  aggregate: UploadFileAggregator
+}
+
+type UploadFileConnectionAlternativeText {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionCaption {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionCreated_at {
+  key: DateTime
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionCreated_by {
+  key: ID
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionExt {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionFormats {
+  key: JSON
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionHash {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionHeight {
+  key: Int
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionId {
+  key: ID
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionMime {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionName {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionPreviewUrl {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionProvider {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionProvider_metadata {
+  key: JSON
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionSize {
+  key: Float
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionUpdated_at {
+  key: DateTime
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionUpdated_by {
+  key: ID
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionUrl {
+  key: String
+  connection: UploadFileConnection
+}
+
+type UploadFileConnectionWidth {
+  key: Int
+  connection: UploadFileConnection
+}
+
+type UploadFileGroupBy {
+  id: [UploadFileConnectionId]
+  created_at: [UploadFileConnectionCreated_at]
+  updated_at: [UploadFileConnectionUpdated_at]
+  name: [UploadFileConnectionName]
+  alternativeText: [UploadFileConnectionAlternativeText]
+  caption: [UploadFileConnectionCaption]
+  width: [UploadFileConnectionWidth]
+  height: [UploadFileConnectionHeight]
+  formats: [UploadFileConnectionFormats]
+  hash: [UploadFileConnectionHash]
+  ext: [UploadFileConnectionExt]
+  mime: [UploadFileConnectionMime]
+  size: [UploadFileConnectionSize]
+  url: [UploadFileConnectionUrl]
+  previewUrl: [UploadFileConnectionPreviewUrl]
+  provider: [UploadFileConnectionProvider]
+  provider_metadata: [UploadFileConnectionProvider_metadata]
+  created_by: [UploadFileConnectionCreated_by]
+  updated_by: [UploadFileConnectionUpdated_by]
+}
+
+input UserInput {
+  username: String!
+  email: String!
+  provider: String
+  password: String
+  resetPasswordToken: String
+  confirmed: Boolean
+  blocked: Boolean
+  role: ID
+  groups: [ID]
+  age: Int
+  image: ID
+  about: String
+  open_to_invite: Boolean
+  hide_age: Boolean
+  approved: Boolean
+  leading_groups: [ID]
+  achievements: [ID]
+  created_by: ID
+  updated_by: ID
+}
+
+type UserPermissionsPasswordPayload {
+  ok: Boolean!
+}
+
+input UsersPermissionsLoginInput {
+  identifier: String!
+  password: String!
+  provider: String = "local"
+}
+
+type UsersPermissionsLoginPayload {
+  jwt: String
+  user: UsersPermissionsMe!
+}
+
+type UsersPermissionsMe {
+  id: ID!
+  username: String!
+  email: String!
+  confirmed: Boolean
+  blocked: Boolean
+  role: UsersPermissionsMeRole
+}
+
+type UsersPermissionsMeExtra {
+  id: ID!
+  username: String!
+  about: String
+  age: Int
+  hide_age: Boolean
+  email: String!
+  open_to_invite: Boolean!
+  image: UploadFile
+  achievements: [Achievement]
+}
+
+type UsersPermissionsMeRole {
+  id: ID!
+  name: String!
+  description: String
+  type: String
+}
+
+type UsersPermissionsPermission {
+  id: ID!
+  type: String!
+  controller: String!
+  action: String!
+  enabled: Boolean!
+  policy: String
+  role: UsersPermissionsRole
+  created_by: AdminUser
+  updated_by: AdminUser
+}
+
+input UsersPermissionsRegisterInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+type UsersPermissionsRole {
+  id: ID!
+  name: String!
+  description: String
+  type: String
+  created_by: AdminUser
+  updated_by: AdminUser
+  permissions(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsPermission]
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+}
+
+type UsersPermissionsRoleAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type UsersPermissionsRoleConnection {
+  values: [UsersPermissionsRole]
+  groupBy: UsersPermissionsRoleGroupBy
+  aggregate: UsersPermissionsRoleAggregator
+}
+
+type UsersPermissionsRoleConnectionCreated_by {
+  key: ID
+  connection: UsersPermissionsRoleConnection
+}
+
+type UsersPermissionsRoleConnectionDescription {
+  key: String
+  connection: UsersPermissionsRoleConnection
+}
+
+type UsersPermissionsRoleConnectionId {
+  key: ID
+  connection: UsersPermissionsRoleConnection
+}
+
+type UsersPermissionsRoleConnectionName {
+  key: String
+  connection: UsersPermissionsRoleConnection
+}
+
+type UsersPermissionsRoleConnectionType {
+  key: String
+  connection: UsersPermissionsRoleConnection
+}
+
+type UsersPermissionsRoleConnectionUpdated_by {
+  key: ID
+  connection: UsersPermissionsRoleConnection
+}
+
+type UsersPermissionsRoleGroupBy {
+  id: [UsersPermissionsRoleConnectionId]
+  name: [UsersPermissionsRoleConnectionName]
+  description: [UsersPermissionsRoleConnectionDescription]
+  type: [UsersPermissionsRoleConnectionType]
+  created_by: [UsersPermissionsRoleConnectionCreated_by]
+  updated_by: [UsersPermissionsRoleConnectionUpdated_by]
+}
+
+type UsersPermissionsUser {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  username: String!
+  email: String!
+  provider: String
+  confirmed: Boolean
+  blocked: Boolean
+  role: UsersPermissionsRole
+  age: Int
+  image: UploadFile
+  about: String
+  open_to_invite: Boolean!
+  hide_age: Boolean!
+  approved: Boolean!
+  created_by: AdminUser
+  updated_by: AdminUser
+  groups(sort: String, limit: Int, start: Int, where: JSON): [Group]
+  leading_groups(sort: String, limit: Int, start: Int, where: JSON): [Group]
+  achievements(sort: String, limit: Int, start: Int, where: JSON): [Achievement]
+}
+
+type UsersPermissionsUserAggregator {
+  count: Int
+  totalCount: Int
+  sum: UsersPermissionsUserAggregatorSum
+  avg: UsersPermissionsUserAggregatorAvg
+  min: UsersPermissionsUserAggregatorMin
+  max: UsersPermissionsUserAggregatorMax
+}
+
+type UsersPermissionsUserAggregatorAvg {
+  age: Float
+}
+
+type UsersPermissionsUserAggregatorMax {
+  age: Float
+}
+
+type UsersPermissionsUserAggregatorMin {
+  age: Float
+}
+
+type UsersPermissionsUserAggregatorSum {
+  age: Float
+}
+
+type UsersPermissionsUserConnection {
+  values: [UsersPermissionsUser]
+  groupBy: UsersPermissionsUserGroupBy
+  aggregate: UsersPermissionsUserAggregator
+}
+
+type UsersPermissionsUserConnectionAbout {
+  key: String
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionAge {
+  key: Int
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionApproved {
+  key: Boolean
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionBlocked {
+  key: Boolean
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionConfirmed {
+  key: Boolean
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionCreated_at {
+  key: DateTime
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionCreated_by {
+  key: ID
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionEmail {
+  key: String
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionHide_age {
+  key: Boolean
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionId {
+  key: ID
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionImage {
+  key: ID
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionOpen_to_invite {
+  key: Boolean
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionProvider {
+  key: String
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionRole {
+  key: ID
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionUpdated_at {
+  key: DateTime
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionUpdated_by {
+  key: ID
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserConnectionUsername {
+  key: String
+  connection: UsersPermissionsUserConnection
+}
+
+type UsersPermissionsUserGroupBy {
+  id: [UsersPermissionsUserConnectionId]
+  created_at: [UsersPermissionsUserConnectionCreated_at]
+  updated_at: [UsersPermissionsUserConnectionUpdated_at]
+  username: [UsersPermissionsUserConnectionUsername]
+  email: [UsersPermissionsUserConnectionEmail]
+  provider: [UsersPermissionsUserConnectionProvider]
+  confirmed: [UsersPermissionsUserConnectionConfirmed]
+  blocked: [UsersPermissionsUserConnectionBlocked]
+  role: [UsersPermissionsUserConnectionRole]
+  age: [UsersPermissionsUserConnectionAge]
+  image: [UsersPermissionsUserConnectionImage]
+  about: [UsersPermissionsUserConnectionAbout]
+  open_to_invite: [UsersPermissionsUserConnectionOpen_to_invite]
+  hide_age: [UsersPermissionsUserConnectionHide_age]
+  approved: [UsersPermissionsUserConnectionApproved]
+  created_by: [UsersPermissionsUserConnectionCreated_by]
+  updated_by: [UsersPermissionsUserConnectionUpdated_by]
+}

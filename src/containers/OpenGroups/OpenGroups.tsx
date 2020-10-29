@@ -1,14 +1,17 @@
 import React from "react"
 import Groups from "../../components/Groups/Groups"
 import { RouteComponentProps } from "react-router"
-import { GetOpenGroupsDocument } from "../../generated/graphql"
+import {
+    GetOpenGroupsDocument,
+    useGetOpenGroupsQuery,
+} from "../../generated/graphql"
 import { useQuery } from "@apollo/client"
-// import ReduxExample from "../../components/ReduxExample/ReduxExample"
 
 interface OpenGroupsProps extends RouteComponentProps {}
 
 const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
-    const { loading, error, data } = useQuery(GetOpenGroupsDocument)
+    // const { loading, error, data } = useQuery(GetOpenGroupsDocument)
+    const { loading, error, data } = useGetOpenGroupsQuery()
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error :(</p>
@@ -22,7 +25,6 @@ const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
             <div>
                 <h1>Open Groups</h1>
                 <Groups groups={data.groups} clickedGroup={onGroupClick} />
-                {/* <ReduxExample /> */}
             </div>
         )
     }
