@@ -1,0 +1,12 @@
+query getMyApplications($applicant: ID!) {
+    applications(where: { applicant: $applicant }) {
+        id
+        message
+        applicant {
+            username
+        }
+        group {
+            name
+        }
+    }
+}

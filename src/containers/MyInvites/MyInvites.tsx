@@ -2,25 +2,11 @@ import { gql, useMutation, useQuery } from "@apollo/client"
 import React, { useState } from "react"
 import Invites from "../../components/Invites/Invites"
 import * as Types from "../../types-and-hooks"
-import { GET_MY_INVITES } from "../../graphql/queries"
 import { useSelector } from "react-redux"
 import { RootType } from "../../store/rootReducer"
 import { AuthState } from "../../store/slices/auth"
-
-const ACCEPT_INVITE = gql`
-    mutation($id: ID!) {
-        acceptInvite(id: $id) {
-            invite {
-                id
-                status
-            }
-            group {
-                id
-                name
-            }
-        }
-    }
-`
+import { ACCEPT_INVITE } from "../../graphql/queries"
+import { GetMyInvitesDocument } from "../../generated/graphql"
 
 interface MyInvitesProps {}
 
@@ -32,7 +18,7 @@ const MyInvites: React.FC<MyInvitesProps> = () => {
     }
 
     const [invites, setInvites] = useState<Types.Invite[]>()
-    const { loading, error, data } = useQuery(GET_MY_INVITES, {
+    const { loading, error, data } = useQuery(GetMyInvitesDocument, {
         variables: {
             invitee: myId,
         },
@@ -45,15 +31,7 @@ const MyInvites: React.FC<MyInvitesProps> = () => {
     const [acceptInvite, { data: accpetData }] = useMutation(ACCEPT_INVITE)
 
     if (loading) return <p>Loading...</p>
-    if (error)
-        return (
-            <h2>
-                Error{" "}
-                <span aria-label="sad face" role="img">
-                    ☹️
-                </span>
-            </h2>
-        )
+    if (error) return <h2>Error :(</h2>
 
     const handleInviteAcceptClicked = (inviteId: string) => {
         console.log("Clicked inviteId: ", inviteId)

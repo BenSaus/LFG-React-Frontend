@@ -1,0 +1,32 @@
+mutation createGroup(
+    $name: String!
+    $open_slots: Int!
+    $max_age: Int!
+    $min_age: Int!
+    $description: String!
+    $leader: ID!
+    $booking_status: ENUM_GROUP_BOOKING_STATUS!
+) {
+    createGroup(
+        input: {
+            data: {
+                name: $name
+                open_slots: $open_slots
+                booking_status: $booking_status
+                max_age: $max_age
+                min_age: $min_age
+                leader: $leader
+                description: $description
+            }
+        }
+    ) {
+        group {
+            id
+            name
+            open_slots
+            booking_status
+            min_age
+            max_age
+        }
+    }
+}

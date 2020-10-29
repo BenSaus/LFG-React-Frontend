@@ -4,7 +4,10 @@ import { useMutation, useQuery } from "@apollo/client"
 import { RootType } from "../../store/rootReducer"
 import { useSelector } from "react-redux"
 import { UserState } from "../../store/slices/user"
-import { MY_APPLICATIONS, APPLY_TO_GROUP } from "../../graphql/queries"
+import {
+    ApplyToGroupDocument,
+    GetMyApplicationsDocument,
+} from "../../generated/graphql"
 
 interface ApplyParams {
     id: string | undefined
@@ -23,7 +26,7 @@ const Apply: React.FC<ApplyProps> = (props) => {
     let [appSent, setAppSent] = useState(false)
     let [message, setMessage] = useState("")
 
-    const [createApplication, { data }] = useMutation(APPLY_TO_GROUP, {
+    const [createApplication, { data }] = useMutation(ApplyToGroupDocument, {
         variables: {
             applicant: myId,
             group: props.match.params.id,
@@ -34,11 +37,14 @@ const Apply: React.FC<ApplyProps> = (props) => {
     // TODO: Check through these. If we have already applied to this group
     //      Disable the apply button
     //          Add a tooltip that says, "You've already applied to this group"
-    const { loading, error, data: myAppsData } = useQuery(MY_APPLICATIONS, {
-        variables: {
-            applicant: myId,
-        },
-    })
+    const { loading, error, data: myAppsData } = useQuery(
+        GetMyApplicationsDocument,
+        {
+            variables: {
+                applicant: myId,
+            },
+        }
+    )
 
     console.log("Appling to group: ", props.match.params.id)
 

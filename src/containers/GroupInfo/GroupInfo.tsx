@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client"
 import { RouteComponentProps } from "react-router"
 import * as Types from "../../types-and-hooks"
 import { Link } from "react-router-dom"
-import { GET_GROUP } from "../../graphql/queries"
+import { GetGroupDocument } from "../../generated/graphql"
 
 interface GroupInfoParams {
     id: string | undefined
@@ -14,7 +14,7 @@ interface GroupInfoProps extends RouteComponentProps<GroupInfoParams> {}
 const GroupInfo: React.FC<GroupInfoProps> = (props) => {
     const groupId = props.match.params.id
 
-    const { loading, error, data } = useQuery(GET_GROUP, {
+    const { loading, error, data } = useQuery(GetGroupDocument, {
         variables: { id: groupId },
     })
 

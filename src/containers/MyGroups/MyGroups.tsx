@@ -4,9 +4,9 @@ import Groups from "../../components/Groups/Groups"
 import { RouteComponentProps } from "react-router"
 import { RootType } from "../../store/rootReducer"
 import { useSelector } from "react-redux"
-import { MY_GROUPS } from "../../graphql/queries"
 import * as Types from "../../types-and-hooks"
 import { AuthState } from "../../store/slices/auth"
+import { GetMyGroupsDocument } from "../../generated/graphql"
 
 interface MyGroupsProps extends RouteComponentProps {}
 
@@ -20,7 +20,7 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
         myId = auth.user.id
     }
 
-    const { loading, error, data } = useQuery(MY_GROUPS, {
+    const { loading, error, data } = useQuery(GetMyGroupsDocument, {
         variables: {
             id: myId,
         },

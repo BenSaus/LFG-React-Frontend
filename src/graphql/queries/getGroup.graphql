@@ -1,0 +1,15 @@
+query getGroup($id: ID!) {
+    group(id: $id) {
+        id
+        name
+        booking_status
+        min_age
+        max_age
+        leader {
+            id
+            username
+        }
+        description
+        open_slots
+    }
+}

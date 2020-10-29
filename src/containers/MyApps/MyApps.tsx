@@ -1,10 +1,10 @@
 import React from "react"
 import { useQuery } from "@apollo/client"
 import Applications from "../../components/Applications/Applications"
-import { MY_APPLICATIONS } from "../../graphql/queries"
 import { useSelector } from "react-redux"
 import { RootType } from "../../store/rootReducer"
 import { AuthState } from "../../store/slices/auth"
+import { GetMyApplicationsDocument } from "../../generated/graphql"
 
 interface MyAppsProps {}
 
@@ -15,7 +15,7 @@ export const MyApps: React.FC<MyAppsProps> = () => {
         myId = auth.user.id
     }
 
-    const { loading, error, data } = useQuery(MY_APPLICATIONS, {
+    const { loading, error, data } = useQuery(GetMyApplicationsDocument, {
         variables: {
             applicant: myId,
         },

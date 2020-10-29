@@ -1,0 +1,37 @@
+query manageGetGroup($id: ID!) {
+    group(id: $id) {
+        id
+        name
+        open_slots
+        booking_status
+        description
+        min_age
+        max_age
+        applications(where: { status: "undecided" }) {
+            id
+            message
+            status
+            applicant {
+                id
+                username
+                age
+                about
+            }
+        }
+        members {
+            id
+            username
+            age
+            about
+        }
+        invites {
+            id
+            message
+            status
+        }
+        preferred_rooms {
+            id
+            name
+        }
+    }
+}

@@ -5,8 +5,8 @@ import * as Types from "../../types-and-hooks"
 import User from "../../components/User/User"
 import { useSelector } from "react-redux"
 import { RootType } from "../../store/rootReducer"
-import { GET_USER } from "../../graphql/queries"
 import { AuthState } from "../../store/slices/auth"
+import { GetUserDocument } from "../../generated/graphql"
 
 interface UserInfoParams {
     id: string | undefined
@@ -20,7 +20,7 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
     const myUser = auth.user
     console.log("myUser", myUser)
 
-    const { loading, error, data } = useQuery(GET_USER, {
+    const { loading, error, data } = useQuery(GetUserDocument, {
         variables: { id: userId },
     })
 

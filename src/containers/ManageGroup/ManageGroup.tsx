@@ -8,10 +8,10 @@ import { RootType } from "../../store/rootReducer"
 import { AuthState } from "../../store/slices/auth"
 import { useSelector } from "react-redux"
 import {
-    ACCEPT_APPLICATION,
-    REJECT_APPLICATION,
-    MANAGE_GET_GROUP,
-} from "../../graphql/queries"
+    AcceptApplicationDocument,
+    ManageGetGroupDocument,
+    RejectApplicationDocument,
+} from "../../generated/graphql"
 
 interface ManageGroupParams {
     id: string
@@ -24,19 +24,22 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
 
     const [applications, setApplications] = useState<Types.Application[]>([])
     const [members, setMembers] = useState<Types.UsersPermissionsUser[]>([])
-    const { loading, error, data: groupRespData } = useQuery(MANAGE_GET_GROUP, {
-        variables: { id: props.match.params.id },
-        onCompleted: () => {
-            setApplications(groupRespData.group.applications)
-            setMembers(groupRespData.group.members)
-        },
-    })
+    const { loading, error, data: groupRespData } = useQuery(
+        ManageGetGroupDocument,
+        {
+            variables: { id: props.match.params.id },
+            onCompleted: () => {
+                setApplications(groupRespData.group.applications)
+                setMembers(groupRespData.group.members)
+            },
+        }
+    )
 
     const [acceptApplication, { data: acceptData }] = useMutation(
-        ACCEPT_APPLICATION
+        AcceptApplicationDocument
     )
     const [rejectApplication, { data: rejectData }] = useMutation(
-        REJECT_APPLICATION
+        RejectApplicationDocument
     )
 
     if (loading) return <p>Loading...</p>

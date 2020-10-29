@@ -103,6 +103,46 @@ export const GET_MY_INVITES = gql`
     }
 `
 
+export const MANAGE_GET_GROUP = gql`
+    query($id: ID!) {
+        group(id: $id) {
+            id
+            name
+            open_slots
+            booking_status
+            description
+            min_age
+            max_age
+            applications(where: { status: "undecided" }) {
+                id
+                message
+                status
+                applicant {
+                    id
+                    username
+                    age
+                    about
+                }
+            }
+            members {
+                id
+                username
+                age
+                about
+            }
+            invites {
+                id
+                message
+                status
+            }
+            preferred_rooms {
+                id
+                name
+            }
+        }
+    }
+`
+
 export const APPLY_TO_GROUP = gql`
     mutation($group: ID!, $applicant: ID!, $message: String!) {
         createApplication(
@@ -164,39 +204,14 @@ export const REJECT_APPLICATION = gql`
     }
 `
 
-export const MANAGE_GET_GROUP = gql`
-    query($id: ID!) {
-        group(id: $id) {
-            id
-            name
-            open_slots
-            booking_status
-            description
-            min_age
-            max_age
-            applications(where: { status: "undecided" }) {
+export const ACCEPT_INVITE = gql`
+    mutation($id: ID!) {
+        acceptInvite(id: $id) {
+            invite {
                 id
-                message
-                status
-                applicant {
-                    id
-                    username
-                    age
-                    about
-                }
-            }
-            members {
-                id
-                username
-                age
-                about
-            }
-            invites {
-                id
-                message
                 status
             }
-            preferred_rooms {
+            group {
                 id
                 name
             }

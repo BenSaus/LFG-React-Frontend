@@ -1,61 +1,15 @@
-import { gql, useQuery, useMutation } from "@apollo/client"
+import { useQuery, useMutation } from "@apollo/client"
 import React from "react"
 import RoomSelect from "../../components/RoomSelect/RoomSelect"
 import { useFormik } from "formik"
 import { RouteComponentProps } from "react-router"
-
-const GET_ROOMS = gql`
-    query {
-        rooms {
-            id
-            name
-            business {
-                name
-            }
-        }
-    }
-`
-
-const CREATE_GROUP = gql`
-    mutation(
-        $name: String!
-        $open_slots: Int!
-        $max_age: Int!
-        $min_age: Int!
-        $description: String!
-        $leader: ID!
-        $booking_status: ENUM_GROUP_BOOKING_STATUS!
-    ) {
-        createGroup(
-            input: {
-                data: {
-                    name: $name
-                    open_slots: $open_slots
-                    booking_status: $booking_status
-                    max_age: $max_age
-                    min_age: $min_age
-                    leader: $leader
-                    description: $description
-                }
-            }
-        ) {
-            group {
-                id
-                name
-                open_slots
-                booking_status
-                min_age
-                max_age
-            }
-        }
-    }
-`
+import { CreateGroupDocument, GetRoomsDocument } from "../../generated/graphql"
 
 interface CreateGroupProps extends RouteComponentProps {}
 
 const CreateGroup: React.FC<CreateGroupProps> = (props) => {
-    const { loading, error, data } = useQuery(GET_ROOMS)
-    const [createGroup] = useMutation(CREATE_GROUP)
+    const { loading, error, data } = useQuery(GetRoomsDocument)
+    const [createGroup] = useMutation(CreateGroupDocument)
 
     const formik = useFormik({
         initialValues: {

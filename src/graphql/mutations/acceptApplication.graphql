@@ -1,0 +1,13 @@
+mutation acceptApplication($id: ID!) {
+    acceptApplication(id: $id) {
+        application {
+            id
+            status
+            message
+        }
+        group {
+            id
+            name
+        }
+    }
+}
