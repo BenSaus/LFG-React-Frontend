@@ -1,18 +1,20 @@
 import { useFormik } from "formik"
-import React, { useEffect } from "react"
+import React from "react"
+import * as Types from "../../generated/graphql"
 
 interface GroupFormProps {
     leader: string
     onSubmit: (values: any) => void
     onCancel: () => void
-    data: {
+    formData: {
         name: string
         open_slots: number
         min_age: number
         max_age: number
         description: string
-        rooms: null
+        preferred_rooms: string[]
     }
+    roomData: Types.Room[]
     submitButtonText: string
 }
 
@@ -20,32 +22,23 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
     // State
     const formik = useFormik({
         initialValues: {
-            name: props.data.name,
-            open_slots: props.data.open_slots,
-            min_age: props.data.min_age,
-            max_age: props.data.max_age,
-            description: props.data.description,
-            rooms: null,
-            // name: "",
-            // open_slots: 0,
-            // min_age: 0,
-            // max_age: 0,
-            // description: "",
-            // rooms: null,
+            name: props.formData.name,
+            open_slots: props.formData.open_slots,
+            min_age: props.formData.min_age,
+            max_age: props.formData.max_age,
+            description: props.formData.description,
+            preferred_rooms: props.formData.preferred_rooms,
         },
         onSubmit: props.onSubmit,
     })
 
-    // useEffect(() => {
-    //     formik.setValues({
-    //         name: props.data.name,
-    //         open_slots: props.data.open_slots,
-    //         min_age: props.data.min_age,
-    //         max_age: props.data.max_age,
-    //         description: props.data.description,
-    //         rooms: null,
-    //     })
-    // }, [props.data])
+    const options = props.roomData.map((room) => {
+        return (
+            <option value={room.id} key={room.id}>
+                {room.name} room at {room.business?.name}
+            </option>
+        )
+    })
 
     // Render
     return (
@@ -63,6 +56,7 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                 <br />
                 <label>Description: </label>
                 <textarea
+                    placeholder="Describe your group here..."
                     id="description"
                     name="description"
                     onChange={formik.handleChange}
@@ -79,7 +73,15 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                 />
                 <br />
                 <label htmlFor="">Room Preference: </label>
-                {/* <RoomSelect rooms={data.rooms} /> */}
+                <select
+                    name="preferred_rooms"
+                    id="preferred_rooms"
+                    value={formik.values.preferred_rooms}
+                    onChange={formik.handleChange}
+                    multiple
+                >
+                    {options}
+                </select>
                 <br />
                 <label htmlFor="">Age Range: </label>
                 <br />
@@ -102,11 +104,11 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                 />
                 <br />
                 <br />
-                <label htmlFor="">Available Days: </label>
+                {/* <label htmlFor="">Available Days: </label>
                 <input type="text" />
                 <br />
                 <label htmlFor="">Available Times: </label>
-                <input type="text" />
+                <input type="text" /> */}
                 <br />
 
                 <button style={{ margin: "1rem 0" }} type="submit">

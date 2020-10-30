@@ -5,6 +5,7 @@ mutation updateGroup(
     $open_slots: Int
     $min_age: Int
     $max_age: Int
+    $preferred_rooms: [ID!]
 ) {
     updateGroup(
         input: {
@@ -15,6 +16,7 @@ mutation updateGroup(
                 open_slots: $open_slots
                 min_age: $min_age
                 max_age: $max_age
+                preferred_rooms: $preferred_rooms
             }
         }
     ) {
@@ -25,6 +27,10 @@ mutation updateGroup(
             open_slots
             min_age
             max_age
+            preferred_rooms {
+                id
+                name
+            }
         }
     }
 }

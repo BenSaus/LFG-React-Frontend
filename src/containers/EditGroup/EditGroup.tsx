@@ -1,8 +1,13 @@
 import React, { useState } from "react"
 import { useMutation, useQuery } from "@apollo/client"
 import { RouteComponentProps } from "react-router"
-import { GetGroupDocument, UpdateGroupDocument } from "../../generated/graphql"
+import {
+    GetGroupDocument,
+    GetRoomsDocument,
+    UpdateGroupDocument,
+} from "../../generated/graphql"
 import GroupForm from "../../components/GroupForm/GroupForm"
+import * as Types from "../../generated/graphql"
 
 interface EditGroupParams {
     id: string
@@ -19,16 +24,23 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
         min_age: 0,
         max_age: 0,
         description: "",
-        rooms: null,
+        preferred_rooms: [],
     })
 
     // GraphQL
+    const { loading: roomLoading, error: roomError, data: roomData } = useQuery(
+        GetRoomsDocument
+    )
     const { loading, error, data } = useQuery(GetGroupDocument, {
         variables: {
             id: props.match.params.id,
         },
         onCompleted: (data) => {
-            console.log("GetGroup Query Complete...")
+            console.log("GetGroup Query Complete...", data.group)
+
+            const roomIds = data.group.preferred_rooms.map(
+                (room: Types.Room) => room.id
+            )
 
             setFormData({
                 name: data.group.name,
@@ -36,7 +48,7 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
                 min_age: data.group.min_age,
                 max_age: data.group.max_age,
                 description: data.group.description,
-                rooms: data.group.rooms,
+                preferred_rooms: roomIds,
             })
             setFormDataReady(true)
         },
@@ -62,6 +74,7 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
                 max_age: values.max_age,
                 min_age: values.min_age,
                 description: values.description,
+                preferred_rooms: values.preferred_rooms,
             },
         })
 
@@ -82,11 +95,14 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
                 leader={"Ben"}
                 onSubmit={onSubmit}
                 onCancel={onCancel}
-                data={formData}
+                formData={formData}
+                roomData={roomData.rooms}
                 submitButtonText="Save Changes"
             />
         </React.Fragment>
     )
+
+    return <h1>Working on it</h1>
 }
 
 export default EditGroup

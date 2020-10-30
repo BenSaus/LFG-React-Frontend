@@ -1,22 +1,23 @@
 mutation createGroup(
     $name: String!
+    $description: String!
     $open_slots: Int!
     $max_age: Int!
     $min_age: Int!
-    $description: String!
     $leader: ID!
-    $booking_status: ENUM_GROUP_BOOKING_STATUS!
+    $preferred_rooms: [ID!]
 ) {
     createGroup(
         input: {
             data: {
                 name: $name
+                description: $description
                 open_slots: $open_slots
-                booking_status: $booking_status
                 max_age: $max_age
                 min_age: $min_age
                 leader: $leader
-                description: $description
+                preferred_rooms: $preferred_rooms
+                booking_status: notBooked
             }
         }
     ) {
@@ -27,6 +28,10 @@ mutation createGroup(
             booking_status
             min_age
             max_age
+            preferred_rooms {
+                id
+                name
+            }
         }
     }
 }

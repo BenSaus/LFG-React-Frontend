@@ -1,115 +1,83 @@
 import { useQuery, useMutation } from "@apollo/client"
-import React from "react"
-import RoomSelect from "../../components/RoomSelect/RoomSelect"
-import { useFormik } from "formik"
+import React, { useState } from "react"
+
 import { RouteComponentProps } from "react-router"
 import { CreateGroupDocument, GetRoomsDocument } from "../../generated/graphql"
+import GroupForm from "../../components/GroupForm/GroupForm"
+import { useSelector } from "react-redux"
+import { RootType } from "../../store/rootReducer"
+import { AuthState } from "../../store/slices/auth"
 
 interface CreateGroupProps extends RouteComponentProps {}
 
 const CreateGroup: React.FC<CreateGroupProps> = (props) => {
-    const { loading, error, data } = useQuery(GetRoomsDocument)
+    // Redux
+    const auth = useSelector<RootType, AuthState>((state) => state.auth)
+    let myId: string = ""
+    let myUsername: string = ""
+    if (auth.user !== null) {
+        myId = auth.user.id
+        myUsername = auth.user.username
+    }
+
+    // State
+    const initFormData = {
+        name: "",
+        open_slots: 2,
+        min_age: 10,
+        max_age: 90,
+        description: "",
+        preferred_rooms: [],
+    }
+
+    // GraphQL
+    const { loading, error, data: roomData } = useQuery(GetRoomsDocument)
     const [createGroup] = useMutation(CreateGroupDocument)
 
-    const formik = useFormik({
-        initialValues: {
-            name: "",
-            open_slots: 1,
-            min_age: 18,
-            max_age: 90,
-            description: "",
-        },
-        onSubmit: (values, actions) => {
-            console.log(values)
-            createGroup({
-                variables: {
-                    name: formik.values.name,
-                    open_slots: formik.values.open_slots,
-                    booking_status: "notBooked",
-                    max_age: formik.values.max_age,
-                    min_age: formik.values.min_age,
-                    leader: 34, // TODO: HARDCODED
-                    description: formik.values.description,
-                },
-            })
-
-            // TODO: Move to the group management page
-            props.history.push("/")
-        },
-    })
-
+    // Render
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error :(</p>
 
-    const leader = "Ben" // TODO:  HARDCODED... move to store
+    console.log("roomData", roomData)
+
+    const onSubmit = async (values: any) => {
+        console.log("Create Group Submit", values)
+
+        const resp = await createGroup({
+            variables: {
+                name: values.name,
+                open_slots: values.open_slots,
+                max_age: values.max_age,
+                min_age: values.min_age,
+                leader: myId, // TODO: This should be set server side!!!!!!!!!!!!!
+                description: values.description,
+                preferred_rooms: values.preferred_rooms,
+            },
+        })
+
+        console.log(resp)
+
+        const groupId = resp.data.createGroup.group.id
+
+        console.log("Moving to " + `/group/manage/${groupId}`)
+        props.history.push(`/group/manage/${groupId}`)
+    }
+
+    const onCancel = () => {
+        props.history.push("/myGroups")
+    }
 
     return (
         <React.Fragment>
             <h1>Create Group</h1>
-            <p>Leader: {leader}</p>
-
-            <form onSubmit={formik.handleSubmit}>
-                <label htmlFor="">Name: </label>
-                <input
-                    id="name"
-                    name="name"
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                    type="text"
-                />
-                <br />
-                <label>Description: </label>
-                <textarea
-                    id="description"
-                    name="description"
-                    onChange={formik.handleChange}
-                    value={formik.values.description}
-                ></textarea>
-                <br />
-                <label htmlFor="">Open Slots: </label>
-                <input
-                    id="open_slots"
-                    name="open_slots"
-                    onChange={formik.handleChange}
-                    value={formik.values.open_slots}
-                    type="number"
-                />
-                <br />
-                <label htmlFor="">Room Preference: </label>
-                <RoomSelect rooms={data.rooms} />
-                <br />
-                <label htmlFor="">Age Range: </label>
-                <br />
-                <label htmlFor="">Min: </label>
-                <input
-                    id="min_age"
-                    name="min_age"
-                    onChange={formik.handleChange}
-                    value={formik.values.min_age}
-                    type="number"
-                />
-                <br />
-                <label htmlFor="">Max: </label>
-                <input
-                    id="max_age"
-                    name="max_age"
-                    onChange={formik.handleChange}
-                    value={formik.values.max_age}
-                    type="number"
-                />
-                <br />
-                <br />
-                <label htmlFor="">Available Days: </label>
-                <input type="text" />
-                <br />
-                <label htmlFor="">Available Times: </label>
-                <input type="text" />
-                <br />
-
-                <button style={{ margin: "1rem 0" }} type="submit">
-                    Create Group
-                </button>
-            </form>
+            <GroupForm
+                leader={myUsername}
+                onSubmit={onSubmit}
+                onCancel={onCancel}
+                formData={initFormData}
+                roomData={roomData.rooms}
+                submitButtonText="Create Group"
+            />
         </React.Fragment>
     )
 }

@@ -2315,12 +2315,12 @@ export type ApplyToGroupMutation = (
 
 export type CreateGroupMutationVariables = Exact<{
   name: Scalars['String'];
+  description: Scalars['String'];
   open_slots: Scalars['Int'];
   max_age: Scalars['Int'];
   min_age: Scalars['Int'];
-  description: Scalars['String'];
   leader: Scalars['ID'];
-  booking_status: Enum_Group_Booking_Status;
+  preferred_rooms?: Maybe<Array<Scalars['ID']>>;
 }>;
 
 
@@ -2331,6 +2331,10 @@ export type CreateGroupMutation = (
     & { group?: Maybe<(
       { __typename?: 'Group' }
       & Pick<Group, 'id' | 'name' | 'open_slots' | 'booking_status' | 'min_age' | 'max_age'>
+      & { preferred_rooms?: Maybe<Array<Maybe<(
+        { __typename?: 'Room' }
+        & Pick<Room, 'id' | 'name'>
+      )>>> }
     )> }
   )> }
 );
@@ -2376,6 +2380,7 @@ export type UpdateGroupMutationVariables = Exact<{
   open_slots?: Maybe<Scalars['Int']>;
   min_age?: Maybe<Scalars['Int']>;
   max_age?: Maybe<Scalars['Int']>;
+  preferred_rooms?: Maybe<Array<Scalars['ID']>>;
 }>;
 
 
@@ -2386,6 +2391,10 @@ export type UpdateGroupMutation = (
     & { group?: Maybe<(
       { __typename?: 'Group' }
       & Pick<Group, 'id' | 'name' | 'description' | 'open_slots' | 'min_age' | 'max_age'>
+      & { preferred_rooms?: Maybe<Array<Maybe<(
+        { __typename?: 'Room' }
+        & Pick<Room, 'id' | 'name'>
+      )>>> }
     )> }
   )> }
 );
@@ -2686,8 +2695,8 @@ export type ApplyToGroupMutationHookResult = ReturnType<typeof useApplyToGroupMu
 export type ApplyToGroupMutationResult = Apollo.MutationResult<ApplyToGroupMutation>;
 export type ApplyToGroupMutationOptions = Apollo.BaseMutationOptions<ApplyToGroupMutation, ApplyToGroupMutationVariables>;
 export const CreateGroupDocument = gql`
-    mutation createGroup($name: String!, $open_slots: Int!, $max_age: Int!, $min_age: Int!, $description: String!, $leader: ID!, $booking_status: ENUM_GROUP_BOOKING_STATUS!) {
-  createGroup(input: {data: {name: $name, open_slots: $open_slots, booking_status: $booking_status, max_age: $max_age, min_age: $min_age, leader: $leader, description: $description}}) {
+    mutation createGroup($name: String!, $description: String!, $open_slots: Int!, $max_age: Int!, $min_age: Int!, $leader: ID!, $preferred_rooms: [ID!]) {
+  createGroup(input: {data: {name: $name, description: $description, open_slots: $open_slots, max_age: $max_age, min_age: $min_age, leader: $leader, preferred_rooms: $preferred_rooms, booking_status: notBooked}}) {
     group {
       id
       name
@@ -2695,6 +2704,10 @@ export const CreateGroupDocument = gql`
       booking_status
       min_age
       max_age
+      preferred_rooms {
+        id
+        name
+      }
     }
   }
 }
@@ -2715,12 +2728,12 @@ export type CreateGroupMutationFn = Apollo.MutationFunction<CreateGroupMutation,
  * const [createGroupMutation, { data, loading, error }] = useCreateGroupMutation({
  *   variables: {
  *      name: // value for 'name'
+ *      description: // value for 'description'
  *      open_slots: // value for 'open_slots'
  *      max_age: // value for 'max_age'
  *      min_age: // value for 'min_age'
- *      description: // value for 'description'
  *      leader: // value for 'leader'
- *      booking_status: // value for 'booking_status'
+ *      preferred_rooms: // value for 'preferred_rooms'
  *   },
  * });
  */
@@ -2804,8 +2817,8 @@ export type RejectApplicationMutationHookResult = ReturnType<typeof useRejectApp
 export type RejectApplicationMutationResult = Apollo.MutationResult<RejectApplicationMutation>;
 export type RejectApplicationMutationOptions = Apollo.BaseMutationOptions<RejectApplicationMutation, RejectApplicationMutationVariables>;
 export const UpdateGroupDocument = gql`
-    mutation updateGroup($id: ID!, $name: String, $description: String, $open_slots: Int, $min_age: Int, $max_age: Int) {
-  updateGroup(input: {where: {id: $id}, data: {name: $name, description: $description, open_slots: $open_slots, min_age: $min_age, max_age: $max_age}}) {
+    mutation updateGroup($id: ID!, $name: String, $description: String, $open_slots: Int, $min_age: Int, $max_age: Int, $preferred_rooms: [ID!]) {
+  updateGroup(input: {where: {id: $id}, data: {name: $name, description: $description, open_slots: $open_slots, min_age: $min_age, max_age: $max_age, preferred_rooms: $preferred_rooms}}) {
     group {
       id
       name
@@ -2813,6 +2826,10 @@ export const UpdateGroupDocument = gql`
       open_slots
       min_age
       max_age
+      preferred_rooms {
+        id
+        name
+      }
     }
   }
 }
@@ -2838,6 +2855,7 @@ export type UpdateGroupMutationFn = Apollo.MutationFunction<UpdateGroupMutation,
  *      open_slots: // value for 'open_slots'
  *      min_age: // value for 'min_age'
  *      max_age: // value for 'max_age'
+ *      preferred_rooms: // value for 'preferred_rooms'
  *   },
  * });
  */
