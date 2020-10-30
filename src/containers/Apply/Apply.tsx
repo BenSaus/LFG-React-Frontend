@@ -6,8 +6,9 @@ import { useSelector } from "react-redux"
 import { UserState } from "../../store/slices/user"
 import {
     ApplyToGroupDocument,
-    GetMyApplicationsDocument,
+    GetApplicationsToThisGroupDocument,
 } from "../../generated/graphql"
+import { AuthState } from "../../store/slices/auth"
 
 interface ApplyParams {
     id: string | undefined
@@ -16,15 +17,17 @@ interface ApplyParams {
 interface ApplyProps extends RouteComponentProps<ApplyParams> {}
 
 const Apply: React.FC<ApplyProps> = (props) => {
-    const myUser = useSelector<RootType, UserState>((state) => state.user)
-
-    let myId
-    if (myUser.user !== null) {
-        myId = Number(myUser.user.id)
+    // Redux
+    const auth = useSelector<RootType, AuthState>((state) => state.auth)
+    let myId: string = ""
+    if (auth.user !== null) {
+        myId = auth.user.id
     }
 
+    // State
     let [appSent, setAppSent] = useState(false)
     let [message, setMessage] = useState("")
+    // const [canApply, setCanApply] = useState<boolean | null>(null)
 
     const [createApplication, { data }] = useMutation(ApplyToGroupDocument, {
         variables: {
@@ -34,19 +37,36 @@ const Apply: React.FC<ApplyProps> = (props) => {
         },
     })
 
+    // GraphQL
     // TODO: Check through these. If we have already applied to this group
     //      Disable the apply button
     //          Add a tooltip that says, "You've already applied to this group"
-    const { loading, error, data: myAppsData } = useQuery(
-        GetMyApplicationsDocument,
-        {
-            variables: {
-                applicant: myId,
-            },
-        }
-    )
+    // const { loading, error, data: myAppsData } = useQuery(
+    //     GetApplicationsToThisGroupDocument,
+    //     {
+    //         variables: {
+    //             applicant: myId,
+    //             group: props.match.params.id,
+    //         },
+    //         onCompleted: (data) => {
+    //             console.log("onCompleted", data)
+    //             console.log(data.applications)
 
-    console.log("Appling to group: ", props.match.params.id)
+    //             if (data.applications.length === 0) {
+    //                 setCanApply(true)
+    //             } else {
+    //                 setCanApply(false)
+    //             }
+    //         },
+    //     }
+    // )
+
+    // Render
+    // if (loading) return <p>Loading...</p>
+    // if (error) {
+    //     console.log(error)
+    //     return <p>Error :(</p>
+    // }
 
     const onSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault()

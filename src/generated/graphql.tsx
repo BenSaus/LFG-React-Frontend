@@ -2390,6 +2390,27 @@ export type UpdateGroupMutation = (
   )> }
 );
 
+export type GetApplicationsToThisGroupQueryVariables = Exact<{
+  applicant: Scalars['ID'];
+  group: Scalars['ID'];
+}>;
+
+
+export type GetApplicationsToThisGroupQuery = (
+  { __typename?: 'Query' }
+  & { applications?: Maybe<Array<Maybe<(
+    { __typename?: 'Application' }
+    & Pick<Application, 'status'>
+    & { applicant?: Maybe<(
+      { __typename?: 'UsersPermissionsUser' }
+      & Pick<UsersPermissionsUser, 'id' | 'username'>
+    )>, group?: Maybe<(
+      { __typename?: 'Group' }
+      & Pick<Group, 'id' | 'name'>
+    )> }
+  )>>> }
+);
+
 export type GetGroupQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2826,6 +2847,48 @@ export function useUpdateGroupMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpdateGroupMutationHookResult = ReturnType<typeof useUpdateGroupMutation>;
 export type UpdateGroupMutationResult = Apollo.MutationResult<UpdateGroupMutation>;
 export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<UpdateGroupMutation, UpdateGroupMutationVariables>;
+export const GetApplicationsToThisGroupDocument = gql`
+    query getApplicationsToThisGroup($applicant: ID!, $group: ID!) {
+  applications(where: {applicant: $applicant, group: $group}) {
+    status
+    applicant {
+      id
+      username
+    }
+    group {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetApplicationsToThisGroupQuery__
+ *
+ * To run a query within a React component, call `useGetApplicationsToThisGroupQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetApplicationsToThisGroupQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetApplicationsToThisGroupQuery({
+ *   variables: {
+ *      applicant: // value for 'applicant'
+ *      group: // value for 'group'
+ *   },
+ * });
+ */
+export function useGetApplicationsToThisGroupQuery(baseOptions?: Apollo.QueryHookOptions<GetApplicationsToThisGroupQuery, GetApplicationsToThisGroupQueryVariables>) {
+        return Apollo.useQuery<GetApplicationsToThisGroupQuery, GetApplicationsToThisGroupQueryVariables>(GetApplicationsToThisGroupDocument, baseOptions);
+      }
+export function useGetApplicationsToThisGroupLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetApplicationsToThisGroupQuery, GetApplicationsToThisGroupQueryVariables>) {
+          return Apollo.useLazyQuery<GetApplicationsToThisGroupQuery, GetApplicationsToThisGroupQueryVariables>(GetApplicationsToThisGroupDocument, baseOptions);
+        }
+export type GetApplicationsToThisGroupQueryHookResult = ReturnType<typeof useGetApplicationsToThisGroupQuery>;
+export type GetApplicationsToThisGroupLazyQueryHookResult = ReturnType<typeof useGetApplicationsToThisGroupLazyQuery>;
+export type GetApplicationsToThisGroupQueryResult = Apollo.QueryResult<GetApplicationsToThisGroupQuery, GetApplicationsToThisGroupQueryVariables>;
 export const GetGroupDocument = gql`
     query getGroup($id: ID!) {
   group(id: $id) {

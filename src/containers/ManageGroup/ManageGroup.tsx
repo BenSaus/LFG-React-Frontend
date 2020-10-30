@@ -39,8 +39,6 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             onCompleted: (data) => {
                 setApplications(data.group.applications)
 
-                console.log("withLeader:", data.group.members, myId)
-
                 const membersWithoutLeader = data.group.members.filter(
                     (group: Types.Group) => {
                         console.log(group)
@@ -50,8 +48,6 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                         return group?.id !== myId
                     }
                 )
-                console.log("withoutLeader:", membersWithoutLeader)
-
                 setMembers(membersWithoutLeader)
             },
         }
