@@ -1,6 +1,6 @@
 import React from "react"
 import styles from "./Application.module.css"
-import * as Types from "../../../types-and-hooks"
+import * as Types from "../../../generated/graphql"
 
 interface ApplicationProps {
     app: Types.Application

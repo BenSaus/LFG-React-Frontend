@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client"
 import React, { useState } from "react"
 import { RouteComponentProps } from "react-router"
-import * as Types from "../../types-and-hooks"
+import * as Types from "../../generated/graphql"
 import Applicants from "../../components/Applicants/Applicants"
 import Members from "../../components/Members/Members"
 import { RootType } from "../../store/rootReducer"
@@ -14,7 +14,7 @@ import {
 } from "../../generated/graphql"
 
 interface ManageGroupParams {
-    id: string
+    id: string // TODO: I don't think this is used
 }
 
 interface ManageGroupProps extends RouteComponentProps<ManageGroupParams> {}
@@ -117,7 +117,17 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         setApplications(updatedApplications)
     }
 
-    let applicantsJSX = <p>No Applicants</p>
+    const handleClickViewMemeber = async (memberId: string) => {
+        console.log("Clicked member", memberId)
+
+        props.history.push(`/user/${memberId}`)
+    }
+
+    const handleClickRemoveMember = async (memberId: string) => {
+        console.log("Remove member", memberId)
+    }
+
+    let applicantsJSX = <p>No Applications Recieved</p>
     if (applications.length > 0) {
         applicantsJSX = (
             <Applicants
@@ -128,9 +138,17 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         )
     }
 
+    let invitesJSX = <p>No Invites Sent</p>
+
     let membersJSX = <p>No Members</p>
     if (members.length > 0) {
-        membersJSX = <Members members={members} />
+        membersJSX = (
+            <Members
+                viewClicked={handleClickViewMemeber}
+                removeClicked={handleClickRemoveMember}
+                members={members}
+            />
+        )
     }
 
     return (
@@ -144,10 +162,20 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             >
                 Edit Group Details
             </button>
+            <br />
+            <br />
             <h3>Applicants</h3>
             {applicantsJSX}
+            <br />
+            <h3>Invites</h3>
+            {invitesJSX}
+            <button>Invite People</button>
+            <br />
+            <br />
             <h3>Members</h3>
             {membersJSX}
+            <br />
+            <br />
             <button style={{ padding: "1rem" }}>Finalize Group</button>
         </React.Fragment>
     )

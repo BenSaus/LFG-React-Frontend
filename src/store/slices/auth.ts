@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { LOG_IN } from "../../graphql/queries"
-import * as Types from "../../types-and-hooks"
+import * as Types from "../../generated/graphql"
 import { ApolloClient, InMemoryCache } from "@apollo/client"
 
 // Setup the apollo client

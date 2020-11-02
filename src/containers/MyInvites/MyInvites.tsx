@@ -1,7 +1,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client"
 import React, { useState } from "react"
 import Invites from "../../components/Invites/Invites"
-import * as Types from "../../types-and-hooks"
+import * as Types from "../../generated/graphql"
 import { useSelector } from "react-redux"
 import { RootType } from "../../store/rootReducer"
 import { AuthState } from "../../store/slices/auth"

@@ -1,7 +1,7 @@
 import React from "react"
 import { useQuery } from "@apollo/client"
 import { RouteComponentProps } from "react-router"
-import * as Types from "../../types-and-hooks"
+import * as Types from "../../generated/graphql"
 import { Link } from "react-router-dom"
 import { GetGroupDocument } from "../../generated/graphql"
 

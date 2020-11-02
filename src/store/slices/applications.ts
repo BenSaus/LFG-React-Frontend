@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import * as Types from "../../types-and-hooks"
+import * as Types from "../../generated/graphql"
 import apolloClient from "../../apollo-setup"
 import { MY_APPLICATIONS } from "../../graphql/queries"
 

@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client"
 import React from "react"
 import { RouteComponentProps } from "react-router"
-import * as Types from "../../types-and-hooks"
+import * as Types from "../../generated/graphql"
 import User from "../../components/User/User"
 import { useSelector } from "react-redux"
 import { RootType } from "../../store/rootReducer"

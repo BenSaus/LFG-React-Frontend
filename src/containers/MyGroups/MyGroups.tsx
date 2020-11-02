@@ -4,7 +4,7 @@ import Groups from "../../components/Groups/Groups"
 import { RouteComponentProps } from "react-router"
 import { RootType } from "../../store/rootReducer"
 import { useSelector } from "react-redux"
-import * as Types from "../../types-and-hooks"
+import * as Types from "../../generated/graphql"
 import { AuthState } from "../../store/slices/auth"
 import { GetMyGroupsDocument } from "../../generated/graphql"
 

@@ -1,5 +1,5 @@
 import React from "react"
-import * as Types from "../../types-and-hooks"
+import * as Types from "../../generated/graphql"
 import Invite from "../../components/Invites/Invite/Invite"
 import styles from "./Invites.module.css"
 
