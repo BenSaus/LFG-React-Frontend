@@ -6,7 +6,7 @@ import { ApolloClient, InMemoryCache } from "@apollo/client"
 // Setup the apollo client
 const client = new ApolloClient({
     // TODO: Move to config file
-    uri: "http://localhost:1337/graphql",
+    uri: process.env.REACT_APP_GRAPHQL_URL,
     cache: new InMemoryCache(),
     defaultOptions: {
         watchQuery: {
