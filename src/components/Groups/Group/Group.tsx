@@ -13,7 +13,7 @@ const Group: React.FC<GroupProps> = (props) => {
             className={styles.Group}
             onClick={() => props.clicked(props.group.id)}
         >
-            <p>Name: {props.group.name}</p>
+            <p className={styles.Label}>{props.group.name}</p>
             <p>Description: {props.group.description}</p>
             <p>Open Slots: {props.group.open_slots}</p>
             <p>

@@ -52,6 +52,7 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
                 leader: myId, // TODO: This should be set server side!!!!!!!!!!!!!
                 description: values.description,
                 preferred_rooms: values.preferred_rooms,
+                members: [myId],
             },
         })
 

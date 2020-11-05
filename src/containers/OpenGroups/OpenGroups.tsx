@@ -3,6 +3,7 @@ import Groups from "../../components/Groups/Groups"
 import { RouteComponentProps } from "react-router"
 import { GetOpenGroupsDocument } from "../../generated/graphql"
 import { useQuery } from "@apollo/client"
+import styles from "./OpenGroups.module.css"
 // import ReduxExample from "../../components/ReduxExample/ReduxExample"
 
 interface OpenGroupsProps extends RouteComponentProps {}
