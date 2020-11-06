@@ -2346,7 +2346,7 @@ export type GetMyApplicationsQuery = (
   { __typename?: 'Query' }
   & { applications?: Maybe<Array<Maybe<(
     { __typename?: 'Application' }
-    & Pick<Application, 'id' | 'message'>
+    & Pick<Application, 'id' | 'message' | 'status'>
     & { applicant?: Maybe<(
       { __typename?: 'UsersPermissionsUser' }
       & Pick<UsersPermissionsUser, 'username'>
@@ -2857,6 +2857,7 @@ export const GetMyApplicationsDocument = gql`
   applications(where: {applicant: $applicant}) {
     id
     message
+    status
     applicant {
       username
     }
