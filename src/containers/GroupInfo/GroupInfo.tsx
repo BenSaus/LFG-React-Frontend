@@ -64,7 +64,12 @@ const GroupInfo: React.FC<GroupInfoProps> = (props) => {
                 <p>Room Preference: {roomPreferenceJSX} </p>
             </div>
             <div>
-                <button onClick={onApply}>Apply</button>
+                <button onClick={onApply} style={{ padding: "0.5rem 1.5rem" }}>
+                    Apply
+                </button>
+                <br />
+                <br />
+                <button onClick={() => props.history.goBack()}>Back</button>
             </div>
         </React.Fragment>
     )

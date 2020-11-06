@@ -55,6 +55,8 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
             <h1>User Profile</h1>
             {editButton}
             <User user={userInfo} />
+            <br />
+            <button onClick={() => props.history.goBack()}>Back</button>
         </div>
     )
 }

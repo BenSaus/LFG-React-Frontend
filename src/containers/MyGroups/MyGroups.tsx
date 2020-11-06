@@ -57,6 +57,20 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
         console.log("Clicked member group: ", groupId)
     }
 
+    let leadGroupsJSX = <p>No Groups Found</p>
+    if (leadingGroups.length > 0) {
+        leadGroupsJSX = (
+            <Groups groups={leadingGroups} clickedGroup={onGroupLeadClick} />
+        )
+    }
+
+    let memberGroupsJSX = <p>No Groups Found</p>
+    if (memberGroups.length > 0) {
+        memberGroupsJSX = (
+            <Groups groups={memberGroups} clickedGroup={onGroupMemberClick} />
+        )
+    }
+
     return (
         <div>
             <h1>My Groups</h1>
@@ -69,9 +83,9 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
                 Create New Group
             </button>
             <h3>Groups I Lead</h3>
-            <Groups groups={leadingGroups} clickedGroup={onGroupLeadClick} />
+            {leadGroupsJSX}
             <h3>Groups I'm a member of </h3>
-            <Groups groups={memberGroups} clickedGroup={onGroupMemberClick} />
+            {memberGroupsJSX}
         </div>
     )
 }
