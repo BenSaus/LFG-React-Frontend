@@ -2432,7 +2432,7 @@ export type GetUserQuery = (
       & Pick<UploadFile, 'url' | 'previewUrl'>
     )>, achievements?: Maybe<Array<Maybe<(
       { __typename?: 'Achievement' }
-      & Pick<Achievement, 'id' | 'name'>
+      & Pick<Achievement, 'id' | 'name' | 'description'>
       & { image?: Maybe<(
         { __typename?: 'UploadFile' }
         & Pick<UploadFile, 'previewUrl' | 'url'>
@@ -3062,6 +3062,7 @@ export const GetUserDocument = gql`
     achievements {
       id
       name
+      description
       image {
         previewUrl
         url

@@ -14,6 +14,7 @@ query getUser($id: ID!) {
         achievements {
             id
             name
+            description
             image {
                 previewUrl
                 url

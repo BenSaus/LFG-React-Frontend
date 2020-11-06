@@ -16,7 +16,11 @@ const Achievement: React.FC<AchievementProps> = (props) => {
         <div>
             <img
                 src={baseUrl + props.achievement.image?.url}
-                alt=""
+                title={
+                    props.achievement.description
+                        ? props.achievement.description
+                        : ""
+                }
                 style={{ width: "75px", height: "75px" }}
             />
             <br />
