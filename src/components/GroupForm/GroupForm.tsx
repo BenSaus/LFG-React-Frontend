@@ -43,7 +43,7 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
     // Render
     return (
         <React.Fragment>
-            <p>Leader: {props.leader}</p>
+            {/* <p>Leader: {props.leader}</p> */}
             <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="">Name: </label>
                 <input
