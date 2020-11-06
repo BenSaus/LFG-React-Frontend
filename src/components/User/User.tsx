@@ -23,15 +23,19 @@ const User: React.FC<UserProps> = (props) => {
         achievementsJsx = <Achievements achievements={achievements} />
     }
 
+    let baseUrl = process.env.REACT_APP_IMAGE_BASE_URL
+        ? process.env.REACT_APP_IMAGE_BASE_URL
+        : ""
+
     return (
         <div>
             <img
-                src={props.user.image?.url}
+                src={baseUrl + props.user.image?.url}
                 alt=""
                 style={{
                     border: "1px solid black",
                     height: "300px",
-                    width: "200px",
+                    // width: "200px",
                 }}
             />
             <p>UserName: {props.user.username}</p>
