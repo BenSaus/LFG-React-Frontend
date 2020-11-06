@@ -8,7 +8,9 @@ interface AchievementProps {
 const Achievement: React.FC<AchievementProps> = (props) => {
     console.log(props.achievement)
 
-    const baseUrl = "http://localhost:1337" // TODO: HARDCODED...Move into store
+    let baseUrl = process.env.REACT_APP_IMAGE_BASE_URL
+        ? process.env.REACT_APP_IMAGE_BASE_URL
+        : ""
 
     return (
         <div>
