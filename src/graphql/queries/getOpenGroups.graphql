@@ -1,5 +1,5 @@
 query getOpenGroups {
-    groups {
+    groups(where: { status: "open" }) {
         id
         name
         member_max

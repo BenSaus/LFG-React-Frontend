@@ -502,6 +502,13 @@ export enum Enum_Group_Booking_Status {
   NotBooked = 'notBooked'
 }
 
+export enum Enum_Group_Status {
+  Open = 'open',
+  Closed = 'closed',
+  Booking = 'booking',
+  Booked = 'booked'
+}
+
 export type Group = {
   __typename?: 'Group';
   id: Scalars['ID'];
@@ -515,6 +522,7 @@ export type Group = {
   bookdate?: Maybe<Scalars['DateTime']>;
   name?: Maybe<Scalars['String']>;
   leader?: Maybe<UsersPermissionsUser>;
+  status?: Maybe<Enum_Group_Status>;
   applications?: Maybe<Array<Maybe<Application>>>;
   members?: Maybe<Array<Maybe<UsersPermissionsUser>>>;
   invites?: Maybe<Array<Maybe<Invite>>>;
@@ -611,6 +619,7 @@ export type GroupGroupBy = {
   bookdate?: Maybe<Array<Maybe<GroupConnectionBookdate>>>;
   name?: Maybe<Array<Maybe<GroupConnectionName>>>;
   leader?: Maybe<Array<Maybe<GroupConnectionLeader>>>;
+  status?: Maybe<Array<Maybe<GroupConnectionStatus>>>;
 };
 
 export type GroupConnectionId = {
@@ -679,6 +688,12 @@ export type GroupConnectionLeader = {
   connection?: Maybe<GroupConnection>;
 };
 
+export type GroupConnectionStatus = {
+  __typename?: 'GroupConnectionStatus';
+  key?: Maybe<Scalars['String']>;
+  connection?: Maybe<GroupConnection>;
+};
+
 export type GroupInput = {
   description?: Maybe<Scalars['String']>;
   member_max?: Maybe<Scalars['Int']>;
@@ -692,6 +707,7 @@ export type GroupInput = {
   name?: Maybe<Scalars['String']>;
   leader?: Maybe<Scalars['ID']>;
   preferred_rooms?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  status?: Maybe<Enum_Group_Status>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -709,6 +725,7 @@ export type EditGroupInput = {
   name?: Maybe<Scalars['String']>;
   leader?: Maybe<Scalars['ID']>;
   preferred_rooms?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  status?: Maybe<Enum_Group_Status>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -1647,7 +1664,7 @@ export type DeleteUserPayload = {
   user?: Maybe<UsersPermissionsUser>;
 };
 
-export type Morph = AcceptApplicationPayload | RejectApplicationPayload | AcceptInvitePayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | UsersPermissionsMeExtra | Achievement | AchievementConnection | AchievementAggregator | AchievementGroupBy | AchievementConnectionId | AchievementConnectionCreated_At | AchievementConnectionUpdated_At | AchievementConnectionDescription | AchievementConnectionImage | AchievementConnectionName | CreateAchievementPayload | UpdateAchievementPayload | DeleteAchievementPayload | Application | ApplicationConnection | ApplicationAggregator | ApplicationGroupBy | ApplicationConnectionId | ApplicationConnectionCreated_At | ApplicationConnectionUpdated_At | ApplicationConnectionApplicant | ApplicationConnectionMessage | ApplicationConnectionGroup | ApplicationConnectionStatus | CreateApplicationPayload | UpdateApplicationPayload | DeleteApplicationPayload | Business | BusinessConnection | BusinessAggregator | BusinessGroupBy | BusinessConnectionId | BusinessConnectionCreated_At | BusinessConnectionUpdated_At | BusinessConnectionName | BusinessConnectionAddress | BusinessConnectionWebsite_Url | BusinessConnectionDescription | BusinessConnectionImage | CreateBusinessPayload | UpdateBusinessPayload | DeleteBusinessPayload | Group | GroupConnection | GroupAggregator | GroupAggregatorSum | GroupAggregatorAvg | GroupAggregatorMin | GroupAggregatorMax | GroupGroupBy | GroupConnectionId | GroupConnectionCreated_At | GroupConnectionUpdated_At | GroupConnectionDescription | GroupConnectionMember_Max | GroupConnectionBooking_Status | GroupConnectionMax_Age | GroupConnectionMin_Age | GroupConnectionBookdate | GroupConnectionName | GroupConnectionLeader | CreateGroupPayload | UpdateGroupPayload | DeleteGroupPayload | Invite | InviteConnection | InviteAggregator | InviteGroupBy | InviteConnectionId | InviteConnectionCreated_At | InviteConnectionUpdated_At | InviteConnectionInvitee | InviteConnectionMessage | InviteConnectionGroup | InviteConnectionStatus | CreateInvitePayload | UpdateInvitePayload | DeleteInvitePayload | Room | RoomConnection | RoomAggregator | RoomGroupBy | RoomConnectionId | RoomConnectionCreated_At | RoomConnectionUpdated_At | RoomConnectionName | RoomConnectionDescription | RoomConnectionImage | RoomConnectionBusiness | CreateRoomPayload | UpdateRoomPayload | DeleteRoomPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserAggregatorSum | UsersPermissionsUserAggregatorAvg | UsersPermissionsUserAggregatorMin | UsersPermissionsUserAggregatorMax | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionAge | UsersPermissionsUserConnectionImage | UsersPermissionsUserConnectionAbout | UsersPermissionsUserConnectionOpen_To_Invite | UsersPermissionsUserConnectionHide_Age | UsersPermissionsUserConnectionApproved | CreateUserPayload | UpdateUserPayload | DeleteUserPayload;
+export type Morph = AcceptApplicationPayload | RejectApplicationPayload | AcceptInvitePayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | UsersPermissionsMeExtra | Achievement | AchievementConnection | AchievementAggregator | AchievementGroupBy | AchievementConnectionId | AchievementConnectionCreated_At | AchievementConnectionUpdated_At | AchievementConnectionDescription | AchievementConnectionImage | AchievementConnectionName | CreateAchievementPayload | UpdateAchievementPayload | DeleteAchievementPayload | Application | ApplicationConnection | ApplicationAggregator | ApplicationGroupBy | ApplicationConnectionId | ApplicationConnectionCreated_At | ApplicationConnectionUpdated_At | ApplicationConnectionApplicant | ApplicationConnectionMessage | ApplicationConnectionGroup | ApplicationConnectionStatus | CreateApplicationPayload | UpdateApplicationPayload | DeleteApplicationPayload | Business | BusinessConnection | BusinessAggregator | BusinessGroupBy | BusinessConnectionId | BusinessConnectionCreated_At | BusinessConnectionUpdated_At | BusinessConnectionName | BusinessConnectionAddress | BusinessConnectionWebsite_Url | BusinessConnectionDescription | BusinessConnectionImage | CreateBusinessPayload | UpdateBusinessPayload | DeleteBusinessPayload | Group | GroupConnection | GroupAggregator | GroupAggregatorSum | GroupAggregatorAvg | GroupAggregatorMin | GroupAggregatorMax | GroupGroupBy | GroupConnectionId | GroupConnectionCreated_At | GroupConnectionUpdated_At | GroupConnectionDescription | GroupConnectionMember_Max | GroupConnectionBooking_Status | GroupConnectionMax_Age | GroupConnectionMin_Age | GroupConnectionBookdate | GroupConnectionName | GroupConnectionLeader | GroupConnectionStatus | CreateGroupPayload | UpdateGroupPayload | DeleteGroupPayload | Invite | InviteConnection | InviteAggregator | InviteGroupBy | InviteConnectionId | InviteConnectionCreated_At | InviteConnectionUpdated_At | InviteConnectionInvitee | InviteConnectionMessage | InviteConnectionGroup | InviteConnectionStatus | CreateInvitePayload | UpdateInvitePayload | DeleteInvitePayload | Room | RoomConnection | RoomAggregator | RoomGroupBy | RoomConnectionId | RoomConnectionCreated_At | RoomConnectionUpdated_At | RoomConnectionName | RoomConnectionDescription | RoomConnectionImage | RoomConnectionBusiness | CreateRoomPayload | UpdateRoomPayload | DeleteRoomPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserAggregatorSum | UsersPermissionsUserAggregatorAvg | UsersPermissionsUserAggregatorMin | UsersPermissionsUserAggregatorMax | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionAge | UsersPermissionsUserConnectionImage | UsersPermissionsUserConnectionAbout | UsersPermissionsUserConnectionOpen_To_Invite | UsersPermissionsUserConnectionHide_Age | UsersPermissionsUserConnectionApproved | CreateUserPayload | UpdateUserPayload | DeleteUserPayload;
 
 export type InputId = {
   id: Scalars['ID'];
@@ -2209,6 +2226,22 @@ export type ApplyToGroupMutation = (
   )> }
 );
 
+export type CloseGroupMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type CloseGroupMutation = (
+  { __typename?: 'Mutation' }
+  & { updateGroup?: Maybe<(
+    { __typename?: 'updateGroupPayload' }
+    & { group?: Maybe<(
+      { __typename?: 'Group' }
+      & Pick<Group, 'id' | 'status'>
+    )> }
+  )> }
+);
+
 export type CreateGroupMutationVariables = Exact<{
   name: Scalars['String'];
   description: Scalars['String'];
@@ -2601,6 +2634,41 @@ export function useApplyToGroupMutation(baseOptions?: Apollo.MutationHookOptions
 export type ApplyToGroupMutationHookResult = ReturnType<typeof useApplyToGroupMutation>;
 export type ApplyToGroupMutationResult = Apollo.MutationResult<ApplyToGroupMutation>;
 export type ApplyToGroupMutationOptions = Apollo.BaseMutationOptions<ApplyToGroupMutation, ApplyToGroupMutationVariables>;
+export const CloseGroupDocument = gql`
+    mutation closeGroup($id: ID!) {
+  updateGroup(input: {where: {id: $id}, data: {status: closed}}) {
+    group {
+      id
+      status
+    }
+  }
+}
+    `;
+export type CloseGroupMutationFn = Apollo.MutationFunction<CloseGroupMutation, CloseGroupMutationVariables>;
+
+/**
+ * __useCloseGroupMutation__
+ *
+ * To run a mutation, you first call `useCloseGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCloseGroupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [closeGroupMutation, { data, loading, error }] = useCloseGroupMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCloseGroupMutation(baseOptions?: Apollo.MutationHookOptions<CloseGroupMutation, CloseGroupMutationVariables>) {
+        return Apollo.useMutation<CloseGroupMutation, CloseGroupMutationVariables>(CloseGroupDocument, baseOptions);
+      }
+export type CloseGroupMutationHookResult = ReturnType<typeof useCloseGroupMutation>;
+export type CloseGroupMutationResult = Apollo.MutationResult<CloseGroupMutation>;
+export type CloseGroupMutationOptions = Apollo.BaseMutationOptions<CloseGroupMutation, CloseGroupMutationVariables>;
 export const CreateGroupDocument = gql`
     mutation createGroup($name: String!, $description: String!, $member_max: Int!, $max_age: Int!, $min_age: Int!, $leader: ID!, $members: [ID!]!, $preferred_rooms: [ID!]) {
   createGroup(input: {data: {name: $name, description: $description, member_max: $member_max, max_age: $max_age, min_age: $min_age, leader: $leader, members: $members, preferred_rooms: $preferred_rooms, booking_status: notBooked}}) {
@@ -2990,7 +3058,7 @@ export type GetMyInvitesLazyQueryHookResult = ReturnType<typeof useGetMyInvitesL
 export type GetMyInvitesQueryResult = Apollo.QueryResult<GetMyInvitesQuery, GetMyInvitesQueryVariables>;
 export const GetOpenGroupsDocument = gql`
     query getOpenGroups {
-  groups {
+  groups(where: {status: "open"}) {
     id
     name
     member_max

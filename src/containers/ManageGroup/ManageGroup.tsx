@@ -11,6 +11,7 @@ import {
     AcceptApplicationDocument,
     ManageGetGroupDocument,
     RejectApplicationDocument,
+    CloseGroupDocument,
 } from "../../generated/graphql"
 import Invites from "../../components/Invites/Invites"
 
@@ -64,12 +65,17 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         RejectApplicationDocument
     )
 
+    const [closeGroup, { data: closeData }] = useMutation(CloseGroupDocument)
+
     // Render
+
     if (loading) return <p>Loading...</p>
     if (error) {
         console.log(error)
         return <p>Error :(</p>
     }
+
+    // Handlers
 
     const handleAcceptApplication = async (applicationId: string) => {
         const result = await acceptApplication({
@@ -108,11 +114,6 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             variables: {
                 id: applicationId,
             },
-            context: {
-                headers: {
-                    Authorization: "Bearer " + auth.token,
-                },
-            },
         })
         // TODO: Check result here
 
@@ -131,6 +132,20 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
     const handleClickRemoveMember = async (memberId: string) => {
         console.log("Remove member", memberId)
     }
+
+    const handleFinalizeGroupClick = async (groupId: string) => {
+        console.log("Clicked Finalize")
+
+        const resp = await closeGroup({
+            variables: {
+                id: groupId,
+            },
+        })
+
+        console.log(resp)
+    }
+
+    // JSX
 
     let applicantsJSX = <p>No Applications Recieved</p>
     if (applications.length > 0) {
@@ -186,7 +201,12 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             {membersJSX}
             <br />
             <br />
-            <button style={{ padding: "1rem" }}>Finalize Group</button>
+            <button
+                style={{ padding: "1rem" }}
+                onClick={() => handleFinalizeGroupClick(groupRespData.group.id)}
+            >
+                Finalize Group
+            </button>
         </React.Fragment>
     )
 }
