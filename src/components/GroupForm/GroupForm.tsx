@@ -8,7 +8,7 @@ interface GroupFormProps {
     onCancel: () => void
     formData: {
         name: string
-        open_slots: number
+        member_max: number
         min_age: number
         max_age: number
         description: string
@@ -23,7 +23,7 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
     const formik = useFormik({
         initialValues: {
             name: props.formData.name,
-            open_slots: props.formData.open_slots,
+            member_max: props.formData.member_max,
             min_age: props.formData.min_age,
             max_age: props.formData.max_age,
             description: props.formData.description,
@@ -65,10 +65,10 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                 <br />
                 <label htmlFor="">Open Slots: </label>
                 <input
-                    id="open_slots"
-                    name="open_slots"
+                    id="member_max"
+                    name="member_max"
                     onChange={formik.handleChange}
-                    value={formik.values.open_slots}
+                    value={formik.values.member_max}
                     type="number"
                 />
                 <br />

@@ -4,6 +4,7 @@ import { RouteComponentProps } from "react-router"
 import * as Types from "../../generated/graphql"
 import { Link } from "react-router-dom"
 import { GetGroupDocument } from "../../generated/graphql"
+import groupUtil from "../../utils/groupUtil"
 
 interface GroupInfoParams {
     id: string | undefined
@@ -50,6 +51,8 @@ const GroupInfo: React.FC<GroupInfoProps> = (props) => {
         props.history.push(`/apply/${groupId}`)
     }
 
+    let open_slots = groupUtil.getOpenSlots(groupInfo)
+
     return (
         <React.Fragment>
             <div>
@@ -60,7 +63,7 @@ const GroupInfo: React.FC<GroupInfoProps> = (props) => {
                 <p>
                     Age Range: {groupInfo.min_age} - {groupInfo.max_age}
                 </p>
-                <p>Open Slots: {groupInfo.open_slots}</p>
+                <p>Open Slots: {open_slots}</p>
                 <p>Room Preference: {roomPreferenceJSX} </p>
             </div>
             <div>

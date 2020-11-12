@@ -2,7 +2,7 @@ query manageGetGroup($id: ID!) {
     group(id: $id) {
         id
         name
-        open_slots
+        member_max
         booking_status
         description
         min_age

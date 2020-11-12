@@ -23,7 +23,7 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
     // State
     const initFormData = {
         name: "",
-        open_slots: 2,
+        member_max: 2,
         min_age: 10,
         max_age: 90,
         description: "",
@@ -46,7 +46,7 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
         const resp = await createGroup({
             variables: {
                 name: values.name,
-                open_slots: values.open_slots,
+                member_max: values.member_max,
                 max_age: values.max_age,
                 min_age: values.min_age,
                 leader: myId, // TODO: This should be set server side!!!!!!!!!!!!!

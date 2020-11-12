@@ -12,6 +12,7 @@ import {
     ManageGetGroupDocument,
     RejectApplicationDocument,
 } from "../../generated/graphql"
+import Invites from "../../components/Invites/Invites"
 
 interface ManageGroupParams {
     id: string // TODO: I don't think this is used
@@ -29,6 +30,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
 
     // State
     const [applications, setApplications] = useState<Types.Application[]>([])
+    const [invites, setInvites] = useState<Types.Invite[]>([])
     const [members, setMembers] = useState<Types.UsersPermissionsUser[]>([])
 
     // GraphQL
@@ -37,7 +39,10 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         {
             variables: { id: props.match.params.id },
             onCompleted: (data) => {
+                console.log(data.group.invites)
+
                 setApplications(data.group.applications)
+                setInvites(data.group.invites)
 
                 const membersWithoutLeader = data.group.members.filter(
                     (group: Types.Group) => {
@@ -138,7 +143,12 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         )
     }
 
+    console.log(invites)
+
     let invitesJSX = <p>No Invites Sent</p>
+    // if (invites.length > 0) {
+    //     invitesJSX = <Invites invites={invites} />
+    // }
 
     let membersJSX = <p>No Members</p>
     if (members.length > 0) {

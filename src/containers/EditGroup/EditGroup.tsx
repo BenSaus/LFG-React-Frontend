@@ -20,7 +20,7 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
     const [formDataReady, setFormDataReady] = useState(false)
     const [formData, setFormData] = useState({
         name: "",
-        open_slots: 0,
+        member_max: 0,
         min_age: 0,
         max_age: 0,
         description: "",
@@ -44,7 +44,7 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
 
             setFormData({
                 name: data.group.name,
-                open_slots: data.group.open_slots,
+                member_max: data.group.member_max,
                 min_age: data.group.min_age,
                 max_age: data.group.max_age,
                 description: data.group.description,
@@ -70,7 +70,7 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
             variables: {
                 id: props.match.params.id,
                 name: values.name,
-                open_slots: values.open_slots,
+                member_max: values.member_max,
                 max_age: values.max_age,
                 min_age: values.min_age,
                 description: values.description,

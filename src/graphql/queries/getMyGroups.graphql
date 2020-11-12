@@ -2,12 +2,15 @@ query getMyGroups($id: ID!) {
     groups(where: { members: { id: $id } }) {
         id
         name
-        open_slots
+        member_max
         max_age
         min_age
         booking_status
         description
         leader {
+            id
+        }
+        members {
             id
         }
     }

@@ -1,7 +1,7 @@
 mutation createGroup(
     $name: String!
     $description: String!
-    $open_slots: Int!
+    $member_max: Int!
     $max_age: Int!
     $min_age: Int!
     $leader: ID!
@@ -13,7 +13,7 @@ mutation createGroup(
             data: {
                 name: $name
                 description: $description
-                open_slots: $open_slots
+                member_max: $member_max
                 max_age: $max_age
                 min_age: $min_age
                 leader: $leader
@@ -26,7 +26,7 @@ mutation createGroup(
         group {
             id
             name
-            open_slots
+            member_max
             booking_status
             min_age
             max_age

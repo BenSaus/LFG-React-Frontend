@@ -2,10 +2,14 @@ query getOpenGroups {
     groups {
         id
         name
-        open_slots
+        member_max
         max_age
         min_age
         booking_status
         description
+        # WARNING: This is a data leak
+        members {
+            id
+        }
     }
 }

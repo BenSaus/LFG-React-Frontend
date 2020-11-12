@@ -10,7 +10,11 @@ query getGroup($id: ID!) {
             username
         }
         description
-        open_slots
+        member_max
+        # WARNING: This is a data leak
+        members {
+            id
+        }
         preferred_rooms {
             id
             name
