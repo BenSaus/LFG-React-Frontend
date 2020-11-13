@@ -6,7 +6,10 @@ import { RootType } from "../../store/rootReducer"
 import { useSelector } from "react-redux"
 import * as Types from "../../generated/graphql"
 import { AuthState } from "../../store/slices/auth"
-import { GetMyGroupsDocument } from "../../generated/graphql"
+import {
+    GetMyGroupsDocument,
+    GetMyLeadGroupsDocument,
+} from "../../generated/graphql"
 
 interface MyGroupsProps extends RouteComponentProps {}
 
@@ -23,25 +26,31 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
     }
 
     // GraphQL
-    const { loading, error, data } = useQuery(GetMyGroupsDocument, {
+    const {
+        loading: loadingGroups,
+        error: errorGroups,
+        data: groupsData,
+    } = useQuery(GetMyGroupsDocument, {
         variables: {
             id: myId,
         },
-        onCompleted: () => {
-            console.log("GetMyGroupsDocument Completed")
+        onCompleted: (data) => {
+            console.log("GetMyGroupsDocument Completed", data.groups)
+            setMemberGroups(data.groups)
+        },
+    })
 
-            const groups: Types.Group[] = data.groups
-
-            // Seperate groups this user leads and groups this user is just a member of
-            const leadingGroups = groups.filter(
-                (group) => group?.leader?.id === myId
-            )
-            const memberGroups = groups.filter(
-                (group) => group?.leader?.id !== myId
-            )
-
-            setLeadingGroups(leadingGroups)
-            setMemberGroups(memberGroups)
+    const {
+        loading: loadingLeadGroups,
+        error: errorLeadGroups,
+        data: leadGroupsData,
+    } = useQuery(GetMyLeadGroupsDocument, {
+        variables: {
+            id: myId,
+        },
+        onCompleted: (data) => {
+            console.log("GetMyLeadGroupsDocument Completed", data.groups)
+            setLeadingGroups(data.groups)
         },
     })
 
@@ -55,9 +64,9 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
     }
 
     // Render
-    if (loading) return <p>Loading...</p>
-    if (error) {
-        console.log(error)
+    if (loadingGroups && loadingLeadGroups) return <p>Loading...</p>
+    if (errorLeadGroups || errorGroups) {
+        console.log(errorLeadGroups, errorGroups)
         return <p>Error :(</p>
     }
 
@@ -80,7 +89,7 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
             <h1>My Groups</h1>
             <button
                 style={{ padding: "0.5rem" }}
-                onClick={(_) => {
+                onClick={() => {
                     props.history.push("/group/create")
                 }}
             >

@@ -45,17 +45,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
 
                 setApplications(data.group.applications)
                 setInvites(data.group.invites)
-
-                const membersWithoutLeader = data.group.members.filter(
-                    (group: Types.Group) => {
-                        console.log(group)
-
-                        console.log(group?.id, myId, group?.id !== myId)
-
-                        return group?.id !== myId
-                    }
-                )
-                setMembers(membersWithoutLeader)
+                setMembers(data.group.members)
             },
         }
     )
@@ -171,8 +161,6 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             />
         )
     }
-
-    console.log(invites)
 
     let invitesJSX = <p>No Invites Sent</p>
     // if (invites.length > 0) {

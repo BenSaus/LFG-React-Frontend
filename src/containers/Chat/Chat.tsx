@@ -46,7 +46,8 @@ const Chat: React.FC<ChatProps> = (props) => {
     }
 
     const groupId = props.match.params.id
-    const leader = myId === data.group.leader.id
+    const isLeader = myId === data.group.leader.id
+    const leader = data.group.leader
 
     const leaderButtonsJSX = (
         <React.Fragment>
@@ -63,9 +64,6 @@ const Chat: React.FC<ChatProps> = (props) => {
 
     const membersJSX = data.group.members.map(
         (member: Types.UsersPermissionsUser) => {
-            if (member.id === data.group.leader.id) {
-                return <p key={member.id}>Leader {member.username}</p>
-            }
             return <p key={member.id}>{member.username}</p>
         }
     )
@@ -74,11 +72,13 @@ const Chat: React.FC<ChatProps> = (props) => {
         <React.Fragment>
             <h2>{data.group.name}</h2>
             <h4>Status: {data.group.status}</h4>
-            {leader ? leaderButtonsJSX : memberButtonsJSX}
+            {isLeader ? leaderButtonsJSX : memberButtonsJSX}
             <br />
             <br />
             <div className={styles.ChatWindow}>
                 <div className={styles.MemebersSection}>
+                    <h3>Leader</h3>
+                    <p key={leader.id}>{leader.username}</p>
                     <h3>Members</h3>
                     {membersJSX}
                 </div>

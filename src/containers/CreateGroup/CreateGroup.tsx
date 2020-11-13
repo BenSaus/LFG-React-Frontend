@@ -52,7 +52,7 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
                 leader: myId, // TODO: This should be set server side!!!!!!!!!!!!!
                 description: values.description,
                 preferred_rooms: values.preferred_rooms,
-                members: [myId],
+                members: [],
             },
         })
 
@@ -72,7 +72,7 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
         <React.Fragment>
             <h1>Create Group</h1>
             <GroupForm
-                leader={myUsername}
+                // leader={myUsername}
                 onSubmit={onSubmit}
                 onCancel={onCancel}
                 formData={initFormData}

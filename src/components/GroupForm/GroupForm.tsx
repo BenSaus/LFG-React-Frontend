@@ -3,7 +3,6 @@ import React from "react"
 import * as Types from "../../generated/graphql"
 
 interface GroupFormProps {
-    leader: string
     onSubmit: (values: any) => void
     onCancel: () => void
     formData: {
@@ -43,7 +42,6 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
     // Render
     return (
         <React.Fragment>
-            {/* <p>Leader: {props.leader}</p> */}
             <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="">Name: </label>
                 <input

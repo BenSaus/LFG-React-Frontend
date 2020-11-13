@@ -92,7 +92,6 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
         <React.Fragment>
             <h1>Edit Group</h1>
             <GroupForm
-                leader={"Ben"}
                 onSubmit={onSubmit}
                 onCancel={onCancel}
                 formData={formData}

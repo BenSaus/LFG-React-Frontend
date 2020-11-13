@@ -2469,6 +2469,26 @@ export type GetMyInvitesQuery = (
   )>>> }
 );
 
+export type GetMyLeadGroupsQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetMyLeadGroupsQuery = (
+  { __typename?: 'Query' }
+  & { groups?: Maybe<Array<Maybe<(
+    { __typename?: 'Group' }
+    & Pick<Group, 'id' | 'name' | 'member_max' | 'max_age' | 'min_age' | 'booking_status' | 'description'>
+    & { leader?: Maybe<(
+      { __typename?: 'UsersPermissionsUser' }
+      & Pick<UsersPermissionsUser, 'id'>
+    )>, members?: Maybe<Array<Maybe<(
+      { __typename?: 'UsersPermissionsUser' }
+      & Pick<UsersPermissionsUser, 'id'>
+    )>>> }
+  )>>> }
+);
+
 export type GetOpenGroupsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3182,6 +3202,51 @@ export function useGetMyInvitesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type GetMyInvitesQueryHookResult = ReturnType<typeof useGetMyInvitesQuery>;
 export type GetMyInvitesLazyQueryHookResult = ReturnType<typeof useGetMyInvitesLazyQuery>;
 export type GetMyInvitesQueryResult = Apollo.QueryResult<GetMyInvitesQuery, GetMyInvitesQueryVariables>;
+export const GetMyLeadGroupsDocument = gql`
+    query getMyLeadGroups($id: ID!) {
+  groups(where: {leader: {id: $id}}) {
+    id
+    name
+    member_max
+    max_age
+    min_age
+    booking_status
+    description
+    leader {
+      id
+    }
+    members {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMyLeadGroupsQuery__
+ *
+ * To run a query within a React component, call `useGetMyLeadGroupsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMyLeadGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMyLeadGroupsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetMyLeadGroupsQuery(baseOptions?: Apollo.QueryHookOptions<GetMyLeadGroupsQuery, GetMyLeadGroupsQueryVariables>) {
+        return Apollo.useQuery<GetMyLeadGroupsQuery, GetMyLeadGroupsQueryVariables>(GetMyLeadGroupsDocument, baseOptions);
+      }
+export function useGetMyLeadGroupsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMyLeadGroupsQuery, GetMyLeadGroupsQueryVariables>) {
+          return Apollo.useLazyQuery<GetMyLeadGroupsQuery, GetMyLeadGroupsQueryVariables>(GetMyLeadGroupsDocument, baseOptions);
+        }
+export type GetMyLeadGroupsQueryHookResult = ReturnType<typeof useGetMyLeadGroupsQuery>;
+export type GetMyLeadGroupsLazyQueryHookResult = ReturnType<typeof useGetMyLeadGroupsLazyQuery>;
+export type GetMyLeadGroupsQueryResult = Apollo.QueryResult<GetMyLeadGroupsQuery, GetMyLeadGroupsQueryVariables>;
 export const GetOpenGroupsDocument = gql`
     query getOpenGroups {
   groups(where: {status: "open"}) {
