@@ -1,11 +1,12 @@
 import { useQuery } from "@apollo/client"
 import React from "react"
 import { RouteComponentProps } from "react-router"
-import { GetGroupDocument } from "../../generated/graphql"
-import * as Types from "../../generated/graphql"
+import { GetGroupChatDocument } from "../../generated/graphql"
 import { useSelector } from "react-redux"
 import { RootType } from "../../store/rootReducer"
 import { AuthState } from "../../store/slices/auth"
+import styles from "./Chat.module.css"
+import * as Types from "../../generated/graphql"
 
 interface ChatParams {
     id: string
@@ -21,7 +22,7 @@ const Chat: React.FC<ChatProps> = (props) => {
     }
 
     // GraphQL
-    const { loading, error, data } = useQuery(GetGroupDocument, {
+    const { loading, error, data } = useQuery(GetGroupChatDocument, {
         variables: { id: props.match.params.id },
         onCompleted: (data) => {
             console.log(data)
@@ -33,7 +34,7 @@ const Chat: React.FC<ChatProps> = (props) => {
         props.history.push("/group/edit/" + groupId)
     }
 
-    const onManageMemebersClick = (groupId: string) => {
+    const onManageMembersClick = (groupId: string) => {
         props.history.push("/group/manage/" + groupId)
     }
 
@@ -49,8 +50,8 @@ const Chat: React.FC<ChatProps> = (props) => {
 
     const leaderButtonsJSX = (
         <React.Fragment>
-            <button onClick={() => onManageMemebersClick(groupId)}>
-                Manage Memebers
+            <button onClick={() => onManageMembersClick(groupId)}>
+                Manage Members
             </button>
             <button onClick={() => onEditDetailsClick(groupId)}>
                 Edit Group Details
@@ -58,11 +59,33 @@ const Chat: React.FC<ChatProps> = (props) => {
         </React.Fragment>
     )
 
+    const memberButtonsJSX = <button>Leave Group</button>
+
+    const membersJSX = data.group.members.map(
+        (member: Types.UsersPermissionsUser) => {
+            if (member.id === data.group.leader.id) {
+                return <p key={member.id}>Leader {member.username}</p>
+            }
+            return <p key={member.id}>{member.username}</p>
+        }
+    )
+
     return (
         <React.Fragment>
             <h2>{data.group.name}</h2>
-            <p></p>
-            {leader ? leaderButtonsJSX : null}
+            <h4>Status: {data.group.status}</h4>
+            {leader ? leaderButtonsJSX : memberButtonsJSX}
+            <br />
+            <br />
+            <div className={styles.ChatWindow}>
+                <div className={styles.MemebersSection}>
+                    <h3>Members</h3>
+                    {membersJSX}
+                </div>
+                <div className={styles.MessagesSection}>
+                    <h3>Messages</h3>
+                </div>
+            </div>
         </React.Fragment>
     )
 }

@@ -12,11 +12,12 @@ import {
     ManageGetGroupDocument,
     RejectApplicationDocument,
     CloseGroupDocument,
+    OpenGroupDocument,
 } from "../../generated/graphql"
 import Invites from "../../components/Invites/Invites"
 
 interface ManageGroupParams {
-    id: string // TODO: I don't think this is used
+    id: string
 }
 
 interface ManageGroupProps extends RouteComponentProps<ManageGroupParams> {}
@@ -66,6 +67,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
     )
 
     const [closeGroup, { data: closeData }] = useMutation(CloseGroupDocument)
+    const [openGroup, { data: openData }] = useMutation(OpenGroupDocument)
 
     // Render
 
@@ -133,10 +135,22 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         console.log("Remove member", memberId)
     }
 
-    const onFinalizeGroupClick = async (groupId: string) => {
-        console.log("Clicked Finalize")
+    const onCloseGroupClick = async (groupId: string) => {
+        console.log("Clicked Close")
 
         const resp = await closeGroup({
+            variables: {
+                id: groupId,
+            },
+        })
+
+        console.log(resp)
+    }
+
+    const onOpenGroupClick = async (groupId: string) => {
+        console.log("Clicked Open")
+
+        const resp = await openGroup({
             variables: {
                 id: groupId,
             },
@@ -176,6 +190,52 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         )
     }
 
+    let closed = groupRespData.group.status !== "open"
+    let appInvJSX = (
+        <React.Fragment>
+            <p>
+                This group is closed. So you cannot invite or receive
+                applcations.
+            </p>
+            <p>If you want to add more members, open the group</p>
+        </React.Fragment>
+    )
+    if (!closed) {
+        appInvJSX = (
+            <React.Fragment>
+                <h3>Applicants</h3>
+                {applicantsJSX}
+                <br />
+                <h3>Invites</h3>
+                {invitesJSX}
+                <button>Invite People</button>
+                <br />
+                <br />
+            </React.Fragment>
+        )
+    }
+
+    let closeButtonJSX = null
+    if (!closed) {
+        closeButtonJSX = (
+            <button
+                style={{ padding: "1rem" }}
+                onClick={() => onCloseGroupClick(groupRespData.group.id)}
+            >
+                Close Group
+            </button>
+        )
+    } else {
+        closeButtonJSX = (
+            <button
+                style={{ padding: "1rem" }}
+                onClick={() => onOpenGroupClick(groupRespData.group.id)}
+            >
+                Open Group
+            </button>
+        )
+    }
+
     return (
         <React.Fragment>
             <h1>Manage Group</h1>
@@ -189,24 +249,12 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             </button>
             <br />
             <br />
-            <h3>Applicants</h3>
-            {applicantsJSX}
-            <br />
-            <h3>Invites</h3>
-            {invitesJSX}
-            <button>Invite People</button>
-            <br />
-            <br />
+            {appInvJSX}
             <h3>Members</h3>
             {membersJSX}
             <br />
             <br />
-            <button
-                style={{ padding: "1rem" }}
-                onClick={() => onFinalizeGroupClick(groupRespData.group.id)}
-            >
-                Finalize Group
-            </button>
+            {closeButtonJSX}
             <br />
             <button onClick={() => props.history.goBack()}>Back</button>
         </React.Fragment>

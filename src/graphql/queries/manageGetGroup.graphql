@@ -4,6 +4,7 @@ query manageGetGroup($id: ID!) {
         name
         member_max
         booking_status
+        status
         description
         min_age
         max_age

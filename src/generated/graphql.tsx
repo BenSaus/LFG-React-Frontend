@@ -2287,6 +2287,22 @@ export type LoginMutation = (
   ) }
 );
 
+export type OpenGroupMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type OpenGroupMutation = (
+  { __typename?: 'Mutation' }
+  & { updateGroup?: Maybe<(
+    { __typename?: 'updateGroupPayload' }
+    & { group?: Maybe<(
+      { __typename?: 'Group' }
+      & Pick<Group, 'id' | 'status'>
+    )> }
+  )> }
+);
+
 export type RejectApplicationMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2366,6 +2382,29 @@ export type GetGroupQuery = (
     )>, members?: Maybe<Array<Maybe<(
       { __typename?: 'UsersPermissionsUser' }
       & Pick<UsersPermissionsUser, 'id'>
+    )>>>, preferred_rooms?: Maybe<Array<Maybe<(
+      { __typename?: 'Room' }
+      & Pick<Room, 'id' | 'name'>
+    )>>> }
+  )> }
+);
+
+export type GetGroupChatQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetGroupChatQuery = (
+  { __typename?: 'Query' }
+  & { group?: Maybe<(
+    { __typename?: 'Group' }
+    & Pick<Group, 'id' | 'name' | 'booking_status' | 'status' | 'min_age' | 'max_age' | 'description' | 'member_max'>
+    & { leader?: Maybe<(
+      { __typename?: 'UsersPermissionsUser' }
+      & Pick<UsersPermissionsUser, 'id' | 'username'>
+    )>, members?: Maybe<Array<Maybe<(
+      { __typename?: 'UsersPermissionsUser' }
+      & Pick<UsersPermissionsUser, 'id' | 'username'>
     )>>>, preferred_rooms?: Maybe<Array<Maybe<(
       { __typename?: 'Room' }
       & Pick<Room, 'id' | 'name'>
@@ -2493,7 +2532,7 @@ export type ManageGetGroupQuery = (
   { __typename?: 'Query' }
   & { group?: Maybe<(
     { __typename?: 'Group' }
-    & Pick<Group, 'id' | 'name' | 'member_max' | 'booking_status' | 'description' | 'min_age' | 'max_age'>
+    & Pick<Group, 'id' | 'name' | 'member_max' | 'booking_status' | 'status' | 'description' | 'min_age' | 'max_age'>
     & { applications?: Maybe<Array<Maybe<(
       { __typename?: 'Application' }
       & Pick<Application, 'id' | 'message' | 'status'>
@@ -2756,6 +2795,41 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const OpenGroupDocument = gql`
+    mutation openGroup($id: ID!) {
+  updateGroup(input: {where: {id: $id}, data: {status: open}}) {
+    group {
+      id
+      status
+    }
+  }
+}
+    `;
+export type OpenGroupMutationFn = Apollo.MutationFunction<OpenGroupMutation, OpenGroupMutationVariables>;
+
+/**
+ * __useOpenGroupMutation__
+ *
+ * To run a mutation, you first call `useOpenGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useOpenGroupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [openGroupMutation, { data, loading, error }] = useOpenGroupMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useOpenGroupMutation(baseOptions?: Apollo.MutationHookOptions<OpenGroupMutation, OpenGroupMutationVariables>) {
+        return Apollo.useMutation<OpenGroupMutation, OpenGroupMutationVariables>(OpenGroupDocument, baseOptions);
+      }
+export type OpenGroupMutationHookResult = ReturnType<typeof useOpenGroupMutation>;
+export type OpenGroupMutationResult = Apollo.MutationResult<OpenGroupMutation>;
+export type OpenGroupMutationOptions = Apollo.BaseMutationOptions<OpenGroupMutation, OpenGroupMutationVariables>;
 export const RejectApplicationDocument = gql`
     mutation rejectApplication($id: ID!) {
   rejectApplication(id: $id) {
@@ -2933,6 +3007,58 @@ export function useGetGroupLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetGroupQueryHookResult = ReturnType<typeof useGetGroupQuery>;
 export type GetGroupLazyQueryHookResult = ReturnType<typeof useGetGroupLazyQuery>;
 export type GetGroupQueryResult = Apollo.QueryResult<GetGroupQuery, GetGroupQueryVariables>;
+export const GetGroupChatDocument = gql`
+    query getGroupChat($id: ID!) {
+  group(id: $id) {
+    id
+    name
+    booking_status
+    status
+    min_age
+    max_age
+    leader {
+      id
+      username
+    }
+    description
+    member_max
+    members {
+      id
+      username
+    }
+    preferred_rooms {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetGroupChatQuery__
+ *
+ * To run a query within a React component, call `useGetGroupChatQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGroupChatQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGroupChatQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetGroupChatQuery(baseOptions?: Apollo.QueryHookOptions<GetGroupChatQuery, GetGroupChatQueryVariables>) {
+        return Apollo.useQuery<GetGroupChatQuery, GetGroupChatQueryVariables>(GetGroupChatDocument, baseOptions);
+      }
+export function useGetGroupChatLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGroupChatQuery, GetGroupChatQueryVariables>) {
+          return Apollo.useLazyQuery<GetGroupChatQuery, GetGroupChatQueryVariables>(GetGroupChatDocument, baseOptions);
+        }
+export type GetGroupChatQueryHookResult = ReturnType<typeof useGetGroupChatQuery>;
+export type GetGroupChatLazyQueryHookResult = ReturnType<typeof useGetGroupChatLazyQuery>;
+export type GetGroupChatQueryResult = Apollo.QueryResult<GetGroupChatQuery, GetGroupChatQueryVariables>;
 export const GetMyApplicationsDocument = gql`
     query getMyApplications($applicant: ID!) {
   applications(where: {applicant: $applicant}) {
@@ -3192,6 +3318,7 @@ export const ManageGetGroupDocument = gql`
     name
     member_max
     booking_status
+    status
     description
     min_age
     max_age
