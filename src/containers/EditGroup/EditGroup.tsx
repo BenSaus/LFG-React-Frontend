@@ -85,7 +85,7 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
     }
 
     const onCancel = () => {
-        props.history.push(`/group/manage/${props.match.params.id}`)
+        props.history.goBack()
     }
 
     return (

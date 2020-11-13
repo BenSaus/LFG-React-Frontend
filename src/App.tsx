@@ -18,10 +18,11 @@ import ManageGroup from "./containers/ManageGroup/ManageGroup"
 import LandingPage from "./containers/LandingPage/LandingPage"
 import Logout from "./containers/Logout/Logout"
 import NotFound404 from "./containers/404NotFound/NotFound404"
+import EditGroup from "./containers/EditGroup/EditGroup"
+import Chat from "./containers/Chat/Chat"
 import { loginIfOldTokenPresent } from "./store/slices/auth"
 import { useDispatch, useSelector } from "react-redux"
 import { RootType } from "./store/rootReducer"
-import EditGroup from "./containers/EditGroup/EditGroup"
 
 function App() {
     const isAuthenticated = useSelector<RootType, boolean>(
@@ -54,6 +55,7 @@ function App() {
                 <Route path="/group/manage/:id" exact component={ManageGroup} />
                 <Route path="/group/edit/:id" exact component={EditGroup} />
                 <Route path="/group/:id" exact component={GroupInfo} />
+                <Route path="/group/chat/:id" exact component={Chat} />
                 {/* TODO: this should be /group/apply/:id  */}
                 <Route path="/apply/:id" exact component={Apply} />
                 <Route path="/myApps" exact component={MyApps} />

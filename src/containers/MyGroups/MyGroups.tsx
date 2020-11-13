@@ -11,15 +11,18 @@ import { GetMyGroupsDocument } from "../../generated/graphql"
 interface MyGroupsProps extends RouteComponentProps {}
 
 const MyGroups: React.FC<MyGroupsProps> = (props) => {
+    // State
     const [memberGroups, setMemberGroups] = useState<Types.Group[]>([])
     const [leadingGroups, setLeadingGroups] = useState<Types.Group[]>([])
 
+    // Redux
     const auth = useSelector<RootType, AuthState>((state) => state.auth)
     let myId: string = ""
     if (auth.user !== null) {
         myId = auth.user.id
     }
 
+    // GraphQL
     const { loading, error, data } = useQuery(GetMyGroupsDocument, {
         variables: {
             id: myId,
@@ -42,19 +45,20 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
         },
     })
 
+    // Handlers
+    const onGroupLeadClick = (groupId: string) => {
+        props.history.push("/group/chat/" + groupId)
+    }
+
+    const onGroupMemberClick = (groupId: string) => {
+        props.history.push("/group/chat/" + groupId)
+    }
+
+    // Render
     if (loading) return <p>Loading...</p>
     if (error) {
         console.log(error)
         return <p>Error :(</p>
-    }
-
-    const onGroupLeadClick = (groupId: string) => {
-        // This is a group the user leads so send the user to manage
-        props.history.push("/group/manage/" + groupId)
-    }
-
-    const onGroupMemberClick = (groupId: string) => {
-        console.log("Clicked member group: ", groupId)
     }
 
     let leadGroupsJSX = <p>No Groups Found</p>
@@ -86,6 +90,8 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
             {leadGroupsJSX}
             <h3>Groups I'm a member of </h3>
             {memberGroupsJSX}
+
+            <br />
         </div>
     )
 }

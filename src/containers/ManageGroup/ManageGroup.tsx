@@ -77,7 +77,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
 
     // Handlers
 
-    const handleAcceptApplication = async (applicationId: string) => {
+    const onAcceptApplication = async (applicationId: string) => {
         const result = await acceptApplication({
             variables: {
                 id: applicationId,
@@ -109,7 +109,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         }
     }
 
-    const handleRejectApplication = async (applicationId: string) => {
+    const onRejectApplication = async (applicationId: string) => {
         const result = await rejectApplication({
             variables: {
                 id: applicationId,
@@ -123,17 +123,17 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         setApplications(updatedApplications)
     }
 
-    const handleClickViewMemeber = async (memberId: string) => {
+    const onClickViewMemeber = async (memberId: string) => {
         console.log("Clicked member", memberId)
 
         props.history.push(`/user/${memberId}`)
     }
 
-    const handleClickRemoveMember = async (memberId: string) => {
+    const onClickRemoveMember = async (memberId: string) => {
         console.log("Remove member", memberId)
     }
 
-    const handleFinalizeGroupClick = async (groupId: string) => {
+    const onFinalizeGroupClick = async (groupId: string) => {
         console.log("Clicked Finalize")
 
         const resp = await closeGroup({
@@ -152,8 +152,8 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         applicantsJSX = (
             <Applicants
                 applications={applications}
-                acceptApplication={handleAcceptApplication}
-                rejectApplication={handleRejectApplication}
+                acceptApplication={onAcceptApplication}
+                rejectApplication={onRejectApplication}
             />
         )
     }
@@ -169,8 +169,8 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
     if (members.length > 0) {
         membersJSX = (
             <Members
-                viewClicked={handleClickViewMemeber}
-                removeClicked={handleClickRemoveMember}
+                viewClicked={onClickViewMemeber}
+                removeClicked={onClickRemoveMember}
                 members={members}
             />
         )
@@ -203,10 +203,12 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             <br />
             <button
                 style={{ padding: "1rem" }}
-                onClick={() => handleFinalizeGroupClick(groupRespData.group.id)}
+                onClick={() => onFinalizeGroupClick(groupRespData.group.id)}
             >
                 Finalize Group
             </button>
+            <br />
+            <button onClick={() => props.history.goBack()}>Back</button>
         </React.Fragment>
     )
 }
