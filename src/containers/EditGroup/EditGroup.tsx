@@ -100,8 +100,6 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
             />
         </React.Fragment>
     )
-
-    return <h1>Working on it</h1>
 }
 
 export default EditGroup

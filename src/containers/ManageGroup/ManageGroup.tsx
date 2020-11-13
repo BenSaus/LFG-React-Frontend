@@ -2,8 +2,6 @@ import { useMutation, useQuery } from "@apollo/client"
 import React, { useState } from "react"
 import { RouteComponentProps } from "react-router"
 import * as Types from "../../generated/graphql"
-import Applicants from "../../components/Applicants/Applicants"
-import Members from "../../components/Members/Members"
 import { RootType } from "../../store/rootReducer"
 import { AuthState } from "../../store/slices/auth"
 import { useSelector } from "react-redux"
@@ -14,7 +12,10 @@ import {
     CloseGroupDocument,
     OpenGroupDocument,
 } from "../../generated/graphql"
-import Invites from "../../components/Invites/Invites"
+import MembersSection from "../../components/ManageGroup/MemberSection/MemberSection"
+import ButtonSection from "../../components/ManageGroup/ButtonSection/ButtonSection"
+import ApplicationSection from "../../components/ManageGroup/ApplicationSection/ApplicationSection"
+import InviteSection from "../../components/ManageGroup/InviteSection/InviteSection"
 
 interface ManageGroupParams {
     id: string
@@ -59,16 +60,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
     const [closeGroup, { data: closeData }] = useMutation(CloseGroupDocument)
     const [openGroup, { data: openData }] = useMutation(OpenGroupDocument)
 
-    // Render
-
-    if (loading) return <p>Loading...</p>
-    if (error) {
-        console.log(error)
-        return <p>Error :(</p>
-    }
-
     // Handlers
-
     const onAcceptApplication = async (applicationId: string) => {
         const result = await acceptApplication({
             variables: {
@@ -115,7 +107,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         setApplications(updatedApplications)
     }
 
-    const onClickViewMemeber = async (memberId: string) => {
+    const onClickViewMember = async (memberId: string) => {
         console.log("Clicked member", memberId)
 
         props.history.push(`/user/${memberId}`)
@@ -149,78 +141,39 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         console.log(resp)
     }
 
-    // JSX
+    // Render
 
-    let applicantsJSX = <p>No Applications Recieved</p>
-    if (applications.length > 0) {
-        applicantsJSX = (
-            <Applicants
-                applications={applications}
-                acceptApplication={onAcceptApplication}
-                rejectApplication={onRejectApplication}
-            />
-        )
-    }
-
-    let invitesJSX = <p>No Invites Sent</p>
-    // if (invites.length > 0) {
-    //     invitesJSX = <Invites invites={invites} />
-    // }
-
-    let membersJSX = <p>No Members</p>
-    if (members.length > 0) {
-        membersJSX = (
-            <Members
-                viewClicked={onClickViewMemeber}
-                removeClicked={onClickRemoveMember}
-                members={members}
-            />
-        )
+    if (loading) return <p>Loading...</p>
+    if (error) {
+        console.log(error)
+        return <p>Error :(</p>
     }
 
     let closed = groupRespData.group.status !== "open"
-    let appInvJSX = (
-        <React.Fragment>
-            <p>
-                This group is closed. So you cannot invite or receive
-                applcations.
-            </p>
-            <p>If you want to add more members, open the group</p>
-        </React.Fragment>
-    )
-    if (!closed) {
-        appInvJSX = (
+
+    let appInvSectionJSX = null
+    if (closed) {
+        appInvSectionJSX = (
             <React.Fragment>
-                <h3>Applicants</h3>
-                {applicantsJSX}
-                <br />
-                <h3>Invites</h3>
-                {invitesJSX}
-                <button>Invite People</button>
-                <br />
-                <br />
+                <p>
+                    This group is closed. So you cannot invite or receive
+                    applcations.
+                </p>
+                <p>If you want to add more members, open the group</p>
             </React.Fragment>
         )
-    }
-
-    let closeButtonJSX = null
-    if (!closed) {
-        closeButtonJSX = (
-            <button
-                style={{ padding: "1rem" }}
-                onClick={() => onCloseGroupClick(groupRespData.group.id)}
-            >
-                Close Group
-            </button>
-        )
     } else {
-        closeButtonJSX = (
-            <button
-                style={{ padding: "1rem" }}
-                onClick={() => onOpenGroupClick(groupRespData.group.id)}
-            >
-                Open Group
-            </button>
+        appInvSectionJSX = (
+            <React.Fragment>
+                <h3>Applications</h3>
+                <ApplicationSection
+                    applications={applications}
+                    onAcceptApplication={onAcceptApplication}
+                    onRejectApplication={onRejectApplication}
+                />
+                <h3>Invites</h3>
+                <InviteSection invites={invites} />
+            </React.Fragment>
         )
     }
 
@@ -237,12 +190,22 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             </button>
             <br />
             <br />
-            {appInvJSX}
+            {appInvSectionJSX}
             <h3>Members</h3>
-            {membersJSX}
+            <MembersSection
+                maxSlots={groupRespData.group.member_max}
+                members={members}
+                onClickViewMember={onClickViewMember}
+                onClickRemoveMember={onClickRemoveMember}
+            />
             <br />
             <br />
-            {closeButtonJSX}
+            <ButtonSection
+                groupClosed={closed}
+                groupId={groupRespData.group.id}
+                onCloseGroupClick={onCloseGroupClick}
+                onOpenGroupClick={onOpenGroupClick}
+            />
             <br />
             <button onClick={() => props.history.goBack()}>Back</button>
         </React.Fragment>

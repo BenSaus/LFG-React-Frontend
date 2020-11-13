@@ -1,5 +1,5 @@
 import React from "react"
-import * as Types from "../../../generated/graphql"
+import * as Types from "../../../../../generated/graphql"
 import styles from "./Applicant.module.css"
 
 interface ApplicantProps {
