@@ -5,8 +5,8 @@ import styles from "./Invites.module.css"
 
 interface InvitessProps {
     invites?: Types.Invite[]
-    clickedInvite?: (inviteId: string) => void
-    clickedAccept?: (inviteId: string) => void
+    onClickedInvite?: (inviteId: string) => void
+    onClickedAccept?: (inviteId: string) => void
 }
 
 const Invites: React.FC<InvitessProps> = (props) => {
@@ -16,8 +16,8 @@ const Invites: React.FC<InvitessProps> = (props) => {
             return (
                 <Invite
                     invite={invite}
-                    clicked={props.clickedInvite}
-                    clickedAccept={props.clickedAccept}
+                    onClicked={props.onClickedInvite}
+                    onClickedAccept={props.onClickedAccept}
                     key={invite.id}
                 />
             )

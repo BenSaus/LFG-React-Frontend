@@ -29,6 +29,9 @@ query manageGetGroup($id: ID!) {
             id
             message
             status
+            invitee {
+                username
+            }
         }
         preferred_rooms {
             id

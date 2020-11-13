@@ -179,7 +179,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
 
     return (
         <React.Fragment>
-            <h1>Manage Group</h1>
+            <h1>Manage Members</h1>
             <h2>{groupRespData.group.name}</h2>
             <button
                 onClick={() => {
@@ -193,11 +193,18 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             {appInvSectionJSX}
             <h3>Members</h3>
             <MembersSection
-                maxSlots={groupRespData.group.member_max}
+                membersMax={groupRespData.group.member_max}
                 members={members}
                 onClickViewMember={onClickViewMember}
                 onClickRemoveMember={onClickRemoveMember}
+                showOpenSlots={!closed}
             />
+            {closed === false ? (
+                <React.Fragment>
+                    <button>Add Slot</button>
+                    <button>Remove Slot</button>
+                </React.Fragment>
+            ) : null}
             <br />
             <br />
             <ButtonSection

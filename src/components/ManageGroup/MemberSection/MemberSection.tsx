@@ -1,30 +1,31 @@
 import React from "react"
-import Members from "../../Members/Members"
+import Members from "./Members/Members"
 import * as Types from "../../../generated/graphql"
 
 interface MembersSectionProps {
     onClickViewMember: (id: string) => Promise<void>
     onClickRemoveMember: (id: string) => Promise<void>
     members: Types.UsersPermissionsUser[]
-    maxSlots: number
+    membersMax: number
+    showOpenSlots: boolean
 }
 
 const MembersSection: React.FC<MembersSectionProps> = (props) => {
     let membersJSX = <p>No Members</p>
-    if (props.members.length > 0) {
-        // const openSlotNum = groupRespData.group.members_max - members.length
-        // const openSlots
 
+    if (props.members.length > 0) {
         membersJSX = (
             <Members
+                membersMax={props.membersMax}
                 viewClicked={props.onClickViewMember}
                 removeClicked={props.onClickRemoveMember}
                 members={props.members}
+                showOpenSlots={props.showOpenSlots}
             />
         )
     }
 
-    return membersJSX
+    return <React.Fragment>{membersJSX}</React.Fragment>
 }
 
 export default MembersSection

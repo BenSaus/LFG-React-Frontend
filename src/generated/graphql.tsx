@@ -2566,6 +2566,10 @@ export type ManageGetGroupQuery = (
     )>>>, invites?: Maybe<Array<Maybe<(
       { __typename?: 'Invite' }
       & Pick<Invite, 'id' | 'message' | 'status'>
+      & { invitee?: Maybe<(
+        { __typename?: 'UsersPermissionsUser' }
+        & Pick<UsersPermissionsUser, 'username'>
+      )> }
     )>>>, preferred_rooms?: Maybe<Array<Maybe<(
       { __typename?: 'Room' }
       & Pick<Room, 'id' | 'name'>
@@ -3408,6 +3412,9 @@ export const ManageGetGroupDocument = gql`
       id
       message
       status
+      invitee {
+        username
+      }
     }
     preferred_rooms {
       id

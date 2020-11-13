@@ -33,7 +33,7 @@ const MyInvites: React.FC<MyInvitesProps> = () => {
     if (loading) return <p>Loading...</p>
     if (error) return <h2>Error :(</h2>
 
-    const handleInviteAcceptClicked = (inviteId: string) => {
+    const onInviteAcceptClicked = (inviteId: string) => {
         console.log("Clicked inviteId: ", inviteId)
 
         if (invites) {
@@ -58,7 +58,7 @@ const MyInvites: React.FC<MyInvitesProps> = () => {
             {invites !== undefined && invites.length > 0 ? (
                 <Invites
                     invites={invites}
-                    clickedAccept={handleInviteAcceptClicked}
+                    onClickedAccept={onInviteAcceptClicked}
                 />
             ) : (
                 <h4>No Invites Found</h4>
