@@ -52,7 +52,7 @@ const Login: React.FC<LoginProps> = (props) => {
 
     if (isAuthenticated) {
         console.log("Login isAuthenticated", isAuthenticated)
-        return <Redirect to="/myGroups" />
+        return <Redirect to="/openGroups" />
     }
 
     return (
