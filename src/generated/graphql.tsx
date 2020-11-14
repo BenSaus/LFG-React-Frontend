@@ -2319,6 +2319,27 @@ export type RejectApplicationMutation = (
   )> }
 );
 
+export type RemoveMemberMutationVariables = Exact<{
+  id: Scalars['ID'];
+  members: Array<Scalars['ID']>;
+}>;
+
+
+export type RemoveMemberMutation = (
+  { __typename?: 'Mutation' }
+  & { updateGroup?: Maybe<(
+    { __typename?: 'updateGroupPayload' }
+    & { group?: Maybe<(
+      { __typename?: 'Group' }
+      & Pick<Group, 'id'>
+      & { members?: Maybe<Array<Maybe<(
+        { __typename?: 'UsersPermissionsUser' }
+        & Pick<UsersPermissionsUser, 'id' | 'username'>
+      )>>> }
+    )> }
+  )> }
+);
+
 export type UpdateGroupMutationVariables = Exact<{
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
@@ -2890,6 +2911,45 @@ export function useRejectApplicationMutation(baseOptions?: Apollo.MutationHookOp
 export type RejectApplicationMutationHookResult = ReturnType<typeof useRejectApplicationMutation>;
 export type RejectApplicationMutationResult = Apollo.MutationResult<RejectApplicationMutation>;
 export type RejectApplicationMutationOptions = Apollo.BaseMutationOptions<RejectApplicationMutation, RejectApplicationMutationVariables>;
+export const RemoveMemberDocument = gql`
+    mutation removeMember($id: ID!, $members: [ID!]!) {
+  updateGroup(input: {where: {id: $id}, data: {members: $members}}) {
+    group {
+      id
+      members {
+        id
+        username
+      }
+    }
+  }
+}
+    `;
+export type RemoveMemberMutationFn = Apollo.MutationFunction<RemoveMemberMutation, RemoveMemberMutationVariables>;
+
+/**
+ * __useRemoveMemberMutation__
+ *
+ * To run a mutation, you first call `useRemoveMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveMemberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeMemberMutation, { data, loading, error }] = useRemoveMemberMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      members: // value for 'members'
+ *   },
+ * });
+ */
+export function useRemoveMemberMutation(baseOptions?: Apollo.MutationHookOptions<RemoveMemberMutation, RemoveMemberMutationVariables>) {
+        return Apollo.useMutation<RemoveMemberMutation, RemoveMemberMutationVariables>(RemoveMemberDocument, baseOptions);
+      }
+export type RemoveMemberMutationHookResult = ReturnType<typeof useRemoveMemberMutation>;
+export type RemoveMemberMutationResult = Apollo.MutationResult<RemoveMemberMutation>;
+export type RemoveMemberMutationOptions = Apollo.BaseMutationOptions<RemoveMemberMutation, RemoveMemberMutationVariables>;
 export const UpdateGroupDocument = gql`
     mutation updateGroup($id: ID!, $name: String, $description: String, $member_max: Int, $min_age: Int, $max_age: Int, $preferred_rooms: [ID!]) {
   updateGroup(input: {where: {id: $id}, data: {name: $name, description: $description, member_max: $member_max, min_age: $min_age, max_age: $max_age, preferred_rooms: $preferred_rooms}}) {

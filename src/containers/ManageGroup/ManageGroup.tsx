@@ -11,6 +11,7 @@ import {
     RejectApplicationDocument,
     CloseGroupDocument,
     OpenGroupDocument,
+    RemoveMemberDocument,
 } from "../../generated/graphql"
 import MembersSection from "../../components/ManageGroup/MemberSection/MemberSection"
 import ButtonSection from "../../components/ManageGroup/ButtonSection/ButtonSection"
@@ -59,6 +60,9 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
 
     const [closeGroup, { data: closeData }] = useMutation(CloseGroupDocument)
     const [openGroup, { data: openData }] = useMutation(OpenGroupDocument)
+    const [removeMember, { data: removeData }] = useMutation(
+        RemoveMemberDocument
+    )
 
     // Handlers
     const onAcceptApplication = async (applicationId: string) => {
@@ -114,7 +118,26 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
     }
 
     const onClickRemoveMember = async (memberId: string) => {
+        // We must remove the given member then resubmit the member list
+        const updatedMembers: Types.UsersPermissionsUser[] = groupRespData.group.members.filter(
+            (member: Types.UsersPermissionsUser) => member.id !== memberId
+        )
+        const ids = updatedMembers.map(
+            (member: Types.UsersPermissionsUser) => member.id
+        )
+
         console.log("Remove member", memberId)
+        console.log("updatedMembers", ids)
+
+        const resp = await removeMember({
+            variables: {
+                id: groupRespData.group.id,
+                members: ids,
+            },
+        })
+
+        setMembers(updatedMembers)
+        console.log(resp)
     }
 
     const onCloseGroupClick = async (groupId: string) => {
