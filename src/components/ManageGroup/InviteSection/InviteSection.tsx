@@ -8,7 +8,7 @@ interface InviteSectionProps {
 }
 
 const InviteSection: React.FC<InviteSectionProps> = (props) => {
-    let invitesJSX = <p>No Invites</p>
+    let invitesJSX = <p>No invites currently</p>
     if (props.invites.length > 0) {
         invitesJSX = (
             <Invites
