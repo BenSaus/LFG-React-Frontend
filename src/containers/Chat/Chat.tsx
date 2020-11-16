@@ -1,7 +1,10 @@
-import { useQuery } from "@apollo/client"
+import { useMutation, useQuery } from "@apollo/client"
 import React from "react"
 import { RouteComponentProps } from "react-router"
-import { GetGroupChatDocument } from "../../generated/graphql"
+import {
+    GetGroupChatDocument,
+    LeaveGroupDocument,
+} from "../../generated/graphql"
 import { useSelector } from "react-redux"
 import { RootType } from "../../store/rootReducer"
 import { AuthState } from "../../store/slices/auth"
@@ -29,6 +32,8 @@ const Chat: React.FC<ChatProps> = (props) => {
         },
     })
 
+    const [leaveGroup] = useMutation(LeaveGroupDocument)
+
     // Handlers
     const onEditDetailsClick = (groupId: string) => {
         props.history.push("/group/edit/" + groupId)
@@ -36,6 +41,34 @@ const Chat: React.FC<ChatProps> = (props) => {
 
     const onManageMembersClick = (groupId: string) => {
         props.history.push("/group/manage/" + groupId)
+    }
+
+    const onLeaveGroupClick = async () => {
+        //
+        // WARNING: ERROR: The API currently allows any user to remove members
+        //
+        console.log("Clicked leave group")
+
+        // We must remove the given member then resubmit the member list
+        const updatedMembers: Types.UsersPermissionsUser[] = data.group.members.filter(
+            (member: Types.UsersPermissionsUser) => member.id !== myId
+        )
+        const ids = updatedMembers.map(
+            (member: Types.UsersPermissionsUser) => member.id
+        )
+
+        console.log("Remove member", myId)
+        console.log("updatedMembers", ids)
+
+        const resp = await leaveGroup({
+            variables: {
+                id: data.group.id,
+                members: ids,
+            },
+        })
+
+        console.log(resp)
+        props.history.push("/myGroups")
     }
 
     // Render
@@ -60,7 +93,9 @@ const Chat: React.FC<ChatProps> = (props) => {
         </React.Fragment>
     )
 
-    const memberButtonsJSX = <button>Leave Group</button>
+    const memberButtonsJSX = (
+        <button onClick={onLeaveGroupClick}>Leave Group</button>
+    )
 
     const membersJSX = data.group.members.map(
         (member: Types.UsersPermissionsUser) => {

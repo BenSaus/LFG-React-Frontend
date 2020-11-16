@@ -179,10 +179,9 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         appInvSectionJSX = (
             <React.Fragment>
                 <p>
-                    This group is closed. So you cannot invite or receive
-                    applcations.
+                    This group is closed. If you want to add more members open
+                    the group.
                 </p>
-                <p>If you want to add more members, open the group</p>
             </React.Fragment>
         )
     } else {

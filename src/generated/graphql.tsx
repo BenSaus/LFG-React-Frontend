@@ -2269,6 +2269,27 @@ export type CreateGroupMutation = (
   )> }
 );
 
+export type LeaveGroupMutationVariables = Exact<{
+  id: Scalars['ID'];
+  members: Array<Scalars['ID']>;
+}>;
+
+
+export type LeaveGroupMutation = (
+  { __typename?: 'Mutation' }
+  & { updateGroup?: Maybe<(
+    { __typename?: 'updateGroupPayload' }
+    & { group?: Maybe<(
+      { __typename?: 'Group' }
+      & Pick<Group, 'id'>
+      & { members?: Maybe<Array<Maybe<(
+        { __typename?: 'UsersPermissionsUser' }
+        & Pick<UsersPermissionsUser, 'id' | 'username'>
+      )>>> }
+    )> }
+  )> }
+);
+
 export type LoginMutationVariables = Exact<{
   identifier: Scalars['String'];
   password: Scalars['String'];
@@ -2803,6 +2824,45 @@ export function useCreateGroupMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateGroupMutationHookResult = ReturnType<typeof useCreateGroupMutation>;
 export type CreateGroupMutationResult = Apollo.MutationResult<CreateGroupMutation>;
 export type CreateGroupMutationOptions = Apollo.BaseMutationOptions<CreateGroupMutation, CreateGroupMutationVariables>;
+export const LeaveGroupDocument = gql`
+    mutation leaveGroup($id: ID!, $members: [ID!]!) {
+  updateGroup(input: {where: {id: $id}, data: {members: $members}}) {
+    group {
+      id
+      members {
+        id
+        username
+      }
+    }
+  }
+}
+    `;
+export type LeaveGroupMutationFn = Apollo.MutationFunction<LeaveGroupMutation, LeaveGroupMutationVariables>;
+
+/**
+ * __useLeaveGroupMutation__
+ *
+ * To run a mutation, you first call `useLeaveGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLeaveGroupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [leaveGroupMutation, { data, loading, error }] = useLeaveGroupMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      members: // value for 'members'
+ *   },
+ * });
+ */
+export function useLeaveGroupMutation(baseOptions?: Apollo.MutationHookOptions<LeaveGroupMutation, LeaveGroupMutationVariables>) {
+        return Apollo.useMutation<LeaveGroupMutation, LeaveGroupMutationVariables>(LeaveGroupDocument, baseOptions);
+      }
+export type LeaveGroupMutationHookResult = ReturnType<typeof useLeaveGroupMutation>;
+export type LeaveGroupMutationResult = Apollo.MutationResult<LeaveGroupMutation>;
+export type LeaveGroupMutationOptions = Apollo.BaseMutationOptions<LeaveGroupMutation, LeaveGroupMutationVariables>;
 export const LoginDocument = gql`
     mutation login($identifier: String!, $password: String!) {
   login(input: {identifier: $identifier, password: $password}) {
