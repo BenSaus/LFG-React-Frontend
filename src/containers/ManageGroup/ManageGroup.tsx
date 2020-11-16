@@ -216,8 +216,10 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
 
         // TODO: Clamp this (1, GroupMax)
         // HARDCODED: The max and min group sizes are hardcoded
+        const memberMinimum = Math.max(groupRespData.group.members.length, 1)
+
         const member_max = Math.min(
-            Math.max(groupRespData.group.member_max - 1, 1),
+            Math.max(groupRespData.group.member_max - 1, memberMinimum),
             8
         )
 

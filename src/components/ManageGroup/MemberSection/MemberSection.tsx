@@ -13,17 +13,15 @@ interface MembersSectionProps {
 const MembersSection: React.FC<MembersSectionProps> = (props) => {
     let membersJSX = <p>No Members</p>
 
-    if (props.members.length > 0) {
-        membersJSX = (
-            <Members
-                membersMax={props.membersMax}
-                viewClicked={props.onClickViewMember}
-                removeClicked={props.onClickRemoveMember}
-                members={props.members}
-                showOpenSlots={props.showOpenSlots}
-            />
-        )
-    }
+    membersJSX = (
+        <Members
+            membersMax={props.membersMax}
+            viewClicked={props.onClickViewMember}
+            removeClicked={props.onClickRemoveMember}
+            members={props.members}
+            showOpenSlots={props.showOpenSlots}
+        />
+    )
 
     return <React.Fragment>{membersJSX}</React.Fragment>
 }
