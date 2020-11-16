@@ -25,7 +25,7 @@ query manageGetGroup($id: ID!) {
             age
             about
         }
-        invites {
+        invites(where: { group_leader_dismissed: false }) {
             id
             message
             status

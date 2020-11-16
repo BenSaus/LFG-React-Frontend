@@ -12,6 +12,8 @@ import {
     CloseGroupDocument,
     OpenGroupDocument,
     RemoveMemberDocument,
+    SetMemberMaxDocument,
+    DismissInviteDocument,
 } from "../../generated/graphql"
 import MembersSection from "../../components/ManageGroup/MemberSection/MemberSection"
 import ButtonSection from "../../components/ManageGroup/ButtonSection/ButtonSection"
@@ -58,10 +60,17 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         RejectApplicationDocument
     )
 
+    const [dismissInvite, { data: dismissData }] = useMutation(
+        DismissInviteDocument
+    )
+
     const [closeGroup, { data: closeData }] = useMutation(CloseGroupDocument)
     const [openGroup, { data: openData }] = useMutation(OpenGroupDocument)
     const [removeMember, { data: removeData }] = useMutation(
         RemoveMemberDocument
+    )
+    const [setMemberMax, { data: setMemberMaxData }] = useMutation(
+        SetMemberMaxDocument
     )
 
     // Handlers
@@ -109,6 +118,23 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             (app) => app.id !== applicationId
         )
         setApplications(updatedApplications)
+    }
+
+    const onDismissInviteClick = async (inviteId: string) => {
+        console.log("Dismiss invite:" + inviteId)
+
+        const resp = await dismissInvite({
+            variables: {
+                id: inviteId,
+            },
+        })
+
+        const updatedInvites = invites.filter(
+            (invite) => invite.id !== inviteId
+        )
+        setInvites(updatedInvites)
+
+        console.log(resp)
     }
 
     const onClickViewMember = async (memberId: string) => {
@@ -164,6 +190,47 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         console.log(resp)
     }
 
+    const onAddMemberSlot = async () => {
+        console.log("Add Slot")
+
+        // TODO: Clamp this (1, GroupMax)
+        // HARDCODED: The max and min group sizes are hardcoded
+        const member_max = Math.min(
+            Math.max(groupRespData.group.member_max + 1, 1),
+            8
+        )
+
+        const resp = await setMemberMax({
+            variables: {
+                id: groupRespData.group.id,
+                member_max,
+            },
+        })
+
+        console.log(resp)
+    }
+
+    const onRemoveMemberSlot = async () => {
+        // do not allow member number > member_max
+        console.log("Remove Slot")
+
+        // TODO: Clamp this (1, GroupMax)
+        // HARDCODED: The max and min group sizes are hardcoded
+        const member_max = Math.min(
+            Math.max(groupRespData.group.member_max - 1, 1),
+            8
+        )
+
+        const resp = await setMemberMax({
+            variables: {
+                id: groupRespData.group.id,
+                member_max,
+            },
+        })
+
+        console.log(resp)
+    }
+
     // Render
 
     if (loading) return <p>Loading...</p>
@@ -194,7 +261,10 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                     onRejectApplication={onRejectApplication}
                 />
                 <h3>Invites</h3>
-                <InviteSection invites={invites} />
+                <InviteSection
+                    invites={invites}
+                    onDismissClicked={onDismissInviteClick}
+                />
             </React.Fragment>
         )
     }
@@ -223,8 +293,8 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             />
             {closed === false ? (
                 <React.Fragment>
-                    <button>Add Slot</button>
-                    <button>Remove Slot</button>
+                    <button onClick={onAddMemberSlot}>Add Slot</button>
+                    <button onClick={onRemoveMemberSlot}>Remove Slot</button>
                 </React.Fragment>
             ) : null}
             <br />

@@ -9,7 +9,7 @@ interface ApplicationSectionProps {
 }
 
 const ApplicationSection: React.FC<ApplicationSectionProps> = (props) => {
-    let applicantsJSX = <p>No Applications Recieved</p>
+    let applicantsJSX = <p>No Applications To Review</p>
     if (props.applications.length > 0) {
         applicantsJSX = (
             <Applicants

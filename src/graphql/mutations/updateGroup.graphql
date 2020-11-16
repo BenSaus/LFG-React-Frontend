@@ -1,3 +1,4 @@
+# WARNING: TODO: Only group leader can do this
 mutation updateGroup(
     $id: ID!
     $name: String

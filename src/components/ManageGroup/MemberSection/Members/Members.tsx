@@ -31,7 +31,6 @@ const Members: React.FC<MembersProps> = (props) => {
 
     if (props.showOpenSlots) {
         const openSlotNum = props.membersMax - props.members.length
-        console.log("openSlotNum", openSlotNum)
 
         for (let x = 0; x < openSlotNum; x++) {
             openSlotsJSX.push(<OpenSlot key={x} />)

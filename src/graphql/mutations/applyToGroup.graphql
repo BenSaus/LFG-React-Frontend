@@ -1,3 +1,4 @@
+# WARNING: TODO: Only non-group member can do this AND No Duplicates allowed
 mutation applyToGroup($group: ID!, $applicant: ID!, $message: String!) {
     createApplication(
         input: {

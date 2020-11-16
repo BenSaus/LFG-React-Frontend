@@ -1,3 +1,4 @@
+# WARNING: TODO: Limit group number per person to 8
 mutation createGroup(
     $name: String!
     $description: String!

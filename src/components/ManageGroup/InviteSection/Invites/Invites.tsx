@@ -5,13 +5,20 @@ import styles from "./Invites.module.css"
 
 interface InvitessProps {
     invites: Types.Invite[]
+    onDismissClicked: (id: string) => Promise<void>
 }
 
 const Invites: React.FC<InvitessProps> = (props) => {
     let invitesJsx
     if (props.invites) {
         invitesJsx = props.invites.map((invite: Types.Invite) => {
-            return <Invite invite={invite} key={invite.id} />
+            return (
+                <Invite
+                    invite={invite}
+                    key={invite.id}
+                    onDismissClicked={props.onDismissClicked}
+                />
+            )
         })
     }
 
