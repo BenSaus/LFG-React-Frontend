@@ -97,6 +97,7 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
                 formData={formData}
                 roomData={roomData.rooms}
                 submitButtonText="Save Changes"
+                openSlotsEditable={false}
             />
         </React.Fragment>
     )

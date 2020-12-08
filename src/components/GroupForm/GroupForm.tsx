@@ -15,6 +15,7 @@ interface GroupFormProps {
     }
     roomData: Types.Room[]
     submitButtonText: string
+    openSlotsEditable: boolean
 }
 
 const GroupForm: React.FC<GroupFormProps> = (props) => {
@@ -40,6 +41,23 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
     })
 
     // Render
+    let openSlotsJSX = null
+    if (props.openSlotsEditable) {
+        openSlotsJSX = (
+            <React.Fragment>
+                <label htmlFor="">Open Slots: </label>
+                <input
+                    id="member_max"
+                    name="member_max"
+                    onChange={formik.handleChange}
+                    value={formik.values.member_max}
+                    type="number"
+                />
+                <br />
+            </React.Fragment>
+        )
+    }
+
     return (
         <React.Fragment>
             <form onSubmit={formik.handleSubmit}>
@@ -61,15 +79,7 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                     value={formik.values.description}
                 ></textarea>
                 <br />
-                <label htmlFor="">Open Slots: </label>
-                <input
-                    id="member_max"
-                    name="member_max"
-                    onChange={formik.handleChange}
-                    value={formik.values.member_max}
-                    type="number"
-                />
-                <br />
+                {openSlotsJSX}
                 <label htmlFor="">Room Preference: </label>
                 <select
                     name="preferred_rooms"
@@ -108,7 +118,6 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                 <label htmlFor="">Available Times: </label>
                 <input type="text" /> */}
                 <br />
-
                 <button style={{ margin: "1rem 0" }} type="submit">
                     {props.submitButtonText}
                 </button>
