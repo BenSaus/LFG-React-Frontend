@@ -32,7 +32,9 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
 
     // GraphQL
     const { loading, error, data: roomData } = useQuery(GetRoomsDocument)
-    const [createGroup] = useMutation(CreateGroupDocument)
+    const [createGroup, { data: createData, error: createError }] = useMutation(
+        CreateGroupDocument
+    )
 
     // Render
     if (loading) return <p>Loading...</p>
@@ -43,25 +45,33 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
     const onSubmit = async (values: any) => {
         console.log("Create Group Submit", values)
 
-        const resp = await createGroup({
-            variables: {
-                name: values.name,
-                member_max: values.member_max,
-                max_age: values.max_age,
-                min_age: values.min_age,
-                leader: myId, // TODO: This should be set server side!!!!!!!!!!!!!
-                description: values.description,
-                preferred_rooms: values.preferred_rooms,
-                members: [],
-            },
-        })
+        try {
+            const resp = await createGroup({
+                variables: {
+                    name: values.name,
+                    member_max: values.member_max,
+                    max_age: values.max_age,
+                    min_age: values.min_age,
+                    leader: myId, // TODO: This should be set server side!!!!!!!!!!!!!
+                    description: values.description,
+                    preferred_rooms: values.preferred_rooms,
+                    members: [],
+                },
+            })
+            console.log(resp)
 
-        console.log(resp)
+            const groupId = resp.data.createGroup.group.id
 
-        const groupId = resp.data.createGroup.group.id
-
-        console.log("Moving to " + `/group/manage/${groupId}`)
-        props.history.push(`/group/manage/${groupId}`)
+            console.log("Moving to " + `/group/manage/${groupId}`)
+            props.history.push(`/group/manage/${groupId}`)
+        } catch (error) {
+            console.dir(error, { depth: null })
+            console.dir(
+                "Error Code:",
+                error.graphQLErrors[0].extensions.exception.code
+            )
+            alert(error.message)
+        }
     }
 
     const onCancel = () => {
@@ -72,12 +82,12 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
         <React.Fragment>
             <h1>Create Group</h1>
             <GroupForm
-                // leader={myUsername}
                 onSubmit={onSubmit}
                 onCancel={onCancel}
                 formData={initFormData}
                 roomData={roomData.rooms}
                 submitButtonText="Create Group"
+                openSlotsEditable={true}
             />
         </React.Fragment>
     )
