@@ -1,13 +1,13 @@
 import React from "react"
 import * as Types from "../../generated/graphql"
-import styles from "./Applications.module.css"
+import styles from "./ApplicationList.module.css"
 import Application from "./Application/Application"
 
-interface ApplicationsProps {
+interface ApplicationListProps {
     applications: Types.Application[]
 }
 
-const Applications: React.FC<ApplicationsProps> = (props) => {
+const ApplicationList: React.FC<ApplicationListProps> = (props) => {
     let appsJsx
     if (props.applications) {
         appsJsx = props.applications.map((app) => {
@@ -15,7 +15,7 @@ const Applications: React.FC<ApplicationsProps> = (props) => {
         })
     }
 
-    return <div className={styles.Applications}>{appsJsx}</div>
+    return <div className={styles.ApplicationList}>{appsJsx}</div>
 }
 
-export default Applications
+export default ApplicationList

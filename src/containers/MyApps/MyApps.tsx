@@ -1,6 +1,6 @@
 import React from "react"
 import { useQuery } from "@apollo/client"
-import Applications from "../../components/Applications/Applications"
+import ApplicationList from "../../components/ApplicationList/ApplicationList"
 import { useSelector } from "react-redux"
 import { RootType } from "../../store/rootReducer"
 import { AuthState } from "../../store/slices/auth"
@@ -28,7 +28,7 @@ export const MyApps: React.FC<MyAppsProps> = () => {
         <React.Fragment>
             <h1>My Applications</h1>
             {data.applications !== undefined && data.applications.length > 0 ? (
-                <Applications applications={data.applications} />
+                <ApplicationList applications={data.applications} />
             ) : (
                 <h4>No Applications Found</h4>
             )}

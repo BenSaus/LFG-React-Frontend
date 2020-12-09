@@ -1,6 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client"
 import React, { useState } from "react"
-import Invites from "../../components/Invites/Invites"
+import InviteList from "../../components/InviteList/InviteList"
 import * as Types from "../../generated/graphql"
 import { useSelector } from "react-redux"
 import { RootType } from "../../store/rootReducer"
@@ -56,7 +56,7 @@ const MyInvites: React.FC<MyInvitesProps> = () => {
         <div>
             <h1>My Invites</h1>
             {invites !== undefined && invites.length > 0 ? (
-                <Invites
+                <InviteList
                     invites={invites}
                     onClickedAccept={onInviteAcceptClicked}
                 />

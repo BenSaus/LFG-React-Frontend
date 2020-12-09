@@ -1,15 +1,15 @@
 import React from "react"
 import * as Types from "../../generated/graphql"
-import Invite from "../../components/Invites/Invite/Invite"
-import styles from "./Invites.module.css"
+import Invite from "./Invite/Invite"
+import styles from "./InviteList.module.css"
 
-interface InvitessProps {
+interface InviteListProps {
     invites?: Types.Invite[]
     onClickedInvite?: (inviteId: string) => void
     onClickedAccept?: (inviteId: string) => void
 }
 
-const Invites: React.FC<InvitessProps> = (props) => {
+const InviteList: React.FC<InviteListProps> = (props) => {
     let invitesJsx
     if (props.invites) {
         invitesJsx = props.invites.map((invite: Types.Invite) => {
@@ -24,7 +24,7 @@ const Invites: React.FC<InvitessProps> = (props) => {
         })
     }
 
-    return <div className={styles.Invites}>{invitesJsx}</div>
+    return <div className={styles.InviteList}>{invitesJsx}</div>
 }
 
-export default Invites
+export default InviteList

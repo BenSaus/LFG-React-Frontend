@@ -1,7 +1,7 @@
 import React from "react"
 import { Group } from "../../generated/graphql"
 import GroupComponent from "./Group/Group"
-import styles from "./Groups.module.css"
+import styles from "./GroupList.module.css"
 import groupUtil from "../../utils/groupUtil"
 
 interface GroupListProps {
@@ -29,7 +29,7 @@ const GroupList: React.FC<GroupListProps> = (props) => {
         })
     }
 
-    return <div className={styles.Groups}>{groupsJsx}</div>
+    return <div className={styles.GroupList}>{groupsJsx}</div>
 }
 
 export default GroupList
