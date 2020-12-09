@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useQuery } from "@apollo/client"
-import Groups from "../../components/Groups/Groups"
+import GroupList from "../../components/GroupList/GroupList"
 import { RouteComponentProps } from "react-router"
 import { RootType } from "../../store/rootReducer"
 import { useSelector } from "react-redux"
@@ -73,14 +73,22 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
     let leadGroupsJSX = <p>No Groups Found</p>
     if (leadingGroups.length > 0) {
         leadGroupsJSX = (
-            <Groups groups={leadingGroups} clickedGroup={onGroupLeadClick} />
+            <GroupList
+                groups={leadingGroups}
+                clickedGroup={onGroupLeadClick}
+                showGroupsWithNoOpenSlots={true}
+            />
         )
     }
 
     let memberGroupsJSX = <p>No Groups Found</p>
     if (memberGroups.length > 0) {
         memberGroupsJSX = (
-            <Groups groups={memberGroups} clickedGroup={onGroupMemberClick} />
+            <GroupList
+                groups={memberGroups}
+                clickedGroup={onGroupMemberClick}
+                showGroupsWithNoOpenSlots={true}
+            />
         )
     }
 

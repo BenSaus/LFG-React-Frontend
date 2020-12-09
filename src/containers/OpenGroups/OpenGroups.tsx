@@ -1,5 +1,5 @@
 import React from "react"
-import Groups from "../../components/Groups/Groups"
+import GroupList from "../../components/GroupList/GroupList"
 import { RouteComponentProps } from "react-router"
 import { GetOpenGroupsDocument } from "../../generated/graphql"
 import { useQuery } from "@apollo/client"
@@ -22,7 +22,11 @@ const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
         return (
             <div>
                 <h1>Open Groups</h1>
-                <Groups groups={data.groups} clickedGroup={onGroupClick} />
+                <GroupList
+                    groups={data.groups}
+                    clickedGroup={onGroupClick}
+                    showGroupsWithNoOpenSlots={false}
+                />
                 {/* <ReduxExample /> */}
             </div>
         )
