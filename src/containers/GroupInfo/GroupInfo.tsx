@@ -26,7 +26,7 @@ const GroupInfo: React.FC<GroupInfoProps> = (props) => {
     const groupInfo: Types.Group = data.group
 
     const leaderJSX = (
-        <Link to={`${process.env.PUBLIC_URL}/user/${groupInfo.leader?.id}`}>
+        <Link to={`/user/${groupInfo.leader?.id}`}>
             <span>{groupInfo.leader?.username}</span>
         </Link>
     )

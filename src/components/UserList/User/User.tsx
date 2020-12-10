@@ -24,7 +24,7 @@ const User: React.FC<UserProps> = (props) => {
                 <p>About: {props.user.about}</p>
             </div>
             <div>
-                <Link to={`${process.env.PUBLIC_URL}/user/${props.user.id}`}>
+                <Link to={`/user/${props.user.id}`}>
                     <button>View Profile</button>
                 </Link>
                 <button

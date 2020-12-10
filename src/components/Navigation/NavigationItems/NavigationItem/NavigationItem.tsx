@@ -9,7 +9,7 @@ interface NavigationItemProps {
 export const NavigationItem: React.FC<NavigationItemProps> = (props) => {
     return (
         <li className={style.NavigationItem}>
-            <Link to={`${process.env.PUBLIC_URL}/${props.link}`}>
+            <Link to={`${props.link}`}>
                 {props.children}
             </Link>
         </li>
