@@ -17,7 +17,7 @@ export const Toolbar: React.FC<ToolbarProps> = (props) => {
         <header className={styles.Toolbar}>
             <DrawerToggle clicked={props.drawerToggleClicked} />
             <div className={styles.Logo}>
-                <Link to="/">
+                <Link to={`${process.env.PUBLIC_URL}/`}>
                     <Logo height="75px" />
                 </Link>
             </div>
