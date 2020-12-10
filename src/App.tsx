@@ -47,31 +47,98 @@ function App() {
     if (isAuthenticated) {
         routes = (
             <Switch>
-                <Route path="/" exact component={LandingPage} />
-                <Route path="/login" exact component={Login} />
-                <Route path="/logout" exact component={Logout} />
-                <Route path="/openGroups" exact component={OpenGroups} />
-                <Route path="/openUsers/:groupId" exact component={OpenUsers} />
-                <Route path="/user/:id" exact component={UserInfo} />
-                <Route path="/group/create" exact component={CreateGroup} />
-                <Route path="/group/manage/:id" exact component={ManageGroup} />
-                <Route path="/group/edit/:id" exact component={EditGroup} />
-                <Route path="/group/:id" exact component={GroupInfo} />
-                <Route path="/group/chat/:id" exact component={Chat} />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/`}
+                    exact
+                    component={LandingPage}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/login`}
+                    exact
+                    component={Login}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/logout`}
+                    exact
+                    component={Logout}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/openGroups`}
+                    exact
+                    component={OpenGroups}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/openUsers/:groupId`}
+                    exact
+                    component={OpenUsers}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/user/:id`}
+                    exact
+                    component={UserInfo}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/group/create`}
+                    exact
+                    component={CreateGroup}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/group/manage/:id`}
+                    exact
+                    component={ManageGroup}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/group/edit/:id`}
+                    exact
+                    component={EditGroup}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/group/:id`}
+                    exact
+                    component={GroupInfo}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/group/chat/:id`}
+                    exact
+                    component={Chat}
+                />
                 {/* TODO: this should be /group/apply/:id  */}
-                <Route path="/apply/:id" exact component={Apply} />
-                <Route path="/myApps" exact component={MyApps} />
-                <Route path="/myGroups" exact component={MyGroups} />
-                <Route path="/myInvites" exact component={MyInvites} />
-                <Route path="/myProfile" exact component={MyProfile} />
-                <Route path="*" component={NotFound404} />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/apply/:id`}
+                    exact
+                    component={Apply}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/myApps`}
+                    exact
+                    component={MyApps}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/myGroups`}
+                    exact
+                    component={MyGroups}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/myInvites`}
+                    exact
+                    component={MyInvites}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/myProfile`}
+                    exact
+                    component={MyProfile}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/*`}
+                    component={NotFound404}
+                />
                 {/* <Redirect to="/" /> */}
             </Switch>
         )
     }
 
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/LFG-React-Frontend">
             <div className="App">
                 <Layout>{routes}</Layout>
             </div>
