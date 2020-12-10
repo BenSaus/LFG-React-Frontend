@@ -1,7 +1,6 @@
 {
     "name": "front_react_proto2",
     "version": "0.1.0",
-    "homepage": "https://goofy-tesla-543f2c.netlify.app/",
     "private": true,
     "dependencies": {
         "@apollo/client": "^3.2.2",
