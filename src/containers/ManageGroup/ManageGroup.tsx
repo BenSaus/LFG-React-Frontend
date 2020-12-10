@@ -267,6 +267,15 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                     invites={invites}
                     onDismissClicked={onDismissInviteClick}
                 />
+                <button
+                    onClick={() => {
+                        props.history.push(
+                            `/openUsers/${groupRespData.group.id}`
+                        )
+                    }}
+                >
+                    Find More Members
+                </button>
             </React.Fragment>
         )
     }

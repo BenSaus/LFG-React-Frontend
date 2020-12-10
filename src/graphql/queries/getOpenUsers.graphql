@@ -1,0 +1,30 @@
+query getOpenUsers($groupId: ID!) {
+    group(id: $groupId) {
+        id
+        leader {
+            id
+        }
+        members {
+            id
+        }
+        invites {
+            invitee {
+                id
+            }
+        }
+        applications {
+            applicant {
+                id
+            }
+        }
+    }
+
+    users(where: { open_to_invite: true }) {
+        id
+        username
+        age
+        about
+        open_to_invite
+        hide_age
+    }
+}

@@ -6,6 +6,7 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
 import Layout from "./containers/Layout/Layout"
 import Login from "./containers/Login/Login"
 import OpenGroups from "./containers/OpenGroups/OpenGroups"
+import OpenUsers from "./containers/OpenUsers/OpenUsers"
 import GroupInfo from "./containers/GroupInfo/GroupInfo"
 import UserInfo from "./containers/UserInfo/UserInfo"
 import Apply from "./containers/Apply/Apply"
@@ -50,6 +51,7 @@ function App() {
                 <Route path="/login" exact component={Login} />
                 <Route path="/logout" exact component={Logout} />
                 <Route path="/openGroups" exact component={OpenGroups} />
+                <Route path="/openUsers/:groupId" exact component={OpenUsers} />
                 <Route path="/user/:id" exact component={UserInfo} />
                 <Route path="/group/create" exact component={CreateGroup} />
                 <Route path="/group/manage/:id" exact component={ManageGroup} />

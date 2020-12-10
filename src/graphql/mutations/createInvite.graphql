@@ -1,0 +1,26 @@
+mutation createInvite($groupId: ID!, $inviteeId: ID!, $message: String!) {
+    createInvite(
+        input: {
+            data: {
+                group: $groupId
+                invitee: $inviteeId
+                status: undecided
+                message: $message
+                group_leader_dismissed: false
+            }
+        }
+    ) {
+        invite {
+            group {
+                id
+                name
+            }
+            invitee {
+                id
+                username
+            }
+            status
+            group_leader_dismissed
+        }
+    }
+}

@@ -2279,6 +2279,31 @@ export type CreateGroupMutation = (
   )> }
 );
 
+export type CreateInviteMutationVariables = Exact<{
+  groupId: Scalars['ID'];
+  inviteeId: Scalars['ID'];
+  message: Scalars['String'];
+}>;
+
+
+export type CreateInviteMutation = (
+  { __typename?: 'Mutation' }
+  & { createInvite?: Maybe<(
+    { __typename?: 'createInvitePayload' }
+    & { invite?: Maybe<(
+      { __typename?: 'Invite' }
+      & Pick<Invite, 'status' | 'group_leader_dismissed'>
+      & { group?: Maybe<(
+        { __typename?: 'Group' }
+        & Pick<Group, 'id' | 'name'>
+      )>, invitee?: Maybe<(
+        { __typename?: 'UsersPermissionsUser' }
+        & Pick<UsersPermissionsUser, 'id' | 'username'>
+      )> }
+    )> }
+  )> }
+);
+
 export type DismissInviteMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2589,6 +2614,41 @@ export type GetOpenGroupsQuery = (
   )>>> }
 );
 
+export type GetOpenUsersQueryVariables = Exact<{
+  groupId: Scalars['ID'];
+}>;
+
+
+export type GetOpenUsersQuery = (
+  { __typename?: 'Query' }
+  & { group?: Maybe<(
+    { __typename?: 'Group' }
+    & Pick<Group, 'id'>
+    & { leader?: Maybe<(
+      { __typename?: 'UsersPermissionsUser' }
+      & Pick<UsersPermissionsUser, 'id'>
+    )>, members?: Maybe<Array<Maybe<(
+      { __typename?: 'UsersPermissionsUser' }
+      & Pick<UsersPermissionsUser, 'id'>
+    )>>>, invites?: Maybe<Array<Maybe<(
+      { __typename?: 'Invite' }
+      & { invitee?: Maybe<(
+        { __typename?: 'UsersPermissionsUser' }
+        & Pick<UsersPermissionsUser, 'id'>
+      )> }
+    )>>>, applications?: Maybe<Array<Maybe<(
+      { __typename?: 'Application' }
+      & { applicant?: Maybe<(
+        { __typename?: 'UsersPermissionsUser' }
+        & Pick<UsersPermissionsUser, 'id'>
+      )> }
+    )>>> }
+  )>, users?: Maybe<Array<Maybe<(
+    { __typename?: 'UsersPermissionsUser' }
+    & Pick<UsersPermissionsUser, 'id' | 'username' | 'age' | 'about' | 'open_to_invite' | 'hide_age'>
+  )>>> }
+);
+
 export type GetRoomsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2867,6 +2927,51 @@ export function useCreateGroupMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateGroupMutationHookResult = ReturnType<typeof useCreateGroupMutation>;
 export type CreateGroupMutationResult = Apollo.MutationResult<CreateGroupMutation>;
 export type CreateGroupMutationOptions = Apollo.BaseMutationOptions<CreateGroupMutation, CreateGroupMutationVariables>;
+export const CreateInviteDocument = gql`
+    mutation createInvite($groupId: ID!, $inviteeId: ID!, $message: String!) {
+  createInvite(input: {data: {group: $groupId, invitee: $inviteeId, status: undecided, message: $message, group_leader_dismissed: false}}) {
+    invite {
+      group {
+        id
+        name
+      }
+      invitee {
+        id
+        username
+      }
+      status
+      group_leader_dismissed
+    }
+  }
+}
+    `;
+export type CreateInviteMutationFn = Apollo.MutationFunction<CreateInviteMutation, CreateInviteMutationVariables>;
+
+/**
+ * __useCreateInviteMutation__
+ *
+ * To run a mutation, you first call `useCreateInviteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateInviteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createInviteMutation, { data, loading, error }] = useCreateInviteMutation({
+ *   variables: {
+ *      groupId: // value for 'groupId'
+ *      inviteeId: // value for 'inviteeId'
+ *      message: // value for 'message'
+ *   },
+ * });
+ */
+export function useCreateInviteMutation(baseOptions?: Apollo.MutationHookOptions<CreateInviteMutation, CreateInviteMutationVariables>) {
+        return Apollo.useMutation<CreateInviteMutation, CreateInviteMutationVariables>(CreateInviteDocument, baseOptions);
+      }
+export type CreateInviteMutationHookResult = ReturnType<typeof useCreateInviteMutation>;
+export type CreateInviteMutationResult = Apollo.MutationResult<CreateInviteMutation>;
+export type CreateInviteMutationOptions = Apollo.BaseMutationOptions<CreateInviteMutation, CreateInviteMutationVariables>;
 export const DismissInviteDocument = gql`
     mutation dismissInvite($id: ID!) {
   updateInvite(input: {where: {id: $id}, data: {group_leader_dismissed: true}}) {
@@ -3526,6 +3631,63 @@ export function useGetOpenGroupsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetOpenGroupsQueryHookResult = ReturnType<typeof useGetOpenGroupsQuery>;
 export type GetOpenGroupsLazyQueryHookResult = ReturnType<typeof useGetOpenGroupsLazyQuery>;
 export type GetOpenGroupsQueryResult = Apollo.QueryResult<GetOpenGroupsQuery, GetOpenGroupsQueryVariables>;
+export const GetOpenUsersDocument = gql`
+    query getOpenUsers($groupId: ID!) {
+  group(id: $groupId) {
+    id
+    leader {
+      id
+    }
+    members {
+      id
+    }
+    invites {
+      invitee {
+        id
+      }
+    }
+    applications {
+      applicant {
+        id
+      }
+    }
+  }
+  users(where: {open_to_invite: true}) {
+    id
+    username
+    age
+    about
+    open_to_invite
+    hide_age
+  }
+}
+    `;
+
+/**
+ * __useGetOpenUsersQuery__
+ *
+ * To run a query within a React component, call `useGetOpenUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOpenUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOpenUsersQuery({
+ *   variables: {
+ *      groupId: // value for 'groupId'
+ *   },
+ * });
+ */
+export function useGetOpenUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetOpenUsersQuery, GetOpenUsersQueryVariables>) {
+        return Apollo.useQuery<GetOpenUsersQuery, GetOpenUsersQueryVariables>(GetOpenUsersDocument, baseOptions);
+      }
+export function useGetOpenUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOpenUsersQuery, GetOpenUsersQueryVariables>) {
+          return Apollo.useLazyQuery<GetOpenUsersQuery, GetOpenUsersQueryVariables>(GetOpenUsersDocument, baseOptions);
+        }
+export type GetOpenUsersQueryHookResult = ReturnType<typeof useGetOpenUsersQuery>;
+export type GetOpenUsersLazyQueryHookResult = ReturnType<typeof useGetOpenUsersLazyQuery>;
+export type GetOpenUsersQueryResult = Apollo.QueryResult<GetOpenUsersQuery, GetOpenUsersQueryVariables>;
 export const GetRoomsDocument = gql`
     query getRooms {
   rooms {

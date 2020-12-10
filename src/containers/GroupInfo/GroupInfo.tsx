@@ -25,7 +25,7 @@ const GroupInfo: React.FC<GroupInfoProps> = (props) => {
 
     const groupInfo: Types.Group = data.group
 
-    const leader = (
+    const leaderJSX = (
         <Link to={`/user/${groupInfo.leader?.id}`}>
             <span>{groupInfo.leader?.username}</span>
         </Link>
@@ -58,7 +58,7 @@ const GroupInfo: React.FC<GroupInfoProps> = (props) => {
             <div>
                 <h2>Group Info</h2>
                 <p>Group Name: {groupInfo.name}</p>
-                <p>Leader: {leader}</p>
+                <p>Leader: {leaderJSX}</p>
                 <p>Description: {groupInfo.description}</p>
                 <p>
                     Age Range: {groupInfo.min_age} - {groupInfo.max_age}
