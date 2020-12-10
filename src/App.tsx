@@ -37,9 +37,9 @@ function App() {
 
     let routes = (
         <Switch>
-            <Route path="/" exact component={LandingPage} />
-            <Route path="/login" exact component={Login} />
-            <Route path="*" component={NotFound404} />
+            <Route path={`${process.env.PUBLIC_URL}/`} exact component={LandingPage} />
+            <Route path={`${process.env.PUBLIC_URL}/login`} exact component={Login} />
+            <Route path={`${process.env.PUBLIC_URL}/*`} component={NotFound404} />
             {/* <Redirect to="/" /> */}
         </Switch>
     )
@@ -138,7 +138,7 @@ function App() {
     }
 
     return (
-        <BrowserRouter basename="/LFG-React-Frontend">
+        <BrowserRouter basename={`${process.env.PUBLIC_URL}`}>
             <div className="App">
                 <Layout>{routes}</Layout>
             </div>
