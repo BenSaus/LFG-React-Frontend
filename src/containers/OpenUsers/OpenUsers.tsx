@@ -120,7 +120,7 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
 
     return (
         <React.Fragment>
-            <h1>OpenUsers</h1>
+            <h1>Find More Members</h1>
             {usersListJSX}
             <button onClick={onBackClick}>Back</button>
         </React.Fragment>
