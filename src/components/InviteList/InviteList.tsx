@@ -7,6 +7,7 @@ interface InviteListProps {
     invites?: Types.Invite[]
     onClickedInvite?: (inviteId: string) => void
     onClickedAccept?: (inviteId: string) => void
+    onClickedReject?: (inviteId: string) => void
 }
 
 const InviteList: React.FC<InviteListProps> = (props) => {
@@ -18,6 +19,7 @@ const InviteList: React.FC<InviteListProps> = (props) => {
                     invite={invite}
                     onClicked={props.onClickedInvite}
                     onClickedAccept={props.onClickedAccept}
+                    onClickedReject={props.onClickedReject}
                     key={invite.id}
                 />
             )

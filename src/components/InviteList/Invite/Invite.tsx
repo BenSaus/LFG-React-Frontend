@@ -6,6 +6,7 @@ interface InviteProps {
     invite: Types.Invite
     onClicked?: (inviteId: string) => void
     onClickedAccept?: (inviteId: string) => void
+    onClickedReject?: (inviteId: string) => void
 }
 
 const Invite: React.FC<InviteProps> = (props) => {
@@ -18,14 +19,24 @@ const Invite: React.FC<InviteProps> = (props) => {
         >
             <p>Group Name: {props.invite.group?.name}</p>
             <p>Message: {props.invite.message}</p>
-            <button
-                onClick={() => {
-                    if (props.onClickedAccept)
-                        return props.onClickedAccept(props.invite.id)
-                }}
-            >
-                Accept
-            </button>
+            <div>
+                <button
+                    onClick={() => {
+                        if (props.onClickedAccept)
+                            return props.onClickedAccept(props.invite.id)
+                    }}
+                >
+                    Accept
+                </button>
+                <button
+                    onClick={() => {
+                        if (props.onClickedReject)
+                            return props.onClickedReject(props.invite.id)
+                    }}
+                >
+                    Reject
+                </button>
+            </div>
         </div>
     )
 }
