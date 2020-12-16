@@ -34,9 +34,24 @@ export type RejectApplicationPayload = {
   application?: Maybe<Application>;
 };
 
+export type RemoveMemberPayload = {
+  __typename?: 'removeMemberPayload';
+  group?: Maybe<Group>;
+};
+
+export type LeaveGroupPayload = {
+  __typename?: 'leaveGroupPayload';
+  group?: Maybe<Group>;
+};
+
 export type AcceptInvitePayload = {
   __typename?: 'acceptInvitePayload';
   group?: Maybe<Group>;
+  invite?: Maybe<Invite>;
+};
+
+export type DismissInvitePayload = {
+  __typename?: 'dismissInvitePayload';
   invite?: Maybe<Invite>;
 };
 
@@ -906,6 +921,7 @@ export type Room = {
   description?: Maybe<Scalars['String']>;
   image?: Maybe<UploadFile>;
   business?: Maybe<Business>;
+  player_max?: Maybe<Scalars['Int']>;
   groups_preferred?: Maybe<Array<Maybe<Group>>>;
 };
 
@@ -928,6 +944,30 @@ export type RoomAggregator = {
   __typename?: 'RoomAggregator';
   count?: Maybe<Scalars['Int']>;
   totalCount?: Maybe<Scalars['Int']>;
+  sum?: Maybe<RoomAggregatorSum>;
+  avg?: Maybe<RoomAggregatorAvg>;
+  min?: Maybe<RoomAggregatorMin>;
+  max?: Maybe<RoomAggregatorMax>;
+};
+
+export type RoomAggregatorSum = {
+  __typename?: 'RoomAggregatorSum';
+  player_max?: Maybe<Scalars['Float']>;
+};
+
+export type RoomAggregatorAvg = {
+  __typename?: 'RoomAggregatorAvg';
+  player_max?: Maybe<Scalars['Float']>;
+};
+
+export type RoomAggregatorMin = {
+  __typename?: 'RoomAggregatorMin';
+  player_max?: Maybe<Scalars['Float']>;
+};
+
+export type RoomAggregatorMax = {
+  __typename?: 'RoomAggregatorMax';
+  player_max?: Maybe<Scalars['Float']>;
 };
 
 export type RoomGroupBy = {
@@ -939,6 +979,7 @@ export type RoomGroupBy = {
   description?: Maybe<Array<Maybe<RoomConnectionDescription>>>;
   image?: Maybe<Array<Maybe<RoomConnectionImage>>>;
   business?: Maybe<Array<Maybe<RoomConnectionBusiness>>>;
+  player_max?: Maybe<Array<Maybe<RoomConnectionPlayer_Max>>>;
 };
 
 export type RoomConnectionId = {
@@ -983,12 +1024,19 @@ export type RoomConnectionBusiness = {
   connection?: Maybe<RoomConnection>;
 };
 
+export type RoomConnectionPlayer_Max = {
+  __typename?: 'RoomConnectionPlayer_max';
+  key?: Maybe<Scalars['Int']>;
+  connection?: Maybe<RoomConnection>;
+};
+
 export type RoomInput = {
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['ID']>;
   business?: Maybe<Scalars['ID']>;
   groups_preferred?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  player_max?: Maybe<Scalars['Int']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -999,6 +1047,7 @@ export type EditRoomInput = {
   image?: Maybe<Scalars['ID']>;
   business?: Maybe<Scalars['ID']>;
   groups_preferred?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  player_max?: Maybe<Scalars['Int']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -1674,7 +1723,7 @@ export type DeleteUserPayload = {
   user?: Maybe<UsersPermissionsUser>;
 };
 
-export type Morph = AcceptApplicationPayload | RejectApplicationPayload | AcceptInvitePayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | UsersPermissionsMeExtra | Achievement | AchievementConnection | AchievementAggregator | AchievementGroupBy | AchievementConnectionId | AchievementConnectionCreated_At | AchievementConnectionUpdated_At | AchievementConnectionDescription | AchievementConnectionImage | AchievementConnectionName | CreateAchievementPayload | UpdateAchievementPayload | DeleteAchievementPayload | Application | ApplicationConnection | ApplicationAggregator | ApplicationGroupBy | ApplicationConnectionId | ApplicationConnectionCreated_At | ApplicationConnectionUpdated_At | ApplicationConnectionApplicant | ApplicationConnectionMessage | ApplicationConnectionGroup | ApplicationConnectionStatus | CreateApplicationPayload | UpdateApplicationPayload | DeleteApplicationPayload | Business | BusinessConnection | BusinessAggregator | BusinessGroupBy | BusinessConnectionId | BusinessConnectionCreated_At | BusinessConnectionUpdated_At | BusinessConnectionName | BusinessConnectionAddress | BusinessConnectionWebsite_Url | BusinessConnectionDescription | BusinessConnectionImage | CreateBusinessPayload | UpdateBusinessPayload | DeleteBusinessPayload | Group | GroupConnection | GroupAggregator | GroupAggregatorSum | GroupAggregatorAvg | GroupAggregatorMin | GroupAggregatorMax | GroupGroupBy | GroupConnectionId | GroupConnectionCreated_At | GroupConnectionUpdated_At | GroupConnectionDescription | GroupConnectionMember_Max | GroupConnectionBooking_Status | GroupConnectionMax_Age | GroupConnectionMin_Age | GroupConnectionBookdate | GroupConnectionName | GroupConnectionLeader | GroupConnectionStatus | CreateGroupPayload | UpdateGroupPayload | DeleteGroupPayload | Invite | InviteConnection | InviteAggregator | InviteGroupBy | InviteConnectionId | InviteConnectionCreated_At | InviteConnectionUpdated_At | InviteConnectionInvitee | InviteConnectionMessage | InviteConnectionGroup | InviteConnectionStatus | InviteConnectionGroup_Leader_Dismissed | CreateInvitePayload | UpdateInvitePayload | DeleteInvitePayload | Room | RoomConnection | RoomAggregator | RoomGroupBy | RoomConnectionId | RoomConnectionCreated_At | RoomConnectionUpdated_At | RoomConnectionName | RoomConnectionDescription | RoomConnectionImage | RoomConnectionBusiness | CreateRoomPayload | UpdateRoomPayload | DeleteRoomPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserAggregatorSum | UsersPermissionsUserAggregatorAvg | UsersPermissionsUserAggregatorMin | UsersPermissionsUserAggregatorMax | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionAge | UsersPermissionsUserConnectionImage | UsersPermissionsUserConnectionAbout | UsersPermissionsUserConnectionOpen_To_Invite | UsersPermissionsUserConnectionHide_Age | UsersPermissionsUserConnectionApproved | CreateUserPayload | UpdateUserPayload | DeleteUserPayload;
+export type Morph = AcceptApplicationPayload | RejectApplicationPayload | RemoveMemberPayload | LeaveGroupPayload | AcceptInvitePayload | DismissInvitePayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | UsersPermissionsMeExtra | Achievement | AchievementConnection | AchievementAggregator | AchievementGroupBy | AchievementConnectionId | AchievementConnectionCreated_At | AchievementConnectionUpdated_At | AchievementConnectionDescription | AchievementConnectionImage | AchievementConnectionName | CreateAchievementPayload | UpdateAchievementPayload | DeleteAchievementPayload | Application | ApplicationConnection | ApplicationAggregator | ApplicationGroupBy | ApplicationConnectionId | ApplicationConnectionCreated_At | ApplicationConnectionUpdated_At | ApplicationConnectionApplicant | ApplicationConnectionMessage | ApplicationConnectionGroup | ApplicationConnectionStatus | CreateApplicationPayload | UpdateApplicationPayload | DeleteApplicationPayload | Business | BusinessConnection | BusinessAggregator | BusinessGroupBy | BusinessConnectionId | BusinessConnectionCreated_At | BusinessConnectionUpdated_At | BusinessConnectionName | BusinessConnectionAddress | BusinessConnectionWebsite_Url | BusinessConnectionDescription | BusinessConnectionImage | CreateBusinessPayload | UpdateBusinessPayload | DeleteBusinessPayload | Group | GroupConnection | GroupAggregator | GroupAggregatorSum | GroupAggregatorAvg | GroupAggregatorMin | GroupAggregatorMax | GroupGroupBy | GroupConnectionId | GroupConnectionCreated_At | GroupConnectionUpdated_At | GroupConnectionDescription | GroupConnectionMember_Max | GroupConnectionBooking_Status | GroupConnectionMax_Age | GroupConnectionMin_Age | GroupConnectionBookdate | GroupConnectionName | GroupConnectionLeader | GroupConnectionStatus | CreateGroupPayload | UpdateGroupPayload | DeleteGroupPayload | Invite | InviteConnection | InviteAggregator | InviteGroupBy | InviteConnectionId | InviteConnectionCreated_At | InviteConnectionUpdated_At | InviteConnectionInvitee | InviteConnectionMessage | InviteConnectionGroup | InviteConnectionStatus | InviteConnectionGroup_Leader_Dismissed | CreateInvitePayload | UpdateInvitePayload | DeleteInvitePayload | Room | RoomConnection | RoomAggregator | RoomAggregatorSum | RoomAggregatorAvg | RoomAggregatorMin | RoomAggregatorMax | RoomGroupBy | RoomConnectionId | RoomConnectionCreated_At | RoomConnectionUpdated_At | RoomConnectionName | RoomConnectionDescription | RoomConnectionImage | RoomConnectionBusiness | RoomConnectionPlayer_Max | CreateRoomPayload | UpdateRoomPayload | DeleteRoomPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserAggregatorSum | UsersPermissionsUserAggregatorAvg | UsersPermissionsUserAggregatorMin | UsersPermissionsUserAggregatorMax | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionAge | UsersPermissionsUserConnectionImage | UsersPermissionsUserConnectionAbout | UsersPermissionsUserConnectionOpen_To_Invite | UsersPermissionsUserConnectionHide_Age | UsersPermissionsUserConnectionApproved | CreateUserPayload | UpdateUserPayload | DeleteUserPayload;
 
 export type InputId = {
   id: Scalars['ID'];
@@ -1963,7 +2012,10 @@ export type Mutation = {
   deleteUser?: Maybe<DeleteUserPayload>;
   acceptApplication?: Maybe<AcceptApplicationPayload>;
   rejectApplication?: Maybe<RejectApplicationPayload>;
+  removeMember?: Maybe<RemoveMemberPayload>;
+  leaveGroup?: Maybe<LeaveGroupPayload>;
   acceptInvite?: Maybe<AcceptInvitePayload>;
+  dismissInvite?: Maybe<DismissInvitePayload>;
   upload: UploadFile;
   multipleUpload: Array<Maybe<UploadFile>>;
   updateFileInfo: UploadFile;
@@ -2110,7 +2162,23 @@ export type MutationRejectApplicationArgs = {
 };
 
 
+export type MutationRemoveMemberArgs = {
+  groupId?: Maybe<Scalars['ID']>;
+  memberId?: Maybe<Scalars['ID']>;
+};
+
+
+export type MutationLeaveGroupArgs = {
+  id?: Maybe<Scalars['ID']>;
+};
+
+
 export type MutationAcceptInviteArgs = {
+  id?: Maybe<Scalars['ID']>;
+};
+
+
+export type MutationDismissInviteArgs = {
   id?: Maybe<Scalars['ID']>;
 };
 
@@ -2311,28 +2379,34 @@ export type DismissInviteMutationVariables = Exact<{
 
 export type DismissInviteMutation = (
   { __typename?: 'Mutation' }
-  & { updateInvite?: Maybe<(
-    { __typename?: 'updateInvitePayload' }
+  & { dismissInvite?: Maybe<(
+    { __typename?: 'dismissInvitePayload' }
     & { invite?: Maybe<(
       { __typename?: 'Invite' }
       & Pick<Invite, 'id' | 'group_leader_dismissed'>
+      & { group?: Maybe<(
+        { __typename?: 'Group' }
+        & Pick<Group, 'name'>
+      )>, invitee?: Maybe<(
+        { __typename?: 'UsersPermissionsUser' }
+        & Pick<UsersPermissionsUser, 'id' | 'username'>
+      )> }
     )> }
   )> }
 );
 
 export type LeaveGroupMutationVariables = Exact<{
   id: Scalars['ID'];
-  members: Array<Scalars['ID']>;
 }>;
 
 
 export type LeaveGroupMutation = (
   { __typename?: 'Mutation' }
-  & { updateGroup?: Maybe<(
-    { __typename?: 'updateGroupPayload' }
+  & { leaveGroup?: Maybe<(
+    { __typename?: 'leaveGroupPayload' }
     & { group?: Maybe<(
       { __typename?: 'Group' }
-      & Pick<Group, 'id'>
+      & Pick<Group, 'id' | 'name'>
       & { members?: Maybe<Array<Maybe<(
         { __typename?: 'UsersPermissionsUser' }
         & Pick<UsersPermissionsUser, 'id' | 'username'>
@@ -2392,18 +2466,18 @@ export type RejectApplicationMutation = (
 );
 
 export type RemoveMemberMutationVariables = Exact<{
-  id: Scalars['ID'];
-  members: Array<Scalars['ID']>;
+  groupId: Scalars['ID'];
+  memberId: Scalars['ID'];
 }>;
 
 
 export type RemoveMemberMutation = (
   { __typename?: 'Mutation' }
-  & { updateGroup?: Maybe<(
-    { __typename?: 'updateGroupPayload' }
+  & { removeMember?: Maybe<(
+    { __typename?: 'removeMemberPayload' }
     & { group?: Maybe<(
       { __typename?: 'Group' }
-      & Pick<Group, 'id'>
+      & Pick<Group, 'name'>
       & { members?: Maybe<Array<Maybe<(
         { __typename?: 'UsersPermissionsUser' }
         & Pick<UsersPermissionsUser, 'id' | 'username'>
@@ -2974,9 +3048,16 @@ export type CreateInviteMutationResult = Apollo.MutationResult<CreateInviteMutat
 export type CreateInviteMutationOptions = Apollo.BaseMutationOptions<CreateInviteMutation, CreateInviteMutationVariables>;
 export const DismissInviteDocument = gql`
     mutation dismissInvite($id: ID!) {
-  updateInvite(input: {where: {id: $id}, data: {group_leader_dismissed: true}}) {
+  dismissInvite(id: $id) {
     invite {
       id
+      group {
+        name
+      }
+      invitee {
+        id
+        username
+      }
       group_leader_dismissed
     }
   }
@@ -3008,10 +3089,11 @@ export type DismissInviteMutationHookResult = ReturnType<typeof useDismissInvite
 export type DismissInviteMutationResult = Apollo.MutationResult<DismissInviteMutation>;
 export type DismissInviteMutationOptions = Apollo.BaseMutationOptions<DismissInviteMutation, DismissInviteMutationVariables>;
 export const LeaveGroupDocument = gql`
-    mutation leaveGroup($id: ID!, $members: [ID!]!) {
-  updateGroup(input: {where: {id: $id}, data: {members: $members}}) {
+    mutation leaveGroup($id: ID!) {
+  leaveGroup(id: $id) {
     group {
       id
+      name
       members {
         id
         username
@@ -3036,7 +3118,6 @@ export type LeaveGroupMutationFn = Apollo.MutationFunction<LeaveGroupMutation, L
  * const [leaveGroupMutation, { data, loading, error }] = useLeaveGroupMutation({
  *   variables: {
  *      id: // value for 'id'
- *      members: // value for 'members'
  *   },
  * });
  */
@@ -3155,10 +3236,10 @@ export type RejectApplicationMutationHookResult = ReturnType<typeof useRejectApp
 export type RejectApplicationMutationResult = Apollo.MutationResult<RejectApplicationMutation>;
 export type RejectApplicationMutationOptions = Apollo.BaseMutationOptions<RejectApplicationMutation, RejectApplicationMutationVariables>;
 export const RemoveMemberDocument = gql`
-    mutation removeMember($id: ID!, $members: [ID!]!) {
-  updateGroup(input: {where: {id: $id}, data: {members: $members}}) {
+    mutation removeMember($groupId: ID!, $memberId: ID!) {
+  removeMember(groupId: $groupId, memberId: $memberId) {
     group {
-      id
+      name
       members {
         id
         username
@@ -3182,8 +3263,8 @@ export type RemoveMemberMutationFn = Apollo.MutationFunction<RemoveMemberMutatio
  * @example
  * const [removeMemberMutation, { data, loading, error }] = useRemoveMemberMutation({
  *   variables: {
- *      id: // value for 'id'
- *      members: // value for 'members'
+ *      groupId: // value for 'groupId'
+ *      memberId: // value for 'memberId'
  *   },
  * });
  */

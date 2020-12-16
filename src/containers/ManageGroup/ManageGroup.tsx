@@ -145,25 +145,22 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
 
     const onClickRemoveMember = async (memberId: string) => {
         // We must remove the given member then resubmit the member list
-        const updatedMembers: Types.UsersPermissionsUser[] = groupRespData.group.members.filter(
-            (member: Types.UsersPermissionsUser) => member.id !== memberId
-        )
-        const ids = updatedMembers.map(
-            (member: Types.UsersPermissionsUser) => member.id
-        )
 
         console.log("Remove member", memberId)
-        console.log("updatedMembers", ids)
 
         const resp = await removeMember({
             variables: {
-                id: groupRespData.group.id,
-                members: ids,
+                groupId: groupRespData.group.id,
+                memberId: memberId,
             },
         })
+        console.log(resp)
+
+        const updatedMembers: Types.UsersPermissionsUser[] = members.filter(
+            (member: Types.UsersPermissionsUser) => member.id !== memberId
+        )
 
         setMembers(updatedMembers)
-        console.log(resp)
     }
 
     const onCloseGroupClick = async (groupId: string) => {

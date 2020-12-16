@@ -44,26 +44,12 @@ const Chat: React.FC<ChatProps> = (props) => {
     }
 
     const onLeaveGroupClick = async () => {
-        //
-        // WARNING: ERROR: The API currently allows any user to remove members
-        //
-        console.log("Clicked leave group")
-
         // We must remove the given member then resubmit the member list
-        const updatedMembers: Types.UsersPermissionsUser[] = data.group.members.filter(
-            (member: Types.UsersPermissionsUser) => member.id !== myId
-        )
-        const ids = updatedMembers.map(
-            (member: Types.UsersPermissionsUser) => member.id
-        )
-
-        console.log("Remove member", myId)
-        console.log("updatedMembers", ids)
+        console.log("Remove member", myId, data.group.id)
 
         const resp = await leaveGroup({
             variables: {
                 id: data.group.id,
-                members: ids,
             },
         })
 
