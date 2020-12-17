@@ -85,8 +85,8 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
 
         const result = await createInvite({
             variables: {
-                groupId: groupId,
-                inviteeId: userId,
+                group: groupId,
+                invitee: userId,
                 message: "New invite message",
             },
             context: {

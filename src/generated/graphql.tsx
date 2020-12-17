@@ -1482,6 +1482,7 @@ export type UsersPermissionsUser = {
   groups?: Maybe<Array<Maybe<Group>>>;
   leading_groups?: Maybe<Array<Maybe<Group>>>;
   achievements?: Maybe<Array<Maybe<Achievement>>>;
+  invites?: Maybe<Array<Maybe<Invite>>>;
 };
 
 
@@ -1502,6 +1503,14 @@ export type UsersPermissionsUserLeading_GroupsArgs = {
 
 
 export type UsersPermissionsUserAchievementsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+
+export type UsersPermissionsUserInvitesArgs = {
   sort?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
   start?: Maybe<Scalars['Int']>;
@@ -1673,6 +1682,7 @@ export type UserInput = {
   leading_groups?: Maybe<Array<Maybe<Scalars['ID']>>>;
   achievements?: Maybe<Array<Maybe<Scalars['ID']>>>;
   confirmationToken?: Maybe<Scalars['String']>;
+  invites?: Maybe<Array<Maybe<Scalars['ID']>>>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -1696,6 +1706,7 @@ export type EditUserInput = {
   leading_groups?: Maybe<Array<Maybe<Scalars['ID']>>>;
   achievements?: Maybe<Array<Maybe<Scalars['ID']>>>;
   confirmationToken?: Maybe<Scalars['String']>;
+  invites?: Maybe<Array<Maybe<Scalars['ID']>>>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -1995,9 +2006,8 @@ export type Mutation = {
   createGroup?: Maybe<CreateGroupPayload>;
   updateGroup?: Maybe<UpdateGroupPayload>;
   deleteGroup?: Maybe<DeleteGroupPayload>;
+  /** Create an invitation */
   createInvite?: Maybe<CreateInvitePayload>;
-  updateInvite?: Maybe<UpdateInvitePayload>;
-  deleteInvite?: Maybe<DeleteInvitePayload>;
   createRoom?: Maybe<CreateRoomPayload>;
   updateRoom?: Maybe<UpdateRoomPayload>;
   deleteRoom?: Maybe<DeleteRoomPayload>;
@@ -2095,16 +2105,6 @@ export type MutationDeleteGroupArgs = {
 
 export type MutationCreateInviteArgs = {
   input?: Maybe<CreateInviteInput>;
-};
-
-
-export type MutationUpdateInviteArgs = {
-  input?: Maybe<UpdateInviteInput>;
-};
-
-
-export type MutationDeleteInviteArgs = {
-  input?: Maybe<DeleteInviteInput>;
 };
 
 
@@ -2359,8 +2359,8 @@ export type CreateGroupMutation = (
 );
 
 export type CreateInviteMutationVariables = Exact<{
-  groupId: Scalars['ID'];
-  inviteeId: Scalars['ID'];
+  invitee: Scalars['ID'];
+  group: Scalars['ID'];
   message: Scalars['String'];
 }>;
 
@@ -2371,13 +2371,13 @@ export type CreateInviteMutation = (
     { __typename?: 'createInvitePayload' }
     & { invite?: Maybe<(
       { __typename?: 'Invite' }
-      & Pick<Invite, 'status' | 'group_leader_dismissed'>
-      & { group?: Maybe<(
-        { __typename?: 'Group' }
-        & Pick<Group, 'id' | 'name'>
-      )>, invitee?: Maybe<(
+      & Pick<Invite, 'id' | 'message'>
+      & { invitee?: Maybe<(
         { __typename?: 'UsersPermissionsUser' }
         & Pick<UsersPermissionsUser, 'id' | 'username'>
+      )>, group?: Maybe<(
+        { __typename?: 'Group' }
+        & Pick<Group, 'id' | 'name'>
       )> }
     )> }
   )> }
@@ -3029,19 +3029,19 @@ export type CreateGroupMutationHookResult = ReturnType<typeof useCreateGroupMuta
 export type CreateGroupMutationResult = Apollo.MutationResult<CreateGroupMutation>;
 export type CreateGroupMutationOptions = Apollo.BaseMutationOptions<CreateGroupMutation, CreateGroupMutationVariables>;
 export const CreateInviteDocument = gql`
-    mutation createInvite($groupId: ID!, $inviteeId: ID!, $message: String!) {
-  createInvite(input: {data: {group: $groupId, invitee: $inviteeId, status: undecided, message: $message, group_leader_dismissed: false}}) {
+    mutation createInvite($invitee: ID!, $group: ID!, $message: String!) {
+  createInvite(input: {data: {invitee: $invitee, group: $group, message: $message}}) {
     invite {
-      group {
-        id
-        name
-      }
+      id
+      message
       invitee {
         id
         username
       }
-      status
-      group_leader_dismissed
+      group {
+        id
+        name
+      }
     }
   }
 }
@@ -3061,8 +3061,8 @@ export type CreateInviteMutationFn = Apollo.MutationFunction<CreateInviteMutatio
  * @example
  * const [createInviteMutation, { data, loading, error }] = useCreateInviteMutation({
  *   variables: {
- *      groupId: // value for 'groupId'
- *      inviteeId: // value for 'inviteeId'
+ *      invitee: // value for 'invitee'
+ *      group: // value for 'group'
  *      message: // value for 'message'
  *   },
  * });
