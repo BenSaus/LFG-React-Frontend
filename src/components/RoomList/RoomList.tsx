@@ -24,13 +24,17 @@ const useStyles = makeStyles((theme) => ({
 
 interface RoomListProps {
     rooms: Types.Room[]
+    preferred: string[]
+    onChange: (rooms: string[]) => void
 }
 
 const RoomList: React.FC<RoomListProps> = (props) => {
     const classes = useStyles()
 
     // State
-    const [preferredRooms, setPreferredRooms] = React.useState<string[]>([])
+    const [preferredRooms, setPreferredRooms] = React.useState<string[]>(
+        props.preferred
+    )
 
     // Handlers
     const changedRoomPreferrence = (roomId: string) => {
@@ -47,6 +51,8 @@ const RoomList: React.FC<RoomListProps> = (props) => {
         }
 
         setPreferredRooms(updatedRooms)
+
+        props.onChange(updatedRooms)
     }
 
     return (

@@ -58,6 +58,8 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
                 description: data.group.description,
                 preferred_rooms: roomIds,
             })
+            console.log(roomIds)
+
             setFormDataReady(true)
         },
     })

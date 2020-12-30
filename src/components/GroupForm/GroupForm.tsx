@@ -73,6 +73,8 @@ interface GroupFormProps {
 const GroupForm: React.FC<GroupFormProps> = (props) => {
     const classes = useStyles()
 
+    console.log("pref rooms:", props.formData.preferred_rooms)
+
     // State
     // Ages are controlled outside of formik because of event handling
     const [age, setAge] = React.useState<number[]>([
@@ -80,19 +82,25 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
         props.formData.max_age,
     ])
 
+    const [preferredRooms, setPreferredRooms] = useState<string[]>(
+        props.formData.preferred_rooms
+    )
+
     const formik = useFormik({
         initialValues: {
             name: props.formData.name,
             member_max: props.formData.member_max,
             description: props.formData.description,
-            preferred_rooms: props.formData.preferred_rooms,
         },
         onSubmit: (data: any) => {
-            // Copy manually controlled ages into the form data
-            data.min_age = age[0]
-            data.max_age = age[1]
+            // Copy manually controlled data into the form data
+            const modifiedData = { ...data }
+            modifiedData.min_age = age[0]
+            modifiedData.max_age = age[1]
+            modifiedData.preferred_rooms = preferredRooms
 
-            props.onSubmit(data)
+            // console.log(modifiedData)
+            props.onSubmit(modifiedData)
         },
     })
 
@@ -104,6 +112,10 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
         if (Array.isArray(value)) {
             setAge(value)
         }
+    }
+
+    const onPreferredRoomsChangedHandler = (updatedRoomsArray: string[]) => {
+        setPreferredRooms(updatedRoomsArray)
     }
 
     // Render
@@ -123,8 +135,6 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
             </React.Fragment>
         )
     }
-
-    let preferredRoomOptionsJSX = null
 
     return (
         <React.Fragment>
@@ -194,7 +204,11 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                         >
                             <label>Preferred Rooms</label>
                             <div className={classes.roomList}>
-                                <RoomList rooms={props.roomData} />
+                                <RoomList
+                                    rooms={props.roomData}
+                                    preferred={preferredRooms}
+                                    onChange={onPreferredRoomsChangedHandler}
+                                />
                             </div>
                         </Card>
                     </Grid>
