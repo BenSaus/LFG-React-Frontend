@@ -1,7 +1,8 @@
 import React from "react"
 import * as Types from "../../../../generated/graphql"
 import Applicant from "./Applicant/Applicant"
-import styles from "./Applicants.module.css"
+
+import List from "@material-ui/core/List"
 
 interface ApplicantsProps {
     acceptApplication: (applicationId: string) => void
@@ -24,7 +25,7 @@ const Applicants: React.FC<ApplicantsProps> = (props) => {
         })
     }
 
-    return <div className={styles.Applicants}>{appsJsx}</div>
+    return <List>{appsJsx}</List>
 }
 
 export default Applicants

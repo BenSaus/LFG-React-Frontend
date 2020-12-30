@@ -1,6 +1,24 @@
 import React from "react"
 import * as Types from "../../../../../generated/graphql"
-import styles from "./Applicant.module.css"
+import ThumbUp from "@material-ui/icons/ThumbUp"
+import ThumbDown from "@material-ui/icons/ThumbDown"
+import {
+    ListItem,
+    ListItemSecondaryAction,
+    ListItemText,
+    ListItemAvatar,
+    Avatar,
+    IconButton,
+} from "@material-ui/core"
+import { makeStyles } from "@material-ui/core/styles"
+
+const useStyles = makeStyles({
+    listItemText: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-start",
+    },
+})
 
 interface ApplicantProps {
     acceptApplication: (applicationId: string) => void
@@ -9,32 +27,37 @@ interface ApplicantProps {
 }
 
 const Applicant: React.FC<ApplicantProps> = (props) => {
+    const classes = useStyles()
+
     return (
-        <div className={styles.Applicant}>
-            <h4>Applicant</h4>
-            <div>
-                <p>{props.application.applicant?.username}</p>
-                <p>{props.application.applicant?.about}</p>
-                <p>{props.application.applicant?.age}</p>
-            </div>
-            <p>{props.application.message}</p>
-            <div>
-                <button
-                    onClick={() =>
-                        props.acceptApplication(props.application.id)
-                    }
-                >
-                    Accept
-                </button>
-                <button
-                    onClick={() =>
-                        props.rejectApplication(props.application.id)
-                    }
-                >
-                    Reject
-                </button>
-            </div>
-        </div>
+        <ListItem>
+            <ListItemAvatar>
+                <Avatar src="/static/images/avatar/2.jpg" />
+            </ListItemAvatar>
+            <ListItemText>
+                <span>{props.application.applicant?.username}</span>
+                {/* <span>Age: {props.application.applicant?.age}</span> */}
+                <p>{props.application.message}</p>
+            </ListItemText>
+            <ListItemSecondaryAction>
+                <div>
+                    <IconButton
+                        onClick={() =>
+                            props.acceptApplication(props.application.id)
+                        }
+                    >
+                        <ThumbUp />
+                    </IconButton>
+                    <IconButton
+                        onClick={() =>
+                            props.rejectApplication(props.application.id)
+                        }
+                    >
+                        <ThumbDown />
+                    </IconButton>
+                </div>
+            </ListItemSecondaryAction>
+        </ListItem>
     )
 }
 

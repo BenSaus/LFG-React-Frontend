@@ -1,4 +1,5 @@
 import React from "react"
+import Button from "@material-ui/core/Button"
 
 interface ButtonSectionProps {
     onCloseGroupClick: (id: string) => Promise<void>
@@ -11,21 +12,23 @@ const ButtonSection: React.FC<ButtonSectionProps> = (props) => {
     let buttonsJSX = null
     if (!props.groupClosed) {
         buttonsJSX = (
-            <button
+            <Button
+                variant="contained"
                 style={{ padding: "1rem" }}
                 onClick={() => props.onCloseGroupClick(props.groupId)}
             >
-                Close Group
-            </button>
+                Close Membership
+            </Button>
         )
     } else {
         buttonsJSX = (
-            <button
+            <Button
+                variant="contained"
                 style={{ padding: "1rem" }}
                 onClick={() => props.onOpenGroupClick(props.groupId)}
             >
-                Open Group
-            </button>
+                Open Membership
+            </Button>
         )
     }
 

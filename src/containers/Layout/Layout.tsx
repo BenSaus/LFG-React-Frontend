@@ -85,7 +85,9 @@ export const Layout: React.FC<LayoutProps> = (props) => {
                     </MenuItem>
                 </Menu>
 
-                <Button color="inherit">LOGOUT</Button>
+                <Button color="inherit">
+                    <Link to={`/logout`}>LOGOUT</Link>
+                </Button>
             </React.Fragment>
         )
     } else {

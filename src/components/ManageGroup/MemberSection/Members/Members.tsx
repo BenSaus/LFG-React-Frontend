@@ -1,8 +1,17 @@
 import React from "react"
 import * as Types from "../../../../generated/graphql"
-import styles from "./Members.module.css"
+
 import Member from "./Member/Member"
 import OpenSlot from "./OpenSlot/OpenSlot"
+
+import { makeStyles } from "@material-ui/core/styles"
+import List from "@material-ui/core/List"
+
+const useStyles = makeStyles({
+    root: {
+        width: "100%",
+    },
+})
 
 interface MembersProps {
     members: Types.UsersPermissionsUser[]
@@ -13,6 +22,7 @@ interface MembersProps {
 }
 
 const Members: React.FC<MembersProps> = (props) => {
+    const classes = useStyles()
     let membersJsx
     let openSlotsJSX = []
 
@@ -38,10 +48,10 @@ const Members: React.FC<MembersProps> = (props) => {
     }
 
     return (
-        <div className={styles.Members}>
+        <List className={classes.root}>
             {membersJsx}
             {openSlotsJSX}
-        </div>
+        </List>
     )
 }
 

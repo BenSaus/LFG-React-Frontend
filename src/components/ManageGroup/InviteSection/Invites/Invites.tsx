@@ -1,7 +1,31 @@
 import React from "react"
 import * as Types from "../../../../generated/graphql"
-import Invite from "./Invite/Invite"
-import styles from "./Invites.module.css"
+
+import Clear from "@material-ui/icons/Clear"
+import {
+    TableCell,
+    TableRow,
+    Table,
+    TableHead,
+    TableBody,
+    TableContainer,
+    IconButton,
+    Chip,
+    Avatar,
+    Tooltip,
+    makeStyles,
+} from "@material-ui/core"
+
+const useStyles = makeStyles({
+    userCell: {
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
+    },
+    avatar: {
+        marginRight: "1rem",
+    },
+})
 
 interface InvitessProps {
     invites: Types.Invite[]
@@ -9,20 +33,56 @@ interface InvitessProps {
 }
 
 const Invites: React.FC<InvitessProps> = (props) => {
-    let invitesJsx
-    if (props.invites) {
-        invitesJsx = props.invites.map((invite: Types.Invite) => {
-            return (
-                <Invite
-                    invite={invite}
-                    key={invite.id}
-                    onDismissClicked={props.onDismissClicked}
-                />
-            )
-        })
-    }
+    const classes = useStyles()
 
-    return <div className={styles.Invites}>{invitesJsx}</div>
+    return (
+        <TableContainer>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>User</TableCell>
+                        <TableCell>Message</TableCell>
+                        <TableCell align="center">Status</TableCell>
+                        <TableCell align="center">Actions</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {props.invites.map((invite) => (
+                        <TableRow key={invite.id}>
+                            <TableCell component="th" scope="row">
+                                <div className={classes.userCell}>
+                                    <Avatar
+                                        className={classes.avatar}
+                                        src="/static/images/avatar/2.jpg"
+                                    />
+                                    {invite.invitee?.username}
+                                </div>
+                            </TableCell>
+                            <TableCell>{invite.message}</TableCell>
+                            <TableCell align="center">
+                                <Chip
+                                    color="primary"
+                                    size="small"
+                                    label={invite.status}
+                                />
+                            </TableCell>
+                            <TableCell align="center">
+                                <Tooltip title="Dismiss">
+                                    <IconButton
+                                        onClick={() =>
+                                            props.onDismissClicked(invite.id)
+                                        }
+                                    >
+                                        <Clear />
+                                    </IconButton>
+                                </Tooltip>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    )
 }
 
 export default Invites

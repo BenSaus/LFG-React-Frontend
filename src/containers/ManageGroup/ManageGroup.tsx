@@ -20,6 +20,27 @@ import ButtonSection from "../../components/ManageGroup/ButtonSection/ButtonSect
 import ApplicationSection from "../../components/ManageGroup/ApplicationSection/ApplicationSection"
 import InviteSection from "../../components/ManageGroup/InviteSection/InviteSection"
 
+import {
+    Typography,
+    Card,
+    CardContent,
+    CardActions,
+    Button,
+} from "@material-ui/core"
+import { makeStyles } from "@material-ui/core/styles"
+
+const useStyles = makeStyles((theme) => ({
+    card: {
+        padding: "1rem",
+        margin: "2rem",
+    },
+    cardTitle: {
+        fontSize: 18,
+        fontWeight: "bold",
+        textAlign: "left",
+    },
+}))
+
 interface ManageGroupParams {
     id: string
 }
@@ -27,6 +48,8 @@ interface ManageGroupParams {
 interface ManageGroupProps extends RouteComponentProps<ManageGroupParams> {}
 
 const ManageGroup: React.FC<ManageGroupProps> = (props) => {
+    const classes = useStyles()
+
     // Redux
     const auth = useSelector<RootType, AuthState>((state) => state.auth)
     let myId: string = ""
@@ -257,26 +280,48 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
     } else {
         appInvSectionJSX = (
             <React.Fragment>
-                <h3>Applications</h3>
-                <ApplicationSection
-                    applications={applications}
-                    onAcceptApplication={onAcceptApplication}
-                    onRejectApplication={onRejectApplication}
-                />
-                <h3>Invites</h3>
-                <InviteSection
-                    invites={invites}
-                    onDismissClicked={onDismissInviteClick}
-                />
-                <button
-                    onClick={() => {
-                        props.history.push(
-                            `/openUsers/${groupRespData.group.id}`
-                        )
-                    }}
-                >
-                    Find More Members
-                </button>
+                <Card className={classes.card}>
+                    <CardContent>
+                        <Typography
+                            className={classes.cardTitle}
+                            variant="h5"
+                            component="h2"
+                        >
+                            Applications
+                        </Typography>
+                        <ApplicationSection
+                            applications={applications}
+                            onAcceptApplication={onAcceptApplication}
+                            onRejectApplication={onRejectApplication}
+                        />
+                    </CardContent>
+                </Card>
+                <Card className={classes.card}>
+                    <CardContent>
+                        <Typography
+                            className={classes.cardTitle}
+                            variant="h5"
+                            component="h2"
+                        >
+                            Invites
+                        </Typography>
+                        <InviteSection
+                            invites={invites}
+                            onDismissClicked={onDismissInviteClick}
+                        />
+                    </CardContent>
+                    <CardActions>
+                        <Button
+                            onClick={() => {
+                                props.history.push(
+                                    `/openUsers/${groupRespData.group.id}`
+                                )
+                            }}
+                        >
+                            Find More Members
+                        </Button>
+                    </CardActions>
+                </Card>
             </React.Fragment>
         )
     }
@@ -285,40 +330,62 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         <React.Fragment>
             <h1>Manage Members</h1>
             <h2>{groupRespData.group.name}</h2>
-            <button
+            <Button
+                variant="contained"
                 onClick={() => {
                     props.history.push(`/group/edit/${props.match.params.id}`)
                 }}
             >
                 Edit Group Details
-            </button>
-            <br />
-            <br />
+            </Button>
+
             {appInvSectionJSX}
-            <h3>Members</h3>
-            <MembersSection
-                membersMax={groupRespData.group.member_max}
-                members={members}
-                onClickViewMember={onClickViewMember}
-                onClickRemoveMember={onClickRemoveMember}
-                showOpenSlots={!closed}
-            />
-            {closed === false ? (
-                <React.Fragment>
-                    <button onClick={onAddMemberSlot}>Add Slot</button>
-                    <button onClick={onRemoveMemberSlot}>Remove Slot</button>
-                </React.Fragment>
-            ) : null}
-            <br />
-            <br />
-            <ButtonSection
-                groupClosed={closed}
-                groupId={groupRespData.group.id}
-                onCloseGroupClick={onCloseGroupClick}
-                onOpenGroupClick={onOpenGroupClick}
-            />
-            <br />
-            <button onClick={() => props.history.goBack()}>Back</button>
+            <Card className={classes.card}>
+                <CardContent>
+                    <Typography
+                        className={classes.cardTitle}
+                        variant="h5"
+                        component="h2"
+                    >
+                        Membership
+                    </Typography>
+                    <MembersSection
+                        membersMax={groupRespData.group.member_max}
+                        members={members}
+                        onClickViewMember={onClickViewMember}
+                        onClickRemoveMember={onClickRemoveMember}
+                        showOpenSlots={!closed}
+                    />
+                    {closed === false ? (
+                        <React.Fragment>
+                            <Button
+                                variant="contained"
+                                onClick={onAddMemberSlot}
+                            >
+                                Add Slot
+                            </Button>
+                            <Button
+                                variant="contained"
+                                onClick={onRemoveMemberSlot}
+                            >
+                                Remove Slot
+                            </Button>
+                        </React.Fragment>
+                    ) : null}
+                </CardContent>
+                <CardActions>
+                    <ButtonSection
+                        groupClosed={closed}
+                        groupId={groupRespData.group.id}
+                        onCloseGroupClick={onCloseGroupClick}
+                        onOpenGroupClick={onOpenGroupClick}
+                    />
+                </CardActions>
+            </Card>
+
+            <Button variant="contained" onClick={() => props.history.goBack()}>
+                Back
+            </Button>
         </React.Fragment>
     )
 }
