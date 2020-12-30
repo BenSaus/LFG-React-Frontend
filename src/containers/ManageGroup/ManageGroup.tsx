@@ -291,6 +291,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                         </Typography>
                         <ApplicationSection
                             applications={applications}
+                            onViewProfile={onClickViewMember}
                             onAcceptApplication={onAcceptApplication}
                             onRejectApplication={onRejectApplication}
                         />
