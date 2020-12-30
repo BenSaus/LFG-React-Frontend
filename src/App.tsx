@@ -47,91 +47,32 @@ function App() {
     if (isAuthenticated) {
         routes = (
             <Switch>
-                <Route
-                    path={`/`}
-                    exact
-                    component={LandingPage}
-                />
-                <Route
-                    path={`/login`}
-                    exact
-                    component={Login}
-                />
-                <Route
-                    path={`/logout`}
-                    exact
-                    component={Logout}
-                />
-                <Route
-                    path={`/openGroups`}
-                    exact
-                    component={OpenGroups}
-                />
+                <Route path={`/`} exact component={LandingPage} />
+                <Route path={`/login`} exact component={Login} />
+                <Route path={`/logout`} exact component={Logout} />
+                <Route path={`/openGroups`} exact component={OpenGroups} />
                 <Route
                     path={`/openUsers/:groupId`}
                     exact
                     component={OpenUsers}
                 />
-                <Route
-                    path={`/user/:id`}
-                    exact
-                    component={UserInfo}
-                />
-                <Route
-                    path={`/group/create`}
-                    exact
-                    component={CreateGroup}
-                />
+                <Route path={`/user/:id`} exact component={UserInfo} />
+                <Route path={`/group/create`} exact component={CreateGroup} />
                 <Route
                     path={`/group/manage/:id`}
                     exact
                     component={ManageGroup}
                 />
-                <Route
-                    path={`/group/edit/:id`}
-                    exact
-                    component={EditGroup}
-                />
-                <Route
-                    path={`/group/:id`}
-                    exact
-                    component={GroupInfo}
-                />
-                <Route
-                    path={`/group/chat/:id`}
-                    exact
-                    component={Chat}
-                />
+                <Route path={`/group/edit/:id`} exact component={EditGroup} />
+                <Route path={`/group/:id`} exact component={GroupInfo} />
+                <Route path={`/group/chat/:id`} exact component={Chat} />
                 {/* TODO: this should be /group/apply/:id  */}
-                <Route
-                    path={`/apply/:id`}
-                    exact
-                    component={Apply}
-                />
-                <Route
-                    path={`/myApps`}
-                    exact
-                    component={MyApps}
-                />
-                <Route
-                    path={`/myGroups`}
-                    exact
-                    component={MyGroups}
-                />
-                <Route
-                    path={`/myInvites`}
-                    exact
-                    component={MyInvites}
-                />
-                <Route
-                    path={`/myProfile`}
-                    exact
-                    component={MyProfile}
-                />
-                <Route
-                    path={`/*`}
-                    component={NotFound404}
-                />
+                <Route path={`/apply/:id`} exact component={Apply} />
+                <Route path={`/myApps`} exact component={MyApps} />
+                <Route path={`/myGroups`} exact component={MyGroups} />
+                <Route path={`/myInvites`} exact component={MyInvites} />
+                <Route path={`/myProfile`} exact component={MyProfile} />
+                <Route path={`/*`} component={NotFound404} />
                 {/* <Redirect to="/" /> */}
             </Switch>
         )

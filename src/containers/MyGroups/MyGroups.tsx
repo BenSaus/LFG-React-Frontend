@@ -10,6 +10,7 @@ import {
     GetMyGroupsDocument,
     GetMyLeadGroupsDocument,
 } from "../../generated/graphql"
+import Button from "@material-ui/core/Button"
 
 interface MyGroupsProps extends RouteComponentProps {}
 
@@ -95,14 +96,15 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
     return (
         <div>
             <h1>My Groups</h1>
-            <button
+            <Button
+                variant="contained"
                 style={{ padding: "0.5rem" }}
                 onClick={() => {
                     props.history.push("/group/create")
                 }}
             >
                 Create New Group
-            </button>
+            </Button>
             <h3>Groups I Lead</h3>
             {leadGroupsJSX}
             <h3>Groups I'm a member of </h3>

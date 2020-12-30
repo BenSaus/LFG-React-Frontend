@@ -1,19 +1,27 @@
 import React from "react"
 import * as Types from "../../../../generated/graphql"
+import { makeStyles } from "@material-ui/core/styles"
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        marginRight: "1rem",
+        textAlign: "center",
+    },
+}))
 
 interface AchievementProps {
     achievement: Types.Achievement
 }
 
 const Achievement: React.FC<AchievementProps> = (props) => {
-    console.log(props.achievement)
+    const classes = useStyles()
 
     let baseUrl = process.env.REACT_APP_IMAGE_BASE_URL
         ? process.env.REACT_APP_IMAGE_BASE_URL
         : ""
 
     return (
-        <div>
+        <div className={classes.root}>
             <img
                 src={baseUrl + props.achievement.image?.url}
                 title={

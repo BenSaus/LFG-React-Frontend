@@ -5,6 +5,28 @@ import * as Types from "../../generated/graphql"
 import { Link } from "react-router-dom"
 import { GetGroupDocument } from "../../generated/graphql"
 import groupUtil from "../../utils/groupUtil"
+import Button from "@material-ui/core/Button"
+import Card from "@material-ui/core/Card"
+import { makeStyles } from "@material-ui/core/styles"
+
+const useStyles = makeStyles((theme) => ({
+    card: {
+        padding: "1rem",
+        maxWidth: "500px",
+        textAlign: "left",
+    },
+    groupName: {
+        textAlign: "center",
+        fontWeight: "bold",
+    },
+    center: {
+        display: "flex",
+        justifyContent: "center",
+    },
+    backButton: {
+        margin: "1rem",
+    },
+}))
 
 interface GroupInfoParams {
     id: string | undefined
@@ -14,6 +36,9 @@ interface GroupInfoProps extends RouteComponentProps<GroupInfoParams> {}
 
 const GroupInfo: React.FC<GroupInfoProps> = (props) => {
     const groupId = props.match.params.id
+
+    // Style
+    const classes = useStyles()
 
     // GraphQL
     const { loading, error, data } = useQuery(GetGroupDocument, {
@@ -55,25 +80,32 @@ const GroupInfo: React.FC<GroupInfoProps> = (props) => {
 
     return (
         <React.Fragment>
-            <div>
-                <h2>Group Info</h2>
-                <p>Group Name: {groupInfo.name}</p>
-                <p>Leader: {leaderJSX}</p>
-                <p>Description: {groupInfo.description}</p>
-                <p>
-                    Age Range: {groupInfo.min_age} - {groupInfo.max_age}
-                </p>
-                <p>Open Slots: {open_slots}</p>
-                <p>Room Preference: {roomPreferenceJSX} </p>
+            <h2>Group Details</h2>
+            <h3 className={classes.groupName}>{groupInfo.name}</h3>
+            <div className={classes.center}>
+                <Card variant="outlined" className={classes.card}>
+                    <div>
+                        <p>Leader: {leaderJSX}</p>
+                        <p>Description: {groupInfo.description}</p>
+                        <p>
+                            Age Range: {groupInfo.min_age} - {groupInfo.max_age}
+                        </p>
+                        <p>Open Slots: {open_slots}</p>
+                        <p>Room Preference: {roomPreferenceJSX} </p>
+                        <p>Day/Time Preference: Any</p>
+                    </div>
+                </Card>
             </div>
-            <div>
-                <button onClick={onApply} style={{ padding: "0.5rem 1.5rem" }}>
-                    Apply
-                </button>
-                <br />
-                <br />
-                <button onClick={() => props.history.goBack()}>Back</button>
-            </div>
+            <Button variant="contained" onClick={onApply}>
+                Apply
+            </Button>
+            <Button
+                className={classes.backButton}
+                variant="contained"
+                onClick={() => props.history.goBack()}
+            >
+                Back
+            </Button>
         </React.Fragment>
     )
 }

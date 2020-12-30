@@ -7,6 +7,7 @@ import { useSelector } from "react-redux"
 import { RootType } from "../../store/rootReducer"
 import { AuthState } from "../../store/slices/auth"
 import { GetUserDocument } from "../../generated/graphql"
+import Button from "@material-ui/core/Button"
 
 interface UserInfoParams {
     id: string | undefined
@@ -44,9 +45,12 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
 
     if (viewingMyProfile) {
         editButton = (
-            <button style={{ padding: "0.5rem", margin: "0.25rem" }}>
+            <Button
+                variant="contained"
+                style={{ padding: "0.5rem", margin: "1rem" }}
+            >
                 Edit
-            </button>
+            </Button>
         )
     }
 
@@ -56,7 +60,9 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
             {editButton}
             <User user={userInfo} />
             <br />
-            <button onClick={() => props.history.goBack()}>Back</button>
+            <Button variant="contained" onClick={() => props.history.goBack()}>
+                Back
+            </Button>
         </div>
     )
 }

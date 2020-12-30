@@ -1,16 +1,24 @@
 import React from "react"
 import * as Types from "../../../generated/graphql"
 import Achievement from "./Achievement/Achievement"
+import { makeStyles } from "@material-ui/core/styles"
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: "flex",
+    },
+}))
 
 interface AchievementsProps {
     achievements: Types.Achievement[] | null
 }
 
 const Achievements: React.FC<AchievementsProps> = (props) => {
+    const classes = useStyles()
+
     let achieveJsx = null
     if (props.achievements) {
         achieveJsx = props.achievements.map((achievement) => {
-            // return <p>Achievement: {achievement.name}</p>
             return (
                 <Achievement achievement={achievement} key={achievement.id} />
             )
@@ -20,7 +28,7 @@ const Achievements: React.FC<AchievementsProps> = (props) => {
     return (
         <div>
             <h3>Achievements</h3>
-            {achieveJsx}
+            <div className={classes.root}>{achieveJsx}</div>
         </div>
     )
 }

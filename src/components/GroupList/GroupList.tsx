@@ -1,8 +1,15 @@
 import React from "react"
 import { Group } from "../../generated/graphql"
 import GroupComponent from "./Group/Group"
-import styles from "./GroupList.module.css"
 import groupUtil from "../../utils/groupUtil"
+import { makeStyles } from "@material-ui/core/styles"
+
+const useStyles = makeStyles({
+    groupList: {
+        display: "flex",
+        justifyContent: "center",
+    },
+})
 
 interface GroupListProps {
     groups: Group[]
@@ -11,6 +18,8 @@ interface GroupListProps {
 }
 
 const GroupList: React.FC<GroupListProps> = (props) => {
+    const classes = useStyles()
+
     let groupsJsx
     if (props.groups) {
         groupsJsx = props.groups.map((group: Group) => {
@@ -29,7 +38,7 @@ const GroupList: React.FC<GroupListProps> = (props) => {
         })
     }
 
-    return <div className={styles.GroupList}>{groupsJsx}</div>
+    return <div className={classes.groupList}>{groupsJsx}</div>
 }
 
 export default GroupList

@@ -75,6 +75,8 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
 
     // Handlers
     const onAcceptApplication = async (applicationId: string) => {
+        console.log("Accept app:", applicationId)
+
         const result = await acceptApplication({
             variables: {
                 id: applicationId,
@@ -86,6 +88,8 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             },
         })
         // TODO: Check result here
+
+        console.log(result)
 
         const acceptedApplication = applications.find(
             (app) => app.id === applicationId

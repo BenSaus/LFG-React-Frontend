@@ -8,6 +8,14 @@ import {
 } from "../../generated/graphql"
 import GroupForm from "../../components/GroupForm/GroupForm"
 import * as Types from "../../generated/graphql"
+import Typography from "@material-ui/core/Typography"
+import { makeStyles } from "@material-ui/core/styles"
+
+const useStyles = makeStyles((theme) => ({
+    groupFormContainer: {
+        margin: "2rem",
+    },
+}))
 
 interface EditGroupParams {
     id: string
@@ -16,6 +24,8 @@ interface EditGroupParams {
 interface EditGroupProps extends RouteComponentProps<EditGroupParams> {}
 
 const EditGroup: React.FC<EditGroupProps> = (props) => {
+    const classes = useStyles()
+
     // State
     const [formDataReady, setFormDataReady] = useState(false)
     const [formData, setFormData] = useState({
@@ -36,8 +46,6 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
             id: props.match.params.id,
         },
         onCompleted: (data) => {
-            console.log("GetGroup Query Complete...", data.group)
-
             const roomIds = data.group.preferred_rooms.map(
                 (room: Types.Room) => room.id
             )
@@ -64,8 +72,6 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
     }
 
     const onSubmit = async (values: any) => {
-        console.log("Edit Group Submit", values)
-
         const resp = await updateGroup({
             variables: {
                 id: props.match.params.id,
@@ -78,9 +84,6 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
             },
         })
 
-        console.log("updateData", resp)
-
-        console.log("Moving to " + `/group/manage/${props.match.params.id}`)
         props.history.push(`/group/manage/${props.match.params.id}`)
     }
 
@@ -90,15 +93,17 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
 
     return (
         <React.Fragment>
-            <h1>Edit Group</h1>
-            <GroupForm
-                onSubmit={onSubmit}
-                onCancel={onCancel}
-                formData={formData}
-                roomData={roomData.rooms}
-                submitButtonText="Save Changes"
-                openSlotsEditable={false}
-            />
+            <Typography variant="h3">Edit Group</Typography>
+            <div className={classes.groupFormContainer}>
+                <GroupForm
+                    onSubmit={onSubmit}
+                    onCancel={onCancel}
+                    formData={formData}
+                    roomData={roomData.rooms}
+                    submitButtonText="Save Changes"
+                    openSlotsEditable={false}
+                />
+            </div>
         </React.Fragment>
     )
 }
