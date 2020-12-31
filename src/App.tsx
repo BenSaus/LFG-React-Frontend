@@ -24,6 +24,10 @@ import Chat from "./containers/Chat/Chat"
 import { loginIfOldTokenPresent } from "./store/slices/auth"
 import { useDispatch, useSelector } from "react-redux"
 import { RootType } from "./store/rootReducer"
+import CssBaseline from "@material-ui/core/CssBaseline"
+
+import { ThemeProvider } from "@material-ui/core"
+import theme from "./theme"
 
 function App() {
     const isAuthenticated = useSelector<RootType, boolean>(
@@ -80,9 +84,13 @@ function App() {
 
     return (
         <BrowserRouter basename={`${process.env.PUBLIC_URL}`}>
-            <div className="App">
-                <Layout>{routes}</Layout>
-            </div>
+            <ThemeProvider theme={theme}>
+                <CssBaseline>
+                    <div className="App">
+                        <Layout>{routes}</Layout>
+                    </div>
+                </CssBaseline>
+            </ThemeProvider>
         </BrowserRouter>
     )
 }

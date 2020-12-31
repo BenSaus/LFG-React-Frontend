@@ -46,6 +46,7 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
     if (viewingMyProfile) {
         editButton = (
             <Button
+                color="primary"
                 variant="contained"
                 style={{ padding: "0.5rem", margin: "1rem" }}
             >
@@ -60,7 +61,11 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
             {editButton}
             <User user={userInfo} />
             <br />
-            <Button variant="contained" onClick={() => props.history.goBack()}>
+            <Button
+                color="primary"
+                variant="contained"
+                onClick={() => props.history.goBack()}
+            >
                 Back
             </Button>
         </div>

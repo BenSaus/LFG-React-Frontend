@@ -316,6 +316,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                     </CardContent>
                     <CardActions>
                         <Button
+                            color="primary"
                             onClick={() => {
                                 props.history.push(
                                     `/openUsers/${groupRespData.group.id}`
@@ -371,12 +372,14 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                     {closed === false ? (
                         <React.Fragment>
                             <Button
+                                color="primary"
                                 variant="contained"
                                 onClick={onAddMemberSlot}
                             >
                                 Add Slot
                             </Button>
                             <Button
+                                color="primary"
                                 variant="contained"
                                 onClick={onRemoveMemberSlot}
                             >
@@ -395,7 +398,11 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                 </CardActions>
             </Card>
 
-            <Button variant="contained" onClick={() => props.history.goBack()}>
+            <Button
+                color="primary"
+                variant="contained"
+                onClick={() => props.history.goBack()}
+            >
                 Back
             </Button>
         </React.Fragment>

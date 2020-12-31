@@ -3,8 +3,7 @@ import GroupList from "../../components/GroupList/GroupList"
 import { RouteComponentProps } from "react-router"
 import { GetOpenGroupsDocument } from "../../generated/graphql"
 import { useQuery } from "@apollo/client"
-import styles from "./OpenGroups.module.css"
-// import ReduxExample from "../../components/ReduxExample/ReduxExample"
+import { Card, CardContent } from "@material-ui/core"
 
 interface OpenGroupsProps extends RouteComponentProps {}
 
@@ -20,15 +19,18 @@ const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
 
     if (data?.groups) {
         return (
-            <div>
+            <React.Fragment>
                 <h1>Open Groups</h1>
-                <GroupList
-                    groups={data.groups}
-                    clickedGroup={onGroupClick}
-                    showGroupsWithNoOpenSlots={false}
-                />
-                {/* <ReduxExample /> */}
-            </div>
+                <Card>
+                    <CardContent>
+                        <GroupList
+                            groups={data.groups}
+                            clickedGroup={onGroupClick}
+                            showGroupsWithNoOpenSlots={false}
+                        />
+                    </CardContent>
+                </Card>
+            </React.Fragment>
         )
     }
 

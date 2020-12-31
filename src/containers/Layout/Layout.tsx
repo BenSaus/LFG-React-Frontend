@@ -18,6 +18,7 @@ import MenuItem from "@material-ui/core/MenuItem"
 import { makeStyles } from "@material-ui/core/styles"
 import { Link, RouteComponentProps } from "react-router-dom"
 import Container from "@material-ui/core/Container"
+import { Paper } from "@material-ui/core"
 
 interface LayoutParams {}
 interface LayoutProps extends RouteComponentProps<LayoutParams> {}
@@ -93,10 +94,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
                     </MenuItem>
                 </Menu>
 
-                <Button
-                    color="inherit"
-                    onClick={() => onNavLinkClick("/logout")}
-                >
+                <Button onClick={() => onNavLinkClick("/logout")}>
                     LOGOUT
                 </Button>
             </React.Fragment>
@@ -104,12 +102,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
     } else {
         navLinksJSX = (
             <React.Fragment>
-                <Button
-                    color="inherit"
-                    onClick={() => onNavLinkClick("/login")}
-                >
-                    LOGIN
-                </Button>
+                <Button onClick={() => onNavLinkClick("/login")}>LOGIN</Button>
             </React.Fragment>
         )
     }
@@ -118,7 +111,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
         <React.Fragment>
             <AppBar position="relative">
                 <Toolbar>
-                    <Typography variant="h6" color="inherit" noWrap>
+                    <Typography variant="h6" noWrap>
                         Looking For Group
                     </Typography>
                     <div className={classes.grow}></div>

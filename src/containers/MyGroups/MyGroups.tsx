@@ -11,6 +11,7 @@ import {
     GetMyLeadGroupsDocument,
 } from "../../generated/graphql"
 import Button from "@material-ui/core/Button"
+import { Card, CardContent, Typography } from "@material-ui/core"
 
 interface MyGroupsProps extends RouteComponentProps {}
 
@@ -74,22 +75,32 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
     let leadGroupsJSX = <p>No Groups Found</p>
     if (leadingGroups.length > 0) {
         leadGroupsJSX = (
-            <GroupList
-                groups={leadingGroups}
-                clickedGroup={onGroupLeadClick}
-                showGroupsWithNoOpenSlots={true}
-            />
+            <Card>
+                <CardContent>
+                    <Typography variant="h5">Groups I Lead</Typography>
+                    <GroupList
+                        groups={leadingGroups}
+                        clickedGroup={onGroupLeadClick}
+                        showGroupsWithNoOpenSlots={true}
+                    />
+                </CardContent>
+            </Card>
         )
     }
 
     let memberGroupsJSX = <p>No Groups Found</p>
     if (memberGroups.length > 0) {
         memberGroupsJSX = (
-            <GroupList
-                groups={memberGroups}
-                clickedGroup={onGroupMemberClick}
-                showGroupsWithNoOpenSlots={true}
-            />
+            <Card>
+                <CardContent>
+                    <Typography variant="h5">Groups I'm a member of</Typography>
+                    <GroupList
+                        groups={memberGroups}
+                        clickedGroup={onGroupMemberClick}
+                        showGroupsWithNoOpenSlots={true}
+                    />
+                </CardContent>
+            </Card>
         )
     }
 
@@ -98,6 +109,7 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
             <h1>My Groups</h1>
             <Button
                 variant="contained"
+                color="primary"
                 style={{ padding: "0.5rem" }}
                 onClick={() => {
                     props.history.push("/group/create")
@@ -105,9 +117,8 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
             >
                 Create New Group
             </Button>
-            <h3>Groups I Lead</h3>
+
             {leadGroupsJSX}
-            <h3>Groups I'm a member of </h3>
             {memberGroupsJSX}
 
             <br />

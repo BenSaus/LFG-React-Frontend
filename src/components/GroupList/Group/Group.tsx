@@ -45,6 +45,7 @@ const Group: React.FC<GroupProps> = (props) => {
             </div>
             <CardActions className={classes.cardActions}>
                 <Button
+                    color="primary"
                     variant="contained"
                     onClick={() => props.clicked(props.group.id)}
                     size="small"

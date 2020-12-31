@@ -1997,9 +1997,8 @@ export type Mutation = {
   createAchievement?: Maybe<CreateAchievementPayload>;
   updateAchievement?: Maybe<UpdateAchievementPayload>;
   deleteAchievement?: Maybe<DeleteAchievementPayload>;
+  /** Create an application */
   createApplication?: Maybe<CreateApplicationPayload>;
-  updateApplication?: Maybe<UpdateApplicationPayload>;
-  deleteApplication?: Maybe<DeleteApplicationPayload>;
   createBusiness?: Maybe<CreateBusinessPayload>;
   updateBusiness?: Maybe<UpdateBusinessPayload>;
   deleteBusiness?: Maybe<DeleteBusinessPayload>;
@@ -2060,16 +2059,6 @@ export type MutationDeleteAchievementArgs = {
 
 export type MutationCreateApplicationArgs = {
   input?: Maybe<CreateApplicationInput>;
-};
-
-
-export type MutationUpdateApplicationArgs = {
-  input?: Maybe<UpdateApplicationInput>;
-};
-
-
-export type MutationDeleteApplicationArgs = {
-  input?: Maybe<DeleteApplicationInput>;
 };
 
 
@@ -2711,7 +2700,10 @@ export type GetOpenGroupsQuery = (
     & { members?: Maybe<Array<Maybe<(
       { __typename?: 'UsersPermissionsUser' }
       & Pick<UsersPermissionsUser, 'id'>
-    )>>> }
+    )>>>, leader?: Maybe<(
+      { __typename?: 'UsersPermissionsUser' }
+      & Pick<UsersPermissionsUser, 'username'>
+    )> }
   )>>> }
 );
 
@@ -3745,6 +3737,9 @@ export const GetOpenGroupsDocument = gql`
     description
     members {
       id
+    }
+    leader {
+      username
     }
   }
 }

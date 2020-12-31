@@ -13,6 +13,7 @@ const ButtonSection: React.FC<ButtonSectionProps> = (props) => {
     if (!props.groupClosed) {
         buttonsJSX = (
             <Button
+                color="primary"
                 variant="contained"
                 style={{ padding: "1rem" }}
                 onClick={() => props.onCloseGroupClick(props.groupId)}
@@ -23,6 +24,7 @@ const ButtonSection: React.FC<ButtonSectionProps> = (props) => {
     } else {
         buttonsJSX = (
             <Button
+                color="primary"
                 variant="contained"
                 style={{ padding: "1rem" }}
                 onClick={() => props.onOpenGroupClick(props.groupId)}

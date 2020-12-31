@@ -11,5 +11,8 @@ query getOpenGroups {
         members {
             id
         }
+        leader {
+            username
+        }
     }
 }

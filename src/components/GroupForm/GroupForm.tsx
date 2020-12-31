@@ -28,16 +28,13 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         preferredRoomsCard: {
             textAlign: "left",
-            padding: "1rem",
         },
         ageRangeCard: {
             textAlign: "left",
-            padding: "1rem",
         },
         dayTimeCard: {
-            marginTop: "1rem",
+            // marginTop: "1rem",
             textAlign: "left",
-            padding: "1rem",
         },
         buttonContainer: {
             margin: "2rem",
@@ -210,6 +207,7 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
 
                 <div className={classes.buttonContainer}>
                     <Button
+                        color="primary"
                         variant="contained"
                         type="submit"
                         className={classes.button}
@@ -217,6 +215,7 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                         {props.submitButtonText}
                     </Button>
                     <Button
+                        color="primary"
                         className={classes.button}
                         variant="contained"
                         onClick={(event) => {
