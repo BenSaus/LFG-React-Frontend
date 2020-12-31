@@ -14,33 +14,28 @@ import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import Card from "@material-ui/core/Card"
 import RoomList from "../../components/RoomList/RoomList"
+import { CardContent, CardHeader } from "@material-ui/core"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        formControl: {
-            margin: theme.spacing(1),
-            minWidth: 200,
-            maxWidth: 300,
-        },
-        roomList: {
-            // display: "flex",
-            // justifyContent: "center",
-        },
+        roomList: {},
         preferredRoomsCard: {
             textAlign: "left",
         },
-        ageRangeCard: {
-            textAlign: "left",
-        },
         dayTimeCard: {
-            // marginTop: "1rem",
-            textAlign: "left",
+            marginTop: "1rem",
         },
         buttonContainer: {
             margin: "2rem",
         },
         button: {
             margin: "0.5rem",
+        },
+        textAlignLeft: {
+            textAlign: "left",
+        },
+        ageCardTitle: {
+            marginBottom: "1rem",
         },
     })
 )
@@ -163,28 +158,37 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                     ) : null}
 
                     <Grid item xs={12} sm={6}>
-                        <Card
-                            variant="outlined"
-                            className={classes.ageRangeCard}
-                        >
-                            <label htmlFor="">Age Range</label>
-                            <Slider
-                                id="age"
-                                name="age"
-                                onChange={ageSliderHandler}
-                                value={age}
-                                valueLabelDisplay="auto"
-                                aria-labelledby="range-slider"
-                            />
-                            <Typography variant="subtitle1">
-                                {age[0]} - {age[1]} years of age
-                            </Typography>
+                        <Card variant="outlined">
+                            <CardContent>
+                                <div className={classes.textAlignLeft}>
+                                    <Typography
+                                        className={classes.ageCardTitle}
+                                    >
+                                        Age Range
+                                    </Typography>
+                                </div>
+                                <Slider
+                                    id="age"
+                                    name="age"
+                                    onChange={ageSliderHandler}
+                                    value={age}
+                                    valueLabelDisplay="auto"
+                                    aria-labelledby="range-slider"
+                                />
+                                <Typography variant="subtitle1">
+                                    {age[0]} - {age[1]} years of age
+                                </Typography>
+                            </CardContent>
                         </Card>
                         <Card
                             variant="outlined"
                             className={classes.dayTimeCard}
                         >
-                            <label htmlFor="">Day and Time</label>
+                            <CardContent>
+                                <div className={classes.textAlignLeft}>
+                                    <Typography>Day and Time</Typography>
+                                </div>
+                            </CardContent>
                         </Card>
                     </Grid>
 
@@ -193,14 +197,20 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                             variant="outlined"
                             className={classes.preferredRoomsCard}
                         >
-                            <label>Preferred Rooms</label>
-                            <div className={classes.roomList}>
-                                <RoomList
-                                    rooms={props.roomData}
-                                    preferred={preferredRooms}
-                                    onChange={onPreferredRoomsChangedHandler}
-                                />
-                            </div>
+                            <CardContent>
+                                <div className={classes.textAlignLeft}>
+                                    <Typography>Preferred Rooms</Typography>
+                                </div>
+                                <div className={classes.roomList}>
+                                    <RoomList
+                                        rooms={props.roomData}
+                                        preferred={preferredRooms}
+                                        onChange={
+                                            onPreferredRoomsChangedHandler
+                                        }
+                                    />
+                                </div>
+                            </CardContent>
                         </Card>
                     </Grid>
                 </Grid>

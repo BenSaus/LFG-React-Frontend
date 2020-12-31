@@ -317,6 +317,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                     <CardActions>
                         <Button
                             color="primary"
+                            variant="contained"
                             onClick={() => {
                                 props.history.push(
                                     `/openUsers/${groupRespData.group.id}`
@@ -350,9 +351,6 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                 </IconButton>
             </Typography>
 
-            <Chip label="Open To New Members" color="primary" />
-
-            {appInvSectionJSX}
             <Card className={classes.card}>
                 <CardContent>
                     <Typography
@@ -362,6 +360,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                     >
                         Membership
                     </Typography>
+                    <Chip label="Open To New Members" color="primary" />
                     <MembersSection
                         membersMax={groupRespData.group.member_max}
                         members={members}
@@ -397,6 +396,8 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                     />
                 </CardActions>
             </Card>
+
+            {appInvSectionJSX}
 
             <Button
                 color="primary"

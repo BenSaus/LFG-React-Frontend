@@ -3,6 +3,7 @@ import * as Types from "../../generated/graphql"
 import Achievements from "./Achievements/Achievements"
 import { makeStyles } from "@material-ui/core/styles"
 import Card from "@material-ui/core/Card"
+import { Typography } from "@material-ui/core"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -11,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
     },
     image: {
-        marginRight: "5rem",
+        marginRight: "2rem",
     },
     userDetails: {
         textAlign: "left",
@@ -61,12 +62,11 @@ const User: React.FC<UserProps> = (props) => {
                         style={{
                             border: "1px solid black",
                             height: "300px",
-                            // width: "200px",
                         }}
                     />
                 </div>
                 <div className={classes.userDetails}>
-                    <p>{props.user.username}</p>
+                    <Typography variant="h5">{props.user.username}</Typography>
                     <p>Age: {props.user.age}</p>
                     <p>About: {props.user.about}</p>
 

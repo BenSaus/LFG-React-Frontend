@@ -2,6 +2,7 @@ import React from "react"
 import * as Types from "../../../generated/graphql"
 import Achievement from "./Achievement/Achievement"
 import { makeStyles } from "@material-ui/core/styles"
+import { Typography } from "@material-ui/core"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,7 +28,7 @@ const Achievements: React.FC<AchievementsProps> = (props) => {
 
     return (
         <div>
-            <h3>Achievements</h3>
+            <Typography variant="h5">Achievements</Typography>
             <div className={classes.root}>{achieveJsx}</div>
         </div>
     )

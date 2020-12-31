@@ -8,15 +8,15 @@ import groupUtil from "../../utils/groupUtil"
 import Button from "@material-ui/core/Button"
 import Card from "@material-ui/core/Card"
 import { makeStyles } from "@material-ui/core/styles"
+import { CardContent, Typography } from "@material-ui/core"
 
 const useStyles = makeStyles((theme) => ({
     card: {
-        padding: "1rem",
         maxWidth: "500px",
         textAlign: "left",
     },
     groupName: {
-        textAlign: "center",
+        textAlign: "left",
         fontWeight: "bold",
     },
     center: {
@@ -80,20 +80,27 @@ const GroupInfo: React.FC<GroupInfoProps> = (props) => {
 
     return (
         <React.Fragment>
-            <h2>Group Details</h2>
-            <h3 className={classes.groupName}>{groupInfo.name}</h3>
+            <Typography variant="h4" style={{ margin: "2rem" }}>
+                Group Details
+            </Typography>
             <div className={classes.center}>
-                <Card variant="outlined" className={classes.card}>
-                    <div>
-                        <p>Leader: {leaderJSX}</p>
-                        <p>Description: {groupInfo.description}</p>
-                        <p>
-                            Age Range: {groupInfo.min_age} - {groupInfo.max_age}
-                        </p>
-                        <p>Open Slots: {open_slots}</p>
-                        <p>Room Preference: {roomPreferenceJSX} </p>
-                        <p>Day/Time Preference: Any</p>
-                    </div>
+                <Card className={classes.card}>
+                    <CardContent>
+                        <Typography variant="h6" className={classes.groupName}>
+                            {groupInfo.name}
+                        </Typography>
+                        <div>
+                            <p>Leader: {leaderJSX}</p>
+                            <p>Description: {groupInfo.description}</p>
+                            <p>
+                                Age Range: {groupInfo.min_age} -{" "}
+                                {groupInfo.max_age}
+                            </p>
+                            <p>Open Slots: {open_slots}</p>
+                            <p>Room Preference: {roomPreferenceJSX} </p>
+                            <p>Day/Time Preference: Any</p>
+                        </div>
+                    </CardContent>
                 </Card>
             </div>
             <Button color="primary" variant="contained" onClick={onApply}>

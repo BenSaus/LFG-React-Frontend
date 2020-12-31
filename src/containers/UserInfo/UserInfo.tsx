@@ -8,6 +8,7 @@ import { RootType } from "../../store/rootReducer"
 import { AuthState } from "../../store/slices/auth"
 import { GetUserDocument } from "../../generated/graphql"
 import Button from "@material-ui/core/Button"
+import { Typography } from "@material-ui/core"
 
 interface UserInfoParams {
     id: string | undefined
@@ -48,7 +49,7 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
             <Button
                 color="primary"
                 variant="contained"
-                style={{ padding: "0.5rem", margin: "1rem" }}
+                style={{ margin: "1rem" }}
             >
                 Edit
             </Button>
@@ -57,13 +58,15 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
 
     return (
         <div>
-            <h1>User Profile</h1>
-            {editButton}
+            <Typography variant="h4" style={{ margin: "1rem" }}>
+                User Profile
+            </Typography>
             <User user={userInfo} />
-            <br />
+            {editButton}
             <Button
                 color="primary"
                 variant="contained"
+                style={{ margin: "1rem" }}
                 onClick={() => props.history.goBack()}
             >
                 Back

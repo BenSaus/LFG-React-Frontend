@@ -3,23 +3,20 @@ import { createMuiTheme } from "@material-ui/core"
 const theme = createMuiTheme({
     palette: {
         background: { paper: "#fff", default: "#fafafa" },
-        primary: {
-            main: "#2b444b",
-            contractText: "#fafafa",
-        },
-        secondary: {
-            main: "#7e0000",
-            contractText: "#fafafa",
-        },
+        // primary: {
+        //     main: "#2b444b",
+        //     contractText: "#fafafa",
+        // },
+        // secondary: {
+        //     main: "#7e0000",
+        //     contractText: "#fafafa",
+        // },
     },
 })
 
 theme.overrides = {
     MuiCard: {
-        root: {
-            margin: "2rem",
-            padding: "1rem",
-        },
+        root: {},
     },
     MuiTableHead: {
         root: {

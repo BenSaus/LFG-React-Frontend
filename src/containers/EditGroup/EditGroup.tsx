@@ -95,7 +95,9 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
 
     return (
         <React.Fragment>
-            <Typography variant="h3">Edit Group</Typography>
+            <Typography variant="h4" style={{ margin: "2rem" }}>
+                Edit Group Details
+            </Typography>
             <div className={classes.groupFormContainer}>
                 <GroupForm
                     onSubmit={onSubmit}
