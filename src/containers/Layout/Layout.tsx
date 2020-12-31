@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { useSelector } from "react-redux"
 // import Toolbar from "../../components/Navigation/Toolbar/Toolbar"
+import { withRouter } from "react-router"
 
 import { RootType } from "../../store/rootReducer"
 import AppBar from "@material-ui/core/AppBar"
@@ -15,10 +16,11 @@ import AccountCircle from "@material-ui/icons/AccountCircle"
 import Menu from "@material-ui/core/Menu"
 import MenuItem from "@material-ui/core/MenuItem"
 import { makeStyles } from "@material-ui/core/styles"
-import { Link } from "react-router-dom"
+import { Link, RouteComponentProps } from "react-router-dom"
 import Container from "@material-ui/core/Container"
 
-interface LayoutProps {}
+interface LayoutParams {}
+interface LayoutProps extends RouteComponentProps<LayoutParams> {}
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -39,7 +41,12 @@ export const Layout: React.FC<LayoutProps> = (props) => {
         (state) => state.auth.token !== null
     )
 
-    const handleClick = (event: any) => {
+    const onNavLinkClick = (pageUrl: string) => {
+        props.history.push(pageUrl)
+        setAnchorEl(null)
+    }
+
+    const handleMenuOpenClick = (event: any) => {
         setAnchorEl(event.currentTarget)
     }
 
@@ -51,17 +58,18 @@ export const Layout: React.FC<LayoutProps> = (props) => {
     if (isAuthenticated) {
         navLinksJSX = (
             <React.Fragment>
-                <IconButton color="inherit">
-                    <Link to={`/openGroups`}>
-                        <SearchIcon />
-                    </Link>
+                <IconButton
+                    color="inherit"
+                    onClick={() => onNavLinkClick("/openGroups")}
+                >
+                    <SearchIcon />
                 </IconButton>
                 <IconButton color="inherit">
                     <Badge badgeContent={17} color="secondary">
                         <NotificationsIcon />
                     </Badge>
                 </IconButton>
-                <IconButton color="inherit" onClick={handleClick}>
+                <IconButton color="inherit" onClick={handleMenuOpenClick}>
                     <AccountCircle />
                 </IconButton>
                 <Menu
@@ -71,29 +79,37 @@ export const Layout: React.FC<LayoutProps> = (props) => {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    <MenuItem onClick={handleClose}>
-                        <Link to={`/myProfile`}>My Profile</Link>
+                    <MenuItem onClick={() => onNavLinkClick("/myProfile")}>
+                        Profile
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                        <Link to={`/myGroups`}>Groups</Link>
+                    <MenuItem onClick={() => onNavLinkClick("/myGroups")}>
+                        Groups
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                        <Link to={`/myInvites`}>Invites</Link>
+                    <MenuItem onClick={() => onNavLinkClick("/myInvites")}>
+                        Invites
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                        <Link to={`/myApps`}>Applications</Link>
+                    <MenuItem onClick={() => onNavLinkClick("/myApps")}>
+                        Applications
                     </MenuItem>
                 </Menu>
 
-                <Button color="inherit">
-                    <Link to={`/logout`}>LOGOUT</Link>
+                <Button
+                    color="inherit"
+                    onClick={() => onNavLinkClick("/logout")}
+                >
+                    LOGOUT
                 </Button>
             </React.Fragment>
         )
     } else {
         navLinksJSX = (
             <React.Fragment>
-                <Button color="inherit">LOGIN</Button>
+                <Button
+                    color="inherit"
+                    onClick={() => onNavLinkClick("/login")}
+                >
+                    LOGIN
+                </Button>
             </React.Fragment>
         )
     }
@@ -116,4 +132,4 @@ export const Layout: React.FC<LayoutProps> = (props) => {
     )
 }
 
-export default Layout
+export default withRouter(Layout)

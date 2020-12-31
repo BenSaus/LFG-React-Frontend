@@ -26,7 +26,10 @@ import {
     CardContent,
     CardActions,
     Button,
+    IconButton,
+    Chip,
 } from "@material-ui/core"
+import Settings from "@material-ui/icons/Settings"
 import { makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles((theme) => ({
@@ -329,16 +332,24 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
 
     return (
         <React.Fragment>
-            <h1>Manage Members</h1>
-            <h2>{groupRespData.group.name}</h2>
-            <Button
-                variant="contained"
-                onClick={() => {
-                    props.history.push(`/group/edit/${props.match.params.id}`)
-                }}
-            >
-                Edit Group Details
-            </Button>
+            <Typography variant="h3" component="h3">
+                Manage Members
+            </Typography>
+
+            <Typography variant="h4" component="h4">
+                {groupRespData.group.name}
+                <IconButton
+                    onClick={() => {
+                        props.history.push(
+                            `/group/edit/${props.match.params.id}`
+                        )
+                    }}
+                >
+                    <Settings />
+                </IconButton>
+            </Typography>
+
+            <Chip label="Open To New Members" color="primary" />
 
             {appInvSectionJSX}
             <Card className={classes.card}>
