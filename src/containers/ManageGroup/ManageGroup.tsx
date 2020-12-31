@@ -402,6 +402,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             <Button
                 color="primary"
                 variant="contained"
+                style={{ marginBottom: "3rem" }}
                 onClick={() => props.history.goBack()}
             >
                 Back

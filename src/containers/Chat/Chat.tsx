@@ -10,6 +10,34 @@ import { RootType } from "../../store/rootReducer"
 import { AuthState } from "../../store/slices/auth"
 import styles from "./Chat.module.css"
 import * as Types from "../../generated/graphql"
+import {
+    Avatar,
+    Box,
+    Button,
+    Chip,
+    Grid,
+    IconButton,
+    makeStyles,
+    TextField,
+    Tooltip,
+    Typography,
+} from "@material-ui/core"
+import MembersList from "../../components/Chat/MemberList/MemberList"
+import MessageList from "../../components/Chat/MessageList/MessageList"
+import { Settings } from "@material-ui/icons"
+
+const useStyles = makeStyles((theme) => ({
+    chatGrid: {
+        width: "100%",
+    },
+    membersSection: {
+        width: "100%",
+    },
+    messagesSection: {
+        width: "100%",
+        height: "500px",
+    },
+}))
 
 interface ChatParams {
     id: string
@@ -17,6 +45,8 @@ interface ChatParams {
 interface ChatProps extends RouteComponentProps<ChatParams> {}
 
 const Chat: React.FC<ChatProps> = (props) => {
+    const classes = useStyles()
+
     // Redux
     const auth = useSelector<RootType, AuthState>((state) => state.auth)
     let myId: string = ""
@@ -43,6 +73,7 @@ const Chat: React.FC<ChatProps> = (props) => {
         props.history.push("/group/manage/" + groupId)
     }
 
+    // TODO: MOVE UP?
     const onLeaveGroupClick = async () => {
         // We must remove the given member then resubmit the member list
         console.log("Remove member", myId, data.group.id)
@@ -67,15 +98,17 @@ const Chat: React.FC<ChatProps> = (props) => {
     const groupId = props.match.params.id
     const isLeader = myId === data.group.leader.id
     const leader = data.group.leader
+    const membersAndLeader = [...data.group.members]
+    membersAndLeader.push(data.group.leader)
 
     const leaderButtonsJSX = (
         <React.Fragment>
-            <button onClick={() => onManageMembersClick(groupId)}>
-                Manage Members
-            </button>
-            <button onClick={() => onEditDetailsClick(groupId)}>
+            <Button
+                variant="outlined"
+                onClick={() => onEditDetailsClick(groupId)}
+            >
                 Edit Group Details
-            </button>
+            </Button>
         </React.Fragment>
     )
 
@@ -83,30 +116,77 @@ const Chat: React.FC<ChatProps> = (props) => {
         <button onClick={onLeaveGroupClick}>Leave Group</button>
     )
 
-    const membersJSX = data.group.members.map(
-        (member: Types.UsersPermissionsUser) => {
-            return <p key={member.id}>{member.username}</p>
-        }
-    )
+    // const membersJSX = data.group.members.map(
+    //     (member: Types.UsersPermissionsUser) => {
+    //         return <p key={member.id}>{member.username}</p>
+    //     }
+    // )
 
     return (
         <React.Fragment>
-            <h2>{data.group.name}</h2>
-            <h4>Status: {data.group.status}</h4>
-            {isLeader ? leaderButtonsJSX : memberButtonsJSX}
-            <br />
-            <br />
-            <div className={styles.ChatWindow}>
-                <div className={styles.MemebersSection}>
-                    <h3>Leader</h3>
-                    <p key={leader.id}>{leader.username}</p>
-                    <h3>Members</h3>
-                    {membersJSX}
-                </div>
-                <div className={styles.MessagesSection}>
-                    <h3>Messages</h3>
-                </div>
-            </div>
+            <Typography variant="h4" style={{ marginBottom: "2rem" }}>
+                {data.group.name}
+                <Tooltip title="Edit Group Details">
+                    <IconButton
+                        onClick={() => {
+                            props.history.push(
+                                `/group/edit/${props.match.params.id}`
+                            )
+                        }}
+                    >
+                        <Settings />
+                    </IconButton>
+                </Tooltip>
+            </Typography>
+
+            <Grid container className={classes.chatGrid}>
+                <Grid item xs={12} sm={2}>
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "flex-start",
+                        }}
+                    >
+                        <Typography variant="button">Members List</Typography>
+
+                        <div className={classes.membersSection}>
+                            <MembersList members={membersAndLeader} />
+                        </div>
+                        {isLeader ? (
+                            <Button
+                                variant="outlined"
+                                onClick={() => onManageMembersClick(groupId)}
+                            >
+                                Manage Members
+                            </Button>
+                        ) : null}
+                    </div>
+                </Grid>
+                <Grid item xs={12} sm={10}>
+                    <Box
+                        className={classes.messagesSection}
+                        border={1}
+                        borderRadius={16}
+                        borderColor="grey.300"
+                    >
+                        <MessageList />
+                    </Box>
+                    <Grid
+                        item
+                        xs={12}
+                        style={{ display: "flex", marginTop: "1rem" }}
+                    >
+                        <TextField
+                            id="outlined-basic"
+                            placeholder="Type here and press Enter to send a message"
+                            variant="outlined"
+                            style={{ flexGrow: 2 }}
+                        />
+                        <Button variant="outlined">Send</Button>
+                    </Grid>
+                </Grid>
+            </Grid>
         </React.Fragment>
     )
 }
