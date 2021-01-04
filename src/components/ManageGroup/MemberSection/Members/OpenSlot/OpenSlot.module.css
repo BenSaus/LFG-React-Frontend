@@ -1,10 +1,11 @@
 .OpenSlot {
     width: 100%;
-    color: #ccc;
-    border: 1px solid #ccc;
+    color: #aaa;
+    border: 1px solid #eee;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin: 0.25rem 0;
     padding: 0.25rem;
+    
 }

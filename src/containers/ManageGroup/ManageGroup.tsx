@@ -28,7 +28,13 @@ import {
     Button,
     IconButton,
     Chip,
+    Tooltip,
+    Switch,
+    Box,
 } from "@material-ui/core"
+
+import { PersonAdd, Delete } from "@material-ui/icons"
+
 import Settings from "@material-ui/icons/Settings"
 import { makeStyles } from "@material-ui/core/styles"
 
@@ -194,28 +200,46 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
     }
 
     const onCloseGroupClick = async (groupId: string) => {
-        console.log("Clicked Close")
-
         const resp = await closeGroup({
             variables: {
                 id: groupId,
             },
         })
-
-        console.log(resp)
     }
 
     const onOpenGroupClick = async (groupId: string) => {
-        console.log("Clicked Open")
-
         const resp = await openGroup({
             variables: {
                 id: groupId,
             },
         })
-
-        console.log(resp)
     }
+
+    const onToggleOpenGroup = (event: any) => {
+        if (closed) {
+            onOpenGroupClick(groupRespData.group.id)
+        } else {
+            onCloseGroupClick(groupRespData.group.id)
+        }
+    }
+
+    // const onChangeToggle = async (event: any) => {
+    //     console.log(event.target.checked)
+
+    //     if (!event.target.checked) {
+    //         const resp = await closeGroup({
+    //             variables: {
+    //                 id: groupRespData.group.id,
+    //             },
+    //         })
+    //     } else {
+    //         const resp = await openGroup({
+    //             variables: {
+    //                 id: groupRespData.group.id,
+    //             },
+    //         })
+    //     }
+    // }
 
     const onAddMemberSlot = async () => {
         console.log("Add Slot")
@@ -275,8 +299,8 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         appInvSectionJSX = (
             <React.Fragment>
                 <p>
-                    This group is closed. If you want to add more members open
-                    the group.
+                    Membership is closed. If you want to add more members open
+                    membership.
                 </p>
             </React.Fragment>
         )
@@ -316,8 +340,9 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                     </CardContent>
                     <CardActions>
                         <Button
+                            size="small"
                             color="primary"
-                            variant="contained"
+                            variant="outlined"
                             onClick={() => {
                                 props.history.push(
                                     `/openUsers/${groupRespData.group.id}`
@@ -334,33 +359,79 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
 
     return (
         <React.Fragment>
-            <Typography variant="h3" component="h3">
-                Manage Members
+            <Typography variant="h4">
+                {groupRespData.group.name}
+                <Tooltip title="Edit Group Details">
+                    <IconButton
+                        onClick={() => {
+                            props.history.push(
+                                `/group/edit/${props.match.params.id}`
+                            )
+                        }}
+                    >
+                        <Settings />
+                    </IconButton>
+                </Tooltip>
             </Typography>
 
-            <Typography variant="h4" component="h4">
-                {groupRespData.group.name}
-                <IconButton
-                    onClick={() => {
-                        props.history.push(
-                            `/group/edit/${props.match.params.id}`
-                        )
-                    }}
-                >
-                    <Settings />
-                </IconButton>
-            </Typography>
+            <Typography variant="h6">Manage Members</Typography>
 
             <Card className={classes.card}>
                 <CardContent>
-                    <Typography
-                        className={classes.cardTitle}
-                        variant="h5"
-                        component="h2"
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            borderBottom: "1px solid #ddd",
+                        }}
                     >
-                        Membership
-                    </Typography>
-                    <Chip label="Open To New Members" color="primary" />
+                        <Typography
+                            className={classes.cardTitle}
+                            variant="h5"
+                            component="h2"
+                            style={{ marginBottom: "1rem" }}
+                        >
+                            Membership
+                        </Typography>
+
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                marginBottom: "1rem",
+                            }}
+                        >
+                            {/* <Chip
+                                label={"Closed"}
+                                color={closed ? "secondary" : "default"}
+                            />
+                            <Switch
+                                onChange={onChangeToggle}
+                                checked={!closed}
+                                name="membershipOpen"
+                                color="primary"
+                            />
+                            <Chip
+                                label={"Open"}
+                                color={!closed ? "secondary" : "default"}
+                            /> */}
+
+                            <Button
+                                onClick={onToggleOpenGroup}
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                            >
+                                {closed
+                                    ? "Open Membership"
+                                    : "Close Membership"}
+                            </Button>
+                        </div>
+                    </div>
+
                     <MembersSection
                         membersMax={groupRespData.group.member_max}
                         members={members}
@@ -372,29 +443,24 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                         <React.Fragment>
                             <Button
                                 color="primary"
-                                variant="contained"
+                                variant="outlined"
                                 onClick={onAddMemberSlot}
+                                style={{ marginRight: "1rem" }}
+                                startIcon={<PersonAdd />}
                             >
                                 Add Slot
                             </Button>
                             <Button
                                 color="primary"
-                                variant="contained"
+                                variant="outlined"
                                 onClick={onRemoveMemberSlot}
+                                startIcon={<Delete />}
                             >
                                 Remove Slot
                             </Button>
                         </React.Fragment>
                     ) : null}
                 </CardContent>
-                <CardActions>
-                    <ButtonSection
-                        groupClosed={closed}
-                        groupId={groupRespData.group.id}
-                        onCloseGroupClick={onCloseGroupClick}
-                        onOpenGroupClick={onOpenGroupClick}
-                    />
-                </CardActions>
             </Card>
 
             {appInvSectionJSX}

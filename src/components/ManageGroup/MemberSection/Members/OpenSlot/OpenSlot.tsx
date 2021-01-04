@@ -7,7 +7,6 @@ const OpenSlot: React.FC<OpenSlotProps> = ({}) => {
     return (
         <div className={styles.OpenSlot}>
             <p>Open Slot</p>
-            <div></div>
         </div>
     )
 }

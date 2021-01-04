@@ -109,15 +109,33 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
     if (props.openSlotsEditable) {
         openSlotsJSX = (
             <React.Fragment>
-                <label htmlFor="">Open Slots: </label>
-                <input
-                    id="member_max"
-                    name="member_max"
-                    onChange={formik.handleChange}
-                    value={formik.values.member_max}
-                    type="number"
-                />
-                <br />
+                <Grid container spacing={3}>
+                    <Grid item xs={12} sm={12}>
+                        <Card
+                            variant="outlined"
+                            className={classes.preferredRoomsCard}
+                        >
+                            <CardContent>
+                                <div className={classes.textAlignLeft}>
+                                    <Typography
+                                        className={classes.ageCardTitle}
+                                    >
+                                        Open Slots
+                                    </Typography>
+                                </div>
+
+                                <input
+                                    id="member_max"
+                                    name="member_max"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.member_max}
+                                    type="number"
+                                />
+                                <br />
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                </Grid>
             </React.Fragment>
         )
     }

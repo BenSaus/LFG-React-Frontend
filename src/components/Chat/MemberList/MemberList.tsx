@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface MembersListProps {
     members: Types.UsersPermissionsUser[]
+    leader: Types.UsersPermissionsUser
 }
 
 const MembersList: React.FC<MembersListProps> = (props) => {
@@ -28,6 +29,20 @@ const MembersList: React.FC<MembersListProps> = (props) => {
     return (
         <div>
             <List>
+                <div className={classes.memberContainer}>
+                    <ListItem button alignItems="flex-start">
+                        <ListItemAvatar>
+                            <Avatar src="/static/images/avatar/2.jpg" />
+                        </ListItemAvatar>
+                        <ListItemText>
+                            <Typography variant="subtitle1">
+                                {props.leader.username}
+                            </Typography>
+                            <Typography variant="caption">Leader</Typography>
+                        </ListItemText>
+                    </ListItem>
+                </div>
+
                 {props.members.map((member: Types.UsersPermissionsUser) => (
                     <React.Fragment key={member.id}>
                         <div className={classes.memberContainer}>
@@ -40,7 +55,7 @@ const MembersList: React.FC<MembersListProps> = (props) => {
                                         {member.username}
                                     </Typography>
                                     <Typography variant="caption">
-                                        subtext
+                                        Member
                                     </Typography>
                                 </ListItemText>
                             </ListItem>

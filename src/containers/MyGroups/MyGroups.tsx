@@ -112,14 +112,13 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
                     style={{ display: "flex", justifyContent: "center" }}
                 >
                     <Button
-                        variant="contained"
+                        variant="outlined"
                         color="primary"
                         style={{ margin: "1rem" }}
                         onClick={() => {
                             props.history.push("/group/create")
                         }}
                     >
-                        {" "}
                         Create New Group
                     </Button>
                 </CardActions>

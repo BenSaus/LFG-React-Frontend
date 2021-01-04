@@ -88,7 +88,7 @@ const GroupList: React.FC<GroupListProps> = (props) => {
                             </TableCell>
                             <TableCell align="center">
                                 <Chip
-                                    color="primary"
+                                    color="default"
                                     size="small"
                                     label={`${group.min_age} - ${group.max_age}`}
                                 />

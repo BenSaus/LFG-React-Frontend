@@ -151,11 +151,15 @@ const Chat: React.FC<ChatProps> = (props) => {
                         <Typography variant="button">Members List</Typography>
 
                         <div className={classes.membersSection}>
-                            <MembersList members={membersAndLeader} />
+                            <MembersList
+                                members={data.group.members}
+                                leader={leader}
+                            />
                         </div>
                         {isLeader ? (
                             <Button
                                 variant="outlined"
+                                color="primary"
                                 onClick={() => onManageMembersClick(groupId)}
                             >
                                 Manage Members
@@ -183,7 +187,9 @@ const Chat: React.FC<ChatProps> = (props) => {
                             variant="outlined"
                             style={{ flexGrow: 2 }}
                         />
-                        <Button variant="outlined">Send</Button>
+                        <Button variant="contained" color="primary">
+                            Send
+                        </Button>
                     </Grid>
                 </Grid>
             </Grid>
