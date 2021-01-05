@@ -126,17 +126,20 @@ const Chat: React.FC<ChatProps> = (props) => {
         <React.Fragment>
             <Typography variant="h4" style={{ marginBottom: "2rem" }}>
                 {data.group.name}
-                <Tooltip title="Edit Group Details">
-                    <IconButton
-                        onClick={() => {
-                            props.history.push(
-                                `/group/edit/${props.match.params.id}`
-                            )
-                        }}
-                    >
-                        <Settings />
-                    </IconButton>
-                </Tooltip>
+
+                {isLeader ? (
+                    <Tooltip title="Edit Group Details">
+                        <IconButton
+                            onClick={() => {
+                                props.history.push(
+                                    `/group/edit/${props.match.params.id}`
+                                )
+                            }}
+                        >
+                            <Settings />
+                        </IconButton>
+                    </Tooltip>
+                ) : null}
             </Typography>
 
             <Grid container className={classes.chatGrid}>
