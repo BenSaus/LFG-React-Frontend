@@ -9,6 +9,7 @@ query getMyGroups($id: ID!) {
         description
         leader {
             id
+            username
         }
         members {
             id

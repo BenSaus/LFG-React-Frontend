@@ -30,9 +30,13 @@ const MessageList: React.FC<MessageListProps> = (props) => {
 
     return (
         <div className={classes.messageList}>
+            <Message
+                text="Cillum consectetur dolore aute eu elit id voluptate ipsum dolore quis dolor."
+                onRight={false}
+            />
             <Message text="Hi there" onRight={true} />
             <Message text="Nope" onRight={false} />
-            <Message text="To Infinity" onRight={true} />
+            <Message text="To Infinity" onRight={false} />
             <Message text="Hi there" onRight={true} />
             <Message text="Gut Biome" onRight={true} />
             <Message
@@ -42,10 +46,6 @@ const MessageList: React.FC<MessageListProps> = (props) => {
             <Message
                 text="Minim minim ullamco consectetur dolor id id irure esse deserunt Lorem proident sit."
                 onRight={true}
-            />
-            <Message
-                text="Cillum consectetur dolore aute eu elit id voluptate ipsum dolore quis dolor."
-                onRight={false}
             />
         </div>
     )

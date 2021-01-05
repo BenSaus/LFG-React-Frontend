@@ -1,9 +1,13 @@
 import React, { useState } from "react"
-import { useQuery } from "@apollo/client"
-import GroupList from "../../components/GroupList/GroupList"
+import { useMutation, useQuery } from "@apollo/client"
+import GroupTable from "../../components/GroupTable/GroupTable"
 import { RouteComponentProps } from "react-router"
 import { RootType } from "../../store/rootReducer"
 import { useSelector } from "react-redux"
+import {
+    GetGroupChatDocument,
+    LeaveGroupDocument,
+} from "../../generated/graphql"
 import * as Types from "../../generated/graphql"
 import { AuthState } from "../../store/slices/auth"
 import {
@@ -20,6 +24,7 @@ import {
     Theme,
     Typography,
 } from "@material-ui/core"
+import GroupList from "../../components/GroupList/GroupList"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -77,6 +82,8 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
         },
     })
 
+    const [leaveGroup] = useMutation(LeaveGroupDocument)
+
     // Handlers
     const onGroupLeadClick = (groupId: string) => {
         props.history.push("/group/chat/" + groupId)
@@ -84,6 +91,25 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
 
     const onGroupMemberClick = (groupId: string) => {
         props.history.push("/group/chat/" + groupId)
+    }
+
+    // TODO: MOVE UP?
+    const onLeaveGroupClick = async (groupId: string) => {
+        console.log("Leaving group", myId, groupId)
+
+        const resp = await leaveGroup({
+            variables: {
+                id: groupId,
+            },
+        })
+
+        // Update state
+        const newMemeberGroups = memberGroups.filter(
+            (group) => group.id !== groupId
+        )
+        setMemberGroups(newMemeberGroups)
+
+        console.log(resp)
     }
 
     // Render
@@ -102,11 +128,19 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
                         Groups I Lead
                     </Typography>
 
-                    <GroupList
+                    <GroupTable
                         groups={leadingGroups}
                         clickedGroup={onGroupLeadClick}
                         showGroupsWithNoOpenSlots={true}
+                        showMemberNumber={true}
+                        showOpenSlots={true}
+                        showDeleteGroup={true}
                     />
+
+                    {/* <GroupList
+                        groups={leadingGroups}
+                        onClick={onGroupLeadClick}
+                    /> */}
                 </CardContent>
                 <CardActions
                     style={{ display: "flex", justifyContent: "center" }}
@@ -135,10 +169,14 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
                         Groups I'm a member of
                     </Typography>
 
-                    <GroupList
+                    <GroupTable
                         groups={memberGroups}
                         clickedGroup={onGroupMemberClick}
                         showGroupsWithNoOpenSlots={true}
+                        showLeader={true}
+                        showOpenSlots={true}
+                        showLeaveGroup={true}
+                        onLeaveGroup={onLeaveGroupClick}
                     />
                 </CardContent>
             </Card>

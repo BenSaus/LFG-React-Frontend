@@ -2644,7 +2644,7 @@ export type GetMyGroupsQuery = (
     & Pick<Group, 'id' | 'name' | 'member_max' | 'max_age' | 'min_age' | 'booking_status' | 'description'>
     & { leader?: Maybe<(
       { __typename?: 'UsersPermissionsUser' }
-      & Pick<UsersPermissionsUser, 'id'>
+      & Pick<UsersPermissionsUser, 'id' | 'username'>
     )>, members?: Maybe<Array<Maybe<(
       { __typename?: 'UsersPermissionsUser' }
       & Pick<UsersPermissionsUser, 'id'>
@@ -3610,6 +3610,7 @@ export const GetMyGroupsDocument = gql`
     description
     leader {
       id
+      username
     }
     members {
       id

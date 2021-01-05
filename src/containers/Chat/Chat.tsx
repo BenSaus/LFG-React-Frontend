@@ -62,7 +62,7 @@ const Chat: React.FC<ChatProps> = (props) => {
         },
     })
 
-    const [leaveGroup] = useMutation(LeaveGroupDocument)
+    // const [leaveGroup] = useMutation(LeaveGroupDocument)
 
     // Handlers
     const onEditDetailsClick = (groupId: string) => {
@@ -73,20 +73,20 @@ const Chat: React.FC<ChatProps> = (props) => {
         props.history.push("/group/manage/" + groupId)
     }
 
-    // TODO: MOVE UP?
-    const onLeaveGroupClick = async () => {
-        // We must remove the given member then resubmit the member list
-        console.log("Remove member", myId, data.group.id)
+    // // TODO: MOVE UP?
+    // const onLeaveGroupClick = async () => {
+    //     // We must remove the given member then resubmit the member list
+    //     console.log("Remove member", myId, data.group.id)
 
-        const resp = await leaveGroup({
-            variables: {
-                id: data.group.id,
-            },
-        })
+    //     const resp = await leaveGroup({
+    //         variables: {
+    //             id: data.group.id,
+    //         },
+    //     })
 
-        console.log(resp)
-        props.history.push("/myGroups")
-    }
+    //     console.log(resp)
+    //     props.history.push("/myGroups")
+    // }
 
     // Render
     if (loading) return <p>Loading...</p>
@@ -100,27 +100,6 @@ const Chat: React.FC<ChatProps> = (props) => {
     const leader = data.group.leader
     const membersAndLeader = [...data.group.members]
     membersAndLeader.push(data.group.leader)
-
-    const leaderButtonsJSX = (
-        <React.Fragment>
-            <Button
-                variant="outlined"
-                onClick={() => onEditDetailsClick(groupId)}
-            >
-                Edit Group Details
-            </Button>
-        </React.Fragment>
-    )
-
-    const memberButtonsJSX = (
-        <button onClick={onLeaveGroupClick}>Leave Group</button>
-    )
-
-    // const membersJSX = data.group.members.map(
-    //     (member: Types.UsersPermissionsUser) => {
-    //         return <p key={member.id}>{member.username}</p>
-    //     }
-    // )
 
     return (
         <React.Fragment>

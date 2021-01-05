@@ -1,5 +1,5 @@
 import React from "react"
-import GroupList from "../../components/GroupList/GroupList"
+import GroupTable from "../../components/GroupTable/GroupTable"
 import { RouteComponentProps } from "react-router"
 import { GetOpenGroupsDocument } from "../../generated/graphql"
 import { useQuery } from "@apollo/client"
@@ -25,10 +25,14 @@ const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
                 </Typography>
                 <Card>
                     <CardContent>
-                        <GroupList
+                        <GroupTable
                             groups={data.groups}
                             clickedGroup={onGroupClick}
                             showGroupsWithNoOpenSlots={false}
+                            showLeader={true}
+                            showOpenSlots={true}
+                            showAgeRange={true}
+                            showApplyGroup={true}
                         />
                     </CardContent>
                 </Card>
