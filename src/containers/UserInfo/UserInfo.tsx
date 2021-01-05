@@ -49,7 +49,7 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
             <Button
                 color="primary"
                 variant="contained"
-                style={{ margin: "1rem" }}
+                style={{ marginTop: "1rem", marginRight: "1rem" }}
             >
                 Edit
             </Button>
@@ -66,7 +66,7 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
             <Button
                 color="primary"
                 variant="contained"
-                style={{ margin: "1rem" }}
+                style={{ marginTop: "1rem" }}
                 onClick={() => props.history.goBack()}
             >
                 Back
