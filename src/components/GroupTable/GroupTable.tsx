@@ -115,7 +115,11 @@ const GroupList: React.FC<GroupListProps> = (props) => {
                 </TableHead>
                 <TableBody>
                     {filteredGroups.map((group: Types.Group) => (
-                        <TableRow key={group.id}>
+                        <TableRow
+                            hover
+                            key={group.id}
+                            onClick={() => props.clickedGroup(group.id)}
+                        >
                             <TableCell>
                                 <Typography variant="h6">
                                     {group.name}
@@ -163,9 +167,10 @@ const GroupList: React.FC<GroupListProps> = (props) => {
                                         key={action.tooltip}
                                     >
                                         <IconButton
-                                            onClick={() =>
+                                            onClick={(event) => {
+                                                event.stopPropagation()
                                                 action.onClick(group.id)
-                                            }
+                                            }}
                                         >
                                             {action.iconJSX}
                                         </IconButton>
