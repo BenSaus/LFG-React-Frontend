@@ -4,7 +4,7 @@ import { RouteComponentProps } from "react-router"
 import { GetOpenGroupsDocument } from "../../generated/graphql"
 import { useQuery } from "@apollo/client"
 import { Card, CardContent, Typography } from "@material-ui/core"
-import { FindInPage } from "@material-ui/icons"
+import { Assignment, FindInPage } from "@material-ui/icons"
 import IListAction from "../../shared/IListAction"
 
 interface OpenGroupsProps extends RouteComponentProps {}
@@ -19,11 +19,20 @@ const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
         props.history.push("/group/" + groupId)
     }
 
+    const onApplyClick = (groupId: string) => {
+        props.history.push("/apply/" + groupId)
+    }
+
     const groupActions: IListAction[] = [
         {
             tooltip: "View Group",
             iconJSX: <FindInPage />,
             onClick: onGroupClick,
+        },
+        {
+            tooltip: "Apply to Group",
+            iconJSX: <Assignment />,
+            onClick: onApplyClick,
         },
     ]
 
