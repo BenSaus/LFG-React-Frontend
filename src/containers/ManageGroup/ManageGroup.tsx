@@ -16,7 +16,6 @@ import {
     DismissInviteDocument,
 } from "../../generated/graphql"
 import MembersSection from "../../components/ManageGroup/MemberSection/MemberSection"
-import ButtonSection from "../../components/ManageGroup/ButtonSection/ButtonSection"
 import ApplicationSection from "../../components/ManageGroup/ApplicationSection/ApplicationSection"
 import InviteSection from "../../components/ManageGroup/InviteSection/InviteSection"
 
@@ -107,8 +106,6 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
 
     // Handlers
     const onAcceptApplication = async (applicationId: string) => {
-        console.log("Accept app:", applicationId)
-
         const result = await acceptApplication({
             variables: {
                 id: applicationId,
@@ -120,8 +117,6 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             },
         })
         // TODO: Check result here
-
-        console.log(result)
 
         const acceptedApplication = applications.find(
             (app) => app.id === applicationId
@@ -157,8 +152,6 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
     }
 
     const onDismissInviteClick = async (inviteId: string) => {
-        console.log("Dismiss invite:" + inviteId)
-
         const resp = await dismissInvite({
             variables: {
                 id: inviteId,
@@ -169,28 +162,19 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             (invite) => invite.id !== inviteId
         )
         setInvites(updatedInvites)
-
-        console.log(resp)
     }
 
     const onClickViewMember = async (memberId: string) => {
-        console.log("Clicked member", memberId)
-
         props.history.push(`/user/${memberId}`)
     }
 
     const onClickRemoveMember = async (memberId: string) => {
-        // We must remove the given member then resubmit the member list
-
-        console.log("Remove member", memberId)
-
         const resp = await removeMember({
             variables: {
                 groupId: groupRespData.group.id,
                 memberId: memberId,
             },
         })
-        console.log(resp)
 
         const updatedMembers: Types.UsersPermissionsUser[] = members.filter(
             (member: Types.UsersPermissionsUser) => member.id !== memberId
@@ -223,27 +207,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         }
     }
 
-    // const onChangeToggle = async (event: any) => {
-    //     console.log(event.target.checked)
-
-    //     if (!event.target.checked) {
-    //         const resp = await closeGroup({
-    //             variables: {
-    //                 id: groupRespData.group.id,
-    //             },
-    //         })
-    //     } else {
-    //         const resp = await openGroup({
-    //             variables: {
-    //                 id: groupRespData.group.id,
-    //             },
-    //         })
-    //     }
-    // }
-
     const onAddMemberSlot = async () => {
-        console.log("Add Slot")
-
         // TODO: Clamp this (1, GroupMax)
         // HARDCODED: The max and min group sizes are hardcoded
         const member_max = Math.min(
@@ -257,13 +221,10 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                 member_max,
             },
         })
-
-        console.log(resp)
     }
 
     const onRemoveMemberSlot = async () => {
         // do not allow member number > member_max
-        console.log("Remove Slot")
 
         // TODO: Clamp this (1, GroupMax)
         // HARDCODED: The max and min group sizes are hardcoded
@@ -280,8 +241,6 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                 member_max,
             },
         })
-
-        console.log(resp)
     }
 
     // Render
