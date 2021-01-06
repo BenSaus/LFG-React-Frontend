@@ -95,14 +95,20 @@ export const Layout: React.FC<LayoutProps> = (props) => {
                 </Menu>
 
                 <Button onClick={() => onNavLinkClick("/logout")}>
-                    LOGOUT
+                    <Typography variant="button" style={{ color: "white" }}>
+                        LOGOUT
+                    </Typography>
                 </Button>
             </React.Fragment>
         )
     } else {
         navLinksJSX = (
             <React.Fragment>
-                <Button onClick={() => onNavLinkClick("/login")}>LOGIN</Button>
+                <Button onClick={() => onNavLinkClick("/login")}>
+                    <Typography variant="button" style={{ color: "white" }}>
+                        LOGIN
+                    </Typography>
+                </Button>
             </React.Fragment>
         )
     }
