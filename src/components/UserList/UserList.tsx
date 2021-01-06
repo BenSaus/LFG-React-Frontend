@@ -45,6 +45,9 @@ const UserList: React.FC<UserListProps> = (props) => {
                                 <Typography variant="subtitle1">
                                     {user.username}
                                 </Typography>
+                                <Typography variant="subtitle2">
+                                    About: {user.about}
+                                </Typography>
                             </ListItemText>
                             <ListItemSecondaryAction>
                                 {props.actions?.map((action) => (
