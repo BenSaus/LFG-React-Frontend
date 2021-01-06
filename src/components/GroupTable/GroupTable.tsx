@@ -1,7 +1,6 @@
 import React from "react"
 import * as Types from "../../generated/graphql"
 import { Group } from "../../generated/graphql"
-import GroupComponent from "./Group/Group"
 import groupUtil from "../../utils/groupUtil"
 import { makeStyles } from "@material-ui/core/styles"
 import {
@@ -25,6 +24,8 @@ import {
     HighlightOff,
 } from "@material-ui/icons"
 
+import IListAction from "../../shared/IListAction"
+
 const useStyles = makeStyles({
     userCell: {
         display: "flex",
@@ -39,18 +40,13 @@ const useStyles = makeStyles({
 interface GroupListProps {
     groups: Group[]
     clickedGroup: (groupId: string) => void
-    showGroupsWithNoOpenSlots: boolean // TODO: NOT WORKING
+    showGroupsWithNoOpenSlots: boolean
     showLeader?: boolean
     showOpenSlots?: boolean
     showAgeRange?: boolean
     showMemberNumber?: boolean
 
-    showDeleteGroup?: boolean
-    onDeleteGroup?: (groupId: string) => void
-    showLeaveGroup?: boolean
-    onLeaveGroup?: (groupId: string) => void
-    showApplyGroup?: boolean
-    onApplyToGroup?: (groupId: string) => void
+    actions?: IListAction[]
 }
 
 const GroupList: React.FC<GroupListProps> = (props) => {
@@ -161,44 +157,20 @@ const GroupList: React.FC<GroupListProps> = (props) => {
                             ) : null}
 
                             <TableCell align="center">
-                                <Tooltip title="View Group">
-                                    <IconButton
-                                        onClick={() =>
-                                            props.clickedGroup(group.id)
-                                        }
+                                {props.actions?.map((action) => (
+                                    <Tooltip
+                                        title={action.tooltip}
+                                        key={action.tooltip}
                                     >
-                                        <FindInPage />
-                                    </IconButton>
-                                </Tooltip>
-
-                                {props.showLeaveGroup ? (
-                                    <Tooltip title="Leave Group">
                                         <IconButton
-                                            onClick={() => {
-                                                if (props.onLeaveGroup)
-                                                    props.onLeaveGroup(group.id)
-                                            }}
+                                            onClick={() =>
+                                                action.onClick(group.id)
+                                            }
                                         >
-                                            <HighlightOff />
+                                            {action.iconJSX}
                                         </IconButton>
                                     </Tooltip>
-                                ) : null}
-
-                                {props.showDeleteGroup ? (
-                                    <Tooltip title="Delete Group">
-                                        <IconButton>
-                                            <Delete />
-                                        </IconButton>
-                                    </Tooltip>
-                                ) : null}
-
-                                {props.showApplyGroup ? (
-                                    <Tooltip title="Apply to Group">
-                                        <IconButton>
-                                            <Description />
-                                        </IconButton>
-                                    </Tooltip>
-                                ) : null}
+                                ))}
                             </TableCell>
                         </TableRow>
                     ))}

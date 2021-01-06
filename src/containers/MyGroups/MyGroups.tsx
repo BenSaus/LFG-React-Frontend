@@ -4,10 +4,7 @@ import GroupTable from "../../components/GroupTable/GroupTable"
 import { RouteComponentProps } from "react-router"
 import { RootType } from "../../store/rootReducer"
 import { useSelector } from "react-redux"
-import {
-    GetGroupChatDocument,
-    LeaveGroupDocument,
-} from "../../generated/graphql"
+import { LeaveGroupDocument } from "../../generated/graphql"
 import * as Types from "../../generated/graphql"
 import { AuthState } from "../../store/slices/auth"
 import {
@@ -24,7 +21,8 @@ import {
     Theme,
     Typography,
 } from "@material-ui/core"
-import GroupList from "../../components/GroupList/GroupList"
+import IListAction from "../../shared/IListAction"
+import { Delete, FindInPage, HighlightOff } from "@material-ui/icons"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -85,15 +83,10 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
     const [leaveGroup] = useMutation(LeaveGroupDocument)
 
     // Handlers
-    const onGroupLeadClick = (groupId: string) => {
+    const onGroupClick = (groupId: string) => {
         props.history.push("/group/chat/" + groupId)
     }
 
-    const onGroupMemberClick = (groupId: string) => {
-        props.history.push("/group/chat/" + groupId)
-    }
-
-    // TODO: MOVE UP?
     const onLeaveGroupClick = async (groupId: string) => {
         console.log("Leaving group", myId, groupId)
 
@@ -119,6 +112,34 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
         return <p>Error :(</p>
     }
 
+    const leadGroupActions: IListAction[] = [
+        {
+            tooltip: "View Group",
+            iconJSX: <FindInPage />,
+            onClick: onGroupClick,
+        },
+        {
+            tooltip: "Delete Group",
+            iconJSX: <Delete />,
+            onClick: () => {
+                console.log("Delete Group")
+            },
+        },
+    ]
+
+    const memberGroupActions: IListAction[] = [
+        {
+            tooltip: "View Group",
+            iconJSX: <FindInPage />,
+            onClick: onGroupClick,
+        },
+        {
+            tooltip: "Leave Group",
+            iconJSX: <HighlightOff />,
+            onClick: onLeaveGroupClick,
+        },
+    ]
+
     let leadGroupsJSX = <p>No Groups Found</p>
     if (leadingGroups.length > 0) {
         leadGroupsJSX = (
@@ -130,17 +151,12 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
 
                     <GroupTable
                         groups={leadingGroups}
-                        clickedGroup={onGroupLeadClick}
+                        clickedGroup={onGroupClick}
                         showGroupsWithNoOpenSlots={true}
                         showMemberNumber={true}
                         showOpenSlots={true}
-                        showDeleteGroup={true}
+                        actions={leadGroupActions}
                     />
-
-                    {/* <GroupList
-                        groups={leadingGroups}
-                        onClick={onGroupLeadClick}
-                    /> */}
                 </CardContent>
                 <CardActions
                     style={{ display: "flex", justifyContent: "center" }}
@@ -171,12 +187,11 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
 
                     <GroupTable
                         groups={memberGroups}
-                        clickedGroup={onGroupMemberClick}
+                        clickedGroup={onGroupClick}
                         showGroupsWithNoOpenSlots={true}
                         showLeader={true}
                         showOpenSlots={true}
-                        showLeaveGroup={true}
-                        onLeaveGroup={onLeaveGroupClick}
+                        actions={memberGroupActions}
                     />
                 </CardContent>
             </Card>

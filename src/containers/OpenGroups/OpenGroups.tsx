@@ -4,6 +4,8 @@ import { RouteComponentProps } from "react-router"
 import { GetOpenGroupsDocument } from "../../generated/graphql"
 import { useQuery } from "@apollo/client"
 import { Card, CardContent, Typography } from "@material-ui/core"
+import { FindInPage } from "@material-ui/icons"
+import IListAction from "../../shared/IListAction"
 
 interface OpenGroupsProps extends RouteComponentProps {}
 
@@ -16,6 +18,14 @@ const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
     const onGroupClick = (groupId: string) => {
         props.history.push("/group/" + groupId)
     }
+
+    const groupActions: IListAction[] = [
+        {
+            tooltip: "View Group",
+            iconJSX: <FindInPage />,
+            onClick: onGroupClick,
+        },
+    ]
 
     if (data?.groups) {
         return (
@@ -32,7 +42,7 @@ const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
                             showLeader={true}
                             showOpenSlots={true}
                             showAgeRange={true}
-                            showApplyGroup={true}
+                            actions={groupActions}
                         />
                     </CardContent>
                 </Card>
