@@ -34,6 +34,7 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
         Types.UsersPermissionsUser[]
     >([])
     const [showPopup, setShowPopup] = useState(false)
+    const [popupMessage, setPopupMessage] = useState("")
 
     // Redux
     const auth = useSelector<RootType, AuthState>((state) => state.auth)
@@ -106,11 +107,14 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
         const updatedUsers = filteredUsers.filter((user) => user.id !== userId)
         setFilteredUsers(updatedUsers)
 
+        const invitedUser = filteredUsers.find((user) => user.id === userId)
+        if (invitedUser) setPopupMessage(`${invitedUser.username} invited`)
+
         setShowPopup(true)
     }
 
     const onViewProfileClick = (userId: string) => {
-        console.log("clicked", userId)
+        props.history.push(`/user/${userId}`)
     }
 
     // Render
@@ -138,8 +142,8 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
         usersListJSX = (
             <UserList
                 users={filteredUsers}
-                onClickedInvite={onInviteClick}
                 actions={actions}
+                onClickListItem={onViewProfileClick}
             />
         )
     } else {
@@ -169,7 +173,7 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
                 open={showPopup}
                 autoHideDuration={3000}
                 onClose={() => setShowPopup(false)}
-                message="User Invited"
+                message={popupMessage}
                 action={
                     <React.Fragment>
                         <IconButton

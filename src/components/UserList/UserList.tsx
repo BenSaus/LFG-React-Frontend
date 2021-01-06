@@ -10,7 +10,6 @@ import {
     Tooltip,
     Typography,
 } from "@material-ui/core"
-import { FindInPage, PersonAdd } from "@material-ui/icons"
 import React from "react"
 import * as Types from "../../generated/graphql"
 import IListAction from "../../shared/IListAction"
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({}))
 
 interface UserListProps {
     users: Types.UsersPermissionsUser[]
-    onClickedInvite: (userId: string) => void
+    onClickListItem?: (userId: string) => void
     actions?: IListAction[]
 }
 
@@ -31,7 +30,14 @@ const UserList: React.FC<UserListProps> = (props) => {
             {props.users.map((user: Types.UsersPermissionsUser) => (
                 <React.Fragment key={user.id}>
                     <div>
-                        <ListItem button alignItems="flex-start">
+                        <ListItem
+                            button
+                            alignItems="flex-start"
+                            onClick={() => {
+                                if (props.onClickListItem)
+                                    props.onClickListItem(user.id)
+                            }}
+                        >
                             <ListItemAvatar>
                                 <Avatar src="/static/images/avatar/2.jpg" />
                             </ListItemAvatar>
