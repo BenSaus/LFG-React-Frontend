@@ -1,32 +1,67 @@
+import {
+    Avatar,
+    IconButton,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemSecondaryAction,
+    ListItemText,
+    makeStyles,
+    Tooltip,
+    Typography,
+} from "@material-ui/core"
+import { FindInPage, PersonAdd } from "@material-ui/icons"
 import React from "react"
 import * as Types from "../../generated/graphql"
-import User from "./User/User"
-import styles from "./UserList.module.css"
+import IListAction from "../../shared/IListAction"
+
+const useStyles = makeStyles((theme) => ({}))
 
 interface UserListProps {
-    users?: Types.UsersPermissionsUser[]
-    onClicked?: (userId: string) => void
-    onClickedInvite?: (userId: string) => void
+    users: Types.UsersPermissionsUser[]
+    onClickedInvite: (userId: string) => void
+    actions?: IListAction[]
 }
 
 const UserList: React.FC<UserListProps> = (props) => {
-    let usersJsx
-    console.log(props.users)
+    const classes = useStyles()
 
-    if (props.users) {
-        usersJsx = props.users.map((user: Types.UsersPermissionsUser) => {
-            return (
-                <User
-                    user={user}
-                    onClicked={props.onClicked}
-                    onClickedInvite={props.onClickedInvite}
-                    key={user.id}
-                />
-            )
-        })
-    }
-
-    return <div className={styles.UserList}>{usersJsx}</div>
+    return (
+        <List>
+            {props.users.map((user: Types.UsersPermissionsUser) => (
+                <React.Fragment key={user.id}>
+                    <div>
+                        <ListItem button alignItems="flex-start">
+                            <ListItemAvatar>
+                                <Avatar src="/static/images/avatar/2.jpg" />
+                            </ListItemAvatar>
+                            <ListItemText>
+                                <Typography variant="subtitle1">
+                                    {user.username}
+                                </Typography>
+                            </ListItemText>
+                            <ListItemSecondaryAction>
+                                {props.actions?.map((action) => (
+                                    <Tooltip
+                                        title={action.tooltip}
+                                        key={action.tooltip}
+                                    >
+                                        <IconButton
+                                            onClick={() =>
+                                                action.onClick(user.id)
+                                            }
+                                        >
+                                            {action.iconJSX}
+                                        </IconButton>
+                                    </Tooltip>
+                                ))}
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    </div>
+                </React.Fragment>
+            ))}
+        </List>
+    )
 }
 
 export default UserList

@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import { useSelector } from "react-redux"
 import { RouteComponentProps } from "react-router-dom"
 import UserList from "../../components/UserList/UserList"
+import IListAction from "../../shared/IListAction"
 import {
     GetOpenUsersDocument,
     CreateInviteDocument,
@@ -10,6 +11,14 @@ import {
 import { RootType } from "../../store/rootReducer"
 import { AuthState } from "../../store/slices/auth"
 import * as Types from "../../generated/graphql"
+import {
+    Button,
+    Card,
+    CardContent,
+    IconButton,
+    Snackbar,
+} from "@material-ui/core"
+import { Close, FindInPage, PersonAdd } from "@material-ui/icons"
 
 interface OpenUsersParams {
     groupId: string
@@ -24,6 +33,7 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
     const [filteredUsers, setFilteredUsers] = useState<
         Types.UsersPermissionsUser[]
     >([])
+    const [showPopup, setShowPopup] = useState(false)
 
     // Redux
     const auth = useSelector<RootType, AuthState>((state) => state.auth)
@@ -80,9 +90,6 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
     }
 
     const onInviteClick = async (userId: string) => {
-        console.log("Invite Clicked", userId, groupId)
-        // create new invite
-
         const result = await createInvite({
             variables: {
                 group: groupId,
@@ -99,7 +106,11 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
         const updatedUsers = filteredUsers.filter((user) => user.id !== userId)
         setFilteredUsers(updatedUsers)
 
-        console.log(result)
+        setShowPopup(true)
+    }
+
+    const onViewProfileClick = (userId: string) => {
+        console.log("clicked", userId)
     }
 
     // Render
@@ -111,8 +122,25 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
 
     let usersListJSX = null
     if (filteredUsers.length > 0) {
+        const actions: IListAction[] = [
+            {
+                tooltip: "View Profile",
+                iconJSX: <FindInPage />,
+                onClick: onViewProfileClick,
+            },
+            {
+                tooltip: "Invite User",
+                iconJSX: <PersonAdd />,
+                onClick: onInviteClick,
+            },
+        ]
+
         usersListJSX = (
-            <UserList users={filteredUsers} onClickedInvite={onInviteClick} />
+            <UserList
+                users={filteredUsers}
+                onClickedInvite={onInviteClick}
+                actions={actions}
+            />
         )
     } else {
         usersListJSX = <h3>No eligable users found</h3>
@@ -121,8 +149,40 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
     return (
         <React.Fragment>
             <h1>Find More Members</h1>
-            {usersListJSX}
-            <button onClick={onBackClick}>Back</button>
+            <Card>
+                <CardContent>{usersListJSX}</CardContent>
+            </Card>
+            <Button
+                color="primary"
+                variant="contained"
+                style={{ margin: "2rem" }}
+                onClick={onBackClick}
+            >
+                Back
+            </Button>
+
+            <Snackbar
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                }}
+                open={showPopup}
+                autoHideDuration={3000}
+                onClose={() => setShowPopup(false)}
+                message="User Invited"
+                action={
+                    <React.Fragment>
+                        <IconButton
+                            size="small"
+                            aria-label="close"
+                            color="inherit"
+                            onClick={() => setShowPopup(false)}
+                        >
+                            <Close fontSize="small" />
+                        </IconButton>
+                    </React.Fragment>
+                }
+            />
         </React.Fragment>
     )
 }
