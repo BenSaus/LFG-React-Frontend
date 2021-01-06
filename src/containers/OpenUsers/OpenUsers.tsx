@@ -19,6 +19,7 @@ import {
     Snackbar,
 } from "@material-ui/core"
 import { Close, FindInPage, PersonAdd } from "@material-ui/icons"
+import InviteModal from "../../components/InviteModal/InviteModal"
 
 interface OpenUsersParams {
     groupId: string
@@ -35,6 +36,11 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
     >([])
     const [showPopup, setShowPopup] = useState(false)
     const [popupMessage, setPopupMessage] = useState("")
+    const [showModal, setShowModal] = useState(false)
+    const [
+        userToInvite,
+        setUserToInvite,
+    ] = useState<Types.UsersPermissionsUser | null>(null)
 
     // Redux
     const auth = useSelector<RootType, AuthState>((state) => state.auth)
@@ -90,12 +96,26 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
         props.history.goBack()
     }
 
-    const onInviteClick = async (userId: string) => {
+    const onInviteClick = (userId: string) => {
+        const user = filteredUsers.find((user) => user.id === userId)
+        if (user) setUserToInvite(user)
+
+        setShowModal(true)
+    }
+
+    const onCloseInviteModal = () => {
+        setShowModal(false)
+    }
+
+    const onSendInvite = async (
+        user: Types.UsersPermissionsUser,
+        message: string
+    ) => {
         const result = await createInvite({
             variables: {
                 group: groupId,
-                invitee: userId,
-                message: "New invite message",
+                invitee: user.id,
+                message, // TODO: WARNING: ERROR: THIS MUST BE SANITIZED !!!!!!!!!!!!
             },
             context: {
                 headers: {
@@ -104,12 +124,14 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
             },
         })
 
-        const updatedUsers = filteredUsers.filter((user) => user.id !== userId)
+        setShowModal(false)
+
+        const updatedUsers = filteredUsers.filter(
+            (filterUser) => filterUser.id !== user.id
+        )
+
         setFilteredUsers(updatedUsers)
-
-        const invitedUser = filteredUsers.find((user) => user.id === userId)
-        if (invitedUser) setPopupMessage(`${invitedUser.username} invited`)
-
+        setPopupMessage(`${user.username} Invited`)
         setShowPopup(true)
     }
 
@@ -164,6 +186,15 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
             >
                 Back
             </Button>
+
+            {userToInvite ? (
+                <InviteModal
+                    showModal={showModal}
+                    onClose={onCloseInviteModal}
+                    onSendInvite={onSendInvite}
+                    user={userToInvite}
+                />
+            ) : null}
 
             <Snackbar
                 anchorOrigin={{
