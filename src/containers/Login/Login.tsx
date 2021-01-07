@@ -1,3 +1,4 @@
+import { Button, TextField } from "@material-ui/core"
 import { useFormik } from "formik"
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -60,7 +61,7 @@ const Login: React.FC<LoginProps> = (props) => {
             <h1>Login</h1>
 
             <form onSubmit={formik.handleSubmit}>
-                <label htmlFor="">Username:</label>
+                {/* <label htmlFor="">Username:</label>
                 <input
                     id="username"
                     name="username"
@@ -76,9 +77,38 @@ const Login: React.FC<LoginProps> = (props) => {
                     type="password"
                     value={formik.values.password}
                     onChange={formik.handleChange}
+                /> */}
+
+                <TextField
+                    style={{ margin: "0.25rem" }}
+                    id="username"
+                    name="username"
+                    label="Username"
+                    variant="outlined"
+                    value={formik.values.username}
+                    onChange={formik.handleChange}
                 />
                 <br />
-                <button type="submit">Submit</button>
+                <TextField
+                    style={{ margin: "0.25rem" }}
+                    label="Password"
+                    variant="outlined"
+                    id="password"
+                    name="password"
+                    type="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                />
+
+                <br />
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    style={{ margin: "0.5rem" }}
+                >
+                    Submit
+                </Button>
             </form>
             {loginError}
         </React.Fragment>

@@ -1,3 +1,4 @@
+import { Button } from "@material-ui/core"
 import React from "react"
 import { useSelector } from "react-redux"
 import { RouteComponentProps } from "react-router"
@@ -17,14 +18,23 @@ const LandingPage: React.FC<LandingPageProps> = (props) => {
 
             {!isAuthenticated ? (
                 <React.Fragment>
-                    <button>Sign-up</button>
-                    <button
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        style={{ margin: "0.5rem" }}
+                    >
+                        Sign-up
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        style={{ margin: "0.5rem" }}
                         onClick={() => {
                             props.history.push("/login")
                         }}
                     >
                         Login
-                    </button>
+                    </Button>
                 </React.Fragment>
             ) : null}
         </div>
