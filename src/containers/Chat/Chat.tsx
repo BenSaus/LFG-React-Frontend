@@ -175,6 +175,15 @@ const Chat: React.FC<ChatProps> = (props) => {
                     </Grid>
                 </Grid>
             </Grid>
+
+            <Button
+                color="primary"
+                variant="outlined"
+                style={{ margin: "2rem" }}
+                onClick={() => props.history.goBack()}
+            >
+                Back To My Groups
+            </Button>
         </React.Fragment>
     )
 }

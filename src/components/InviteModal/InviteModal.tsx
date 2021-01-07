@@ -57,6 +57,16 @@ const InvitePopup: React.FC<InviteModalProps> = (props) => {
         setMessage("")
     }
 
+    const [open, setOpen] = React.useState(false)
+
+    const handleClickOpen = () => {
+        setOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+
     return (
         <React.Fragment>
             <Modal

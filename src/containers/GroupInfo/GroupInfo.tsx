@@ -103,9 +103,7 @@ const GroupInfo: React.FC<GroupInfoProps> = (props) => {
                     </CardContent>
                 </Card>
             </div>
-            <Button color="primary" variant="contained" onClick={onApply}>
-                Apply
-            </Button>
+
             <Button
                 color="primary"
                 className={classes.backButton}
@@ -113,6 +111,9 @@ const GroupInfo: React.FC<GroupInfoProps> = (props) => {
                 onClick={() => props.history.goBack()}
             >
                 Back
+            </Button>
+            <Button color="primary" variant="contained" onClick={onApply}>
+                Apply
             </Button>
         </React.Fragment>
     )

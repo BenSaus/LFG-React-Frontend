@@ -363,21 +363,6 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                                 marginBottom: "1rem",
                             }}
                         >
-                            {/* <Chip
-                                label={"Closed"}
-                                color={closed ? "secondary" : "default"}
-                            />
-                            <Switch
-                                onChange={onChangeToggle}
-                                checked={!closed}
-                                name="membershipOpen"
-                                color="primary"
-                            />
-                            <Chip
-                                label={"Open"}
-                                color={!closed ? "secondary" : "default"}
-                            /> */}
-
                             <Button
                                 onClick={onToggleOpenGroup}
                                 variant="contained"

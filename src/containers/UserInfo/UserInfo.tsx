@@ -49,7 +49,7 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
             <Button
                 color="primary"
                 variant="contained"
-                style={{ marginTop: "1rem", marginRight: "1rem" }}
+                style={{ marginTop: "1rem", marginLeft: "1rem" }}
             >
                 Edit
             </Button>
@@ -62,7 +62,7 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
                 User Profile
             </Typography>
             <User user={userInfo} />
-            {editButton}
+
             <Button
                 color="primary"
                 variant="contained"
@@ -71,6 +71,7 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
             >
                 Back
             </Button>
+            {editButton}
         </div>
     )
 }

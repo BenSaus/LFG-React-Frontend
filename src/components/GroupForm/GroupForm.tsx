@@ -236,14 +236,6 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                 <div className={classes.buttonContainer}>
                     <Button
                         color="primary"
-                        variant="contained"
-                        type="submit"
-                        className={classes.button}
-                    >
-                        {props.submitButtonText}
-                    </Button>
-                    <Button
-                        color="primary"
                         className={classes.button}
                         variant="contained"
                         onClick={(event) => {
@@ -252,6 +244,14 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                         }}
                     >
                         Cancel
+                    </Button>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        type="submit"
+                        className={classes.button}
+                    >
+                        {props.submitButtonText}
                     </Button>
                 </div>
             </form>

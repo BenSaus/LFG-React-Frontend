@@ -23,6 +23,7 @@ import {
 } from "@material-ui/core"
 import IListAction from "../../shared/IListAction"
 import { Delete, FindInPage, HighlightOff } from "@material-ui/icons"
+import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -44,6 +45,9 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
     const [memberGroups, setMemberGroups] = useState<Types.Group[]>([])
     const [leadingGroups, setLeadingGroups] = useState<Types.Group[]>([])
 
+    const [showConfirmDialog, setShowConfirmDialog] = useState(false)
+    const [groupToLeave, setGroupToLeave] = useState<Types.Group | null>(null)
+
     // Redux
     const auth = useSelector<RootType, AuthState>((state) => state.auth)
     let myId: string = ""
@@ -61,7 +65,6 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
             id: myId,
         },
         onCompleted: (data) => {
-            console.log("GetMyGroupsDocument Completed", data.groups)
             setMemberGroups(data.groups)
         },
     })
@@ -75,7 +78,6 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
             id: myId,
         },
         onCompleted: (data) => {
-            console.log("GetMyLeadGroupsDocument Completed", data.groups)
             setLeadingGroups(data.groups)
         },
     })
@@ -87,22 +89,18 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
         props.history.push("/group/chat/" + groupId)
     }
 
-    const onLeaveGroupClick = async (groupId: string) => {
-        console.log("Leaving group", myId, groupId)
-
+    const onLeaveGroupConfirmClick = async () => {
         const resp = await leaveGroup({
             variables: {
-                id: groupId,
+                id: groupToLeave?.id,
             },
         })
 
         // Update state
         const newMemeberGroups = memberGroups.filter(
-            (group) => group.id !== groupId
+            (group) => group.id !== groupToLeave?.id
         )
         setMemberGroups(newMemeberGroups)
-
-        console.log(resp)
     }
 
     // Render
@@ -136,7 +134,12 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
         {
             tooltip: "Leave Group",
             iconJSX: <HighlightOff />,
-            onClick: onLeaveGroupClick,
+            onClick: (groupId: string) => {
+                const groupToLeave = memberGroups.find((g) => g.id === groupId)
+                if (groupToLeave) setGroupToLeave(groupToLeave)
+
+                setShowConfirmDialog(true)
+            },
         },
     ]
 
@@ -176,27 +179,24 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
         )
     }
 
-    let memberGroupsJSX = <p>No Groups Found</p>
-    if (memberGroups.length > 0) {
-        memberGroupsJSX = (
-            <Card className={classes.margin}>
-                <CardContent>
-                    <Typography variant="h5" className={classes.title}>
-                        Groups I'm a member of
-                    </Typography>
+    let memberGroupsJSX = (
+        <Card className={classes.margin}>
+            <CardContent>
+                <Typography variant="h5" className={classes.title}>
+                    Groups I'm a member of
+                </Typography>
 
-                    <GroupTable
-                        groups={memberGroups}
-                        clickedGroup={onGroupClick}
-                        showGroupsWithNoOpenSlots={true}
-                        showLeader={true}
-                        showOpenSlots={true}
-                        actions={memberGroupActions}
-                    />
-                </CardContent>
-            </Card>
-        )
-    }
+                <GroupTable
+                    groups={memberGroups}
+                    clickedGroup={onGroupClick}
+                    showGroupsWithNoOpenSlots={true}
+                    showLeader={true}
+                    showOpenSlots={true}
+                    actions={memberGroupActions}
+                />
+            </CardContent>
+        </Card>
+    )
 
     return (
         <div>
@@ -207,7 +207,14 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
             {leadGroupsJSX}
             {memberGroupsJSX}
 
-            <br />
+            <ConfirmDialog
+                title="Leave Group?"
+                open={showConfirmDialog}
+                setOpen={setShowConfirmDialog}
+                onConfirm={onLeaveGroupConfirmClick}
+            >
+                {`Are you sure you want leave '${groupToLeave?.name}?'`}
+            </ConfirmDialog>
         </div>
     )
 }

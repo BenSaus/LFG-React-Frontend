@@ -17,6 +17,7 @@ import {
     CardContent,
     IconButton,
     Snackbar,
+    Typography,
 } from "@material-ui/core"
 import { Close, FindInPage, PersonAdd } from "@material-ui/icons"
 import InviteModal from "../../components/InviteModal/InviteModal"
@@ -174,7 +175,9 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
 
     return (
         <React.Fragment>
-            <h1>Find More Members</h1>
+            <Typography variant="h4" style={{ margin: "2rem" }}>
+                Find More Members
+            </Typography>
             <Card>
                 <CardContent>{usersListJSX}</CardContent>
             </Card>
