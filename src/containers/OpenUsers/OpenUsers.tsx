@@ -205,9 +205,10 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
                     horizontal: "center",
                 }}
                 open={showPopup}
-                autoHideDuration={3000}
+                autoHideDuration={5000}
                 onClose={() => setShowPopup(false)}
                 message={popupMessage}
+                color="primary"
                 action={
                     <React.Fragment>
                         <IconButton

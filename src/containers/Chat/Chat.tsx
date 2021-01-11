@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client"
-import React from "react"
+import React, { useState } from "react"
 import { RouteComponentProps } from "react-router"
 import {
     GetGroupChatDocument,
@@ -24,7 +24,8 @@ import {
 } from "@material-ui/core"
 import MembersList from "../../components/Chat/MemberList/MemberList"
 import MessageList from "../../components/Chat/MessageList/MessageList"
-import { Settings } from "@material-ui/icons"
+import { Lock, Settings } from "@material-ui/icons"
+import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog"
 
 const useStyles = makeStyles((theme) => ({
     chatGrid: {
@@ -57,12 +58,7 @@ const Chat: React.FC<ChatProps> = (props) => {
     // GraphQL
     const { loading, error, data } = useQuery(GetGroupChatDocument, {
         variables: { id: props.match.params.id },
-        onCompleted: (data) => {
-            console.log(data)
-        },
     })
-
-    // const [leaveGroup] = useMutation(LeaveGroupDocument)
 
     // Handlers
     const onEditDetailsClick = (groupId: string) => {
@@ -72,21 +68,6 @@ const Chat: React.FC<ChatProps> = (props) => {
     const onManageMembersClick = (groupId: string) => {
         props.history.push("/group/manage/" + groupId)
     }
-
-    // // TODO: MOVE UP?
-    // const onLeaveGroupClick = async () => {
-    //     // We must remove the given member then resubmit the member list
-    //     console.log("Remove member", myId, data.group.id)
-
-    //     const resp = await leaveGroup({
-    //         variables: {
-    //             id: data.group.id,
-    //         },
-    //     })
-
-    //     console.log(resp)
-    //     props.history.push("/myGroups")
-    // }
 
     // Render
     if (loading) return <p>Loading...</p>
@@ -100,26 +81,62 @@ const Chat: React.FC<ChatProps> = (props) => {
     const leader = data.group.leader
     const membersAndLeader = [...data.group.members]
     membersAndLeader.push(data.group.leader)
+    const membershipIsClosed = data.group.status === "closed"
 
     return (
         <React.Fragment>
-            <Typography variant="h4" style={{ marginBottom: "2rem" }}>
-                {data.group.name}
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                }}
+            >
+                <div style={{ flex: "1" }}></div>
+                <div style={{ flex: "2" }}>
+                    <Typography variant="h4" style={{ marginBottom: "2rem" }}>
+                        {data.group.name}
 
-                {isLeader ? (
-                    <Tooltip title="Edit Group Details">
-                        <IconButton
-                            onClick={() => {
-                                props.history.push(
-                                    `/group/edit/${props.match.params.id}`
-                                )
-                            }}
-                        >
-                            <Settings />
-                        </IconButton>
+                        {isLeader ? (
+                            <Tooltip title="Edit Group Details">
+                                <IconButton
+                                    onClick={() => {
+                                        props.history.push(
+                                            `/group/edit/${props.match.params.id}`
+                                        )
+                                    }}
+                                >
+                                    <Settings />
+                                </IconButton>
+                            </Tooltip>
+                        ) : null}
+                    </Typography>
+                </div>
+                <div style={{ flex: "1", textAlign: "right" }}>
+                    <Tooltip
+                        title={
+                            membershipIsClosed
+                                ? ""
+                                : "Booking rooms will become available when group membership is closed"
+                        }
+                    >
+                        <span>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                style={{ maxHeight: "2.5rem" }}
+                                startIcon={<Lock />}
+                                onClick={(event) => {
+                                    console.log("Move to booking page")
+                                }}
+                                disabled={!membershipIsClosed}
+                            >
+                                Book Room Now
+                            </Button>
+                        </span>
                     </Tooltip>
-                ) : null}
-            </Typography>
+                </div>
+            </div>
 
             <Grid container className={classes.chatGrid}>
                 <Grid item xs={12} sm={2}>

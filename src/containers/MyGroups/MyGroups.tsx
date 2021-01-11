@@ -22,7 +22,7 @@ import {
     Typography,
 } from "@material-ui/core"
 import IListAction from "../../shared/IListAction"
-import { Delete, FindInPage, HighlightOff } from "@material-ui/icons"
+import { Delete, FindInPage, Group, HighlightOff } from "@material-ui/icons"
 import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -88,6 +88,9 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
     const onGroupClick = (groupId: string) => {
         props.history.push("/group/chat/" + groupId)
     }
+    const onManageGroupClick = (groupId: string) => {
+        props.history.push("/group/manage/" + groupId)
+    }
 
     const onLeaveGroupConfirmClick = async () => {
         const resp = await leaveGroup({
@@ -115,6 +118,11 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
             tooltip: "View Group",
             iconJSX: <FindInPage />,
             onClick: onGroupClick,
+        },
+        {
+            tooltip: "Manage members",
+            iconJSX: <Group />,
+            onClick: onManageGroupClick,
         },
         {
             tooltip: "Delete Group",
@@ -191,7 +199,7 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
                     clickedGroup={onGroupClick}
                     showGroupsWithNoOpenSlots={true}
                     showLeader={true}
-                    showOpenSlots={true}
+                    showMemberNumber={true}
                     actions={memberGroupActions}
                 />
             </CardContent>
