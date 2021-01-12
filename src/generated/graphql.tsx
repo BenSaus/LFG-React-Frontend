@@ -2685,6 +2685,9 @@ export type GetMyLeadGroupsQuery = (
     )>, members?: Maybe<Array<Maybe<(
       { __typename?: 'UsersPermissionsUser' }
       & Pick<UsersPermissionsUser, 'id'>
+    )>>>, applications?: Maybe<Array<Maybe<(
+      { __typename?: 'Application' }
+      & Pick<Application, 'id'>
     )>>> }
   )>>> }
 );
@@ -3695,6 +3698,9 @@ export const GetMyLeadGroupsDocument = gql`
       id
     }
     members {
+      id
+    }
+    applications(where: {status: "undecided"}) {
       id
     }
   }

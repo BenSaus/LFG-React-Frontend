@@ -50,7 +50,6 @@ const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
                             showGroupsWithNoOpenSlots={false}
                             showLeader={true}
                             showOpenSlots={true}
-                            showAgeRange={true}
                             actions={groupActions}
                         />
                     </CardContent>

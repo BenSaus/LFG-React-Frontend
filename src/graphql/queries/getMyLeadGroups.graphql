@@ -13,5 +13,8 @@ query getMyLeadGroups($id: ID!) {
         members {
             id
         }
+        applications(where: { status: "undecided" }) {
+            id
+        }
     }
 }

@@ -43,8 +43,9 @@ interface GroupListProps {
     showGroupsWithNoOpenSlots: boolean
     showLeader?: boolean
     showOpenSlots?: boolean
-    showAgeRange?: boolean
+    // showAgeRange?: boolean
     showMemberNumber?: boolean
+    showPendingApps?: boolean
 
     actions?: IListAction[]
 }
@@ -78,15 +79,6 @@ const GroupList: React.FC<GroupListProps> = (props) => {
                             </TableCell>
                         ) : null}
 
-                        {props.showAgeRange ? (
-                            <TableCell
-                                style={{ fontWeight: "bold" }}
-                                align="center"
-                            >
-                                Age Range
-                            </TableCell>
-                        ) : null}
-
                         {props.showMemberNumber ? (
                             <TableCell
                                 style={{ fontWeight: "bold" }}
@@ -102,6 +94,15 @@ const GroupList: React.FC<GroupListProps> = (props) => {
                                 align="center"
                             >
                                 Open Slots
+                            </TableCell>
+                        ) : null}
+
+                        {props.showPendingApps ? (
+                            <TableCell
+                                style={{ fontWeight: "bold" }}
+                                align="center"
+                            >
+                                Pending Applications
                             </TableCell>
                         ) : null}
 
@@ -137,7 +138,7 @@ const GroupList: React.FC<GroupListProps> = (props) => {
                                     </div>
                                 </TableCell>
                             ) : null}
-
+                            {/* 
                             {props.showAgeRange ? (
                                 <TableCell align="center">
                                     <Chip
@@ -146,7 +147,7 @@ const GroupList: React.FC<GroupListProps> = (props) => {
                                         label={`${group.min_age} - ${group.max_age}`}
                                     />
                                 </TableCell>
-                            ) : null}
+                            ) : null} */}
 
                             {props.showMemberNumber ? (
                                 <TableCell align="center">
@@ -157,6 +158,16 @@ const GroupList: React.FC<GroupListProps> = (props) => {
                             {props.showOpenSlots ? (
                                 <TableCell align="center">
                                     {groupUtil.getOpenSlots(group)}
+                                </TableCell>
+                            ) : null}
+
+                            {props.showPendingApps ? (
+                                <TableCell align="center">
+                                    <Chip
+                                        color="default"
+                                        size="small"
+                                        label={group.applications?.length}
+                                    />
                                 </TableCell>
                             ) : null}
 

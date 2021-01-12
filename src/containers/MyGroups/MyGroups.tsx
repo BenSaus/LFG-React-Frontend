@@ -152,6 +152,8 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
     ]
 
     let leadGroupsJSX = <p>No Groups Found</p>
+    console.log("leadingGroups", leadingGroups)
+
     if (leadingGroups.length > 0) {
         leadGroupsJSX = (
             <Card className={classes.margin}>
@@ -166,6 +168,7 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
                         showGroupsWithNoOpenSlots={true}
                         showMemberNumber={true}
                         showOpenSlots={true}
+                        showPendingApps={true}
                         actions={leadGroupActions}
                     />
                 </CardContent>
