@@ -2706,7 +2706,10 @@ export type GetOpenGroupsQuery = (
     )>>>, leader?: Maybe<(
       { __typename?: 'UsersPermissionsUser' }
       & Pick<UsersPermissionsUser, 'username'>
-    )> }
+    )>, preferred_rooms?: Maybe<Array<Maybe<(
+      { __typename?: 'Room' }
+      & Pick<Room, 'id' | 'name'>
+    )>>> }
   )>>> }
 );
 
@@ -3747,6 +3750,10 @@ export const GetOpenGroupsDocument = gql`
     }
     leader {
       username
+    }
+    preferred_rooms {
+      id
+      name
     }
   }
 }

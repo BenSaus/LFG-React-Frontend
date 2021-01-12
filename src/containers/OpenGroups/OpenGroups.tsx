@@ -6,6 +6,7 @@ import { useQuery } from "@apollo/client"
 import { Card, CardContent, Typography } from "@material-ui/core"
 import { Assignment, FindInPage } from "@material-ui/icons"
 import IListAction from "../../shared/IListAction"
+import CollapsibleGroupTable from "../../components/CollapsibleGroupTable/CollapsibleGroupTable"
 
 interface OpenGroupsProps extends RouteComponentProps {}
 
@@ -25,11 +26,6 @@ const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
 
     const groupActions: IListAction[] = [
         {
-            tooltip: "View Group",
-            iconJSX: <FindInPage />,
-            onClick: onGroupClick,
-        },
-        {
             tooltip: "Apply to Group",
             iconJSX: <Assignment />,
             onClick: onApplyClick,
@@ -44,12 +40,9 @@ const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
                 </Typography>
                 <Card>
                     <CardContent>
-                        <GroupTable
+                        <CollapsibleGroupTable
                             groups={data.groups}
                             clickedGroup={onGroupClick}
-                            showGroupsWithNoOpenSlots={false}
-                            showLeader={true}
-                            showOpenSlots={true}
                             actions={groupActions}
                         />
                     </CardContent>

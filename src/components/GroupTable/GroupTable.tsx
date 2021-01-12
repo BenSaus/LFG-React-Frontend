@@ -16,13 +16,6 @@ import {
     Tooltip,
     Typography,
 } from "@material-ui/core"
-import {
-    Delete,
-    Description,
-    FindInPage,
-    GroupAddRounded,
-    HighlightOff,
-} from "@material-ui/icons"
 
 import IListAction from "../../shared/IListAction"
 

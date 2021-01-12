@@ -14,5 +14,9 @@ query getOpenGroups {
         leader {
             username
         }
+        preferred_rooms {
+            id
+            name
+        }
     }
 }
