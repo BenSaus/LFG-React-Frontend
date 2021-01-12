@@ -24,7 +24,7 @@ import {
 } from "@material-ui/core"
 import MembersList from "../../components/Chat/MemberList/MemberList"
 import MessageList from "../../components/Chat/MessageList/MessageList"
-import { Lock, Settings } from "@material-ui/icons"
+import { Lock, LockOpen, Settings } from "@material-ui/icons"
 import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog"
 
 const useStyles = makeStyles((theme) => ({
@@ -117,7 +117,7 @@ const Chat: React.FC<ChatProps> = (props) => {
                         title={
                             membershipIsClosed
                                 ? ""
-                                : "Booking rooms will become available when group membership is closed"
+                                : "Room booking will become available when group membership is closed"
                         }
                     >
                         <span>
@@ -125,7 +125,9 @@ const Chat: React.FC<ChatProps> = (props) => {
                                 variant="contained"
                                 color="primary"
                                 style={{ maxHeight: "2.5rem" }}
-                                startIcon={<Lock />}
+                                startIcon={
+                                    membershipIsClosed ? <LockOpen /> : <Lock />
+                                }
                                 onClick={(event) => {
                                     console.log("Move to booking page")
                                 }}

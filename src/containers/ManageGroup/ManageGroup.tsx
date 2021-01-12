@@ -36,6 +36,7 @@ import { PersonAdd, Delete } from "@material-ui/icons"
 
 import Settings from "@material-ui/icons/Settings"
 import { makeStyles } from "@material-ui/core/styles"
+import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog"
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -66,6 +67,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
     }
 
     // State
+    const [showConfirmDialog, setShowConfirmDialog] = useState(false)
     const [applications, setApplications] = useState<Types.Application[]>([])
     const [invites, setInvites] = useState<Types.Invite[]>([])
     const [members, setMembers] = useState<Types.UsersPermissionsUser[]>([])
@@ -364,7 +366,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                             }}
                         >
                             <Button
-                                onClick={onToggleOpenGroup}
+                                onClick={() => setShowConfirmDialog(true)}
                                 variant="contained"
                                 color="primary"
                                 size="small"
@@ -373,6 +375,29 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                                     ? "Open Membership"
                                     : "Close Membership"}
                             </Button>
+
+                            <ConfirmDialog
+                                title={
+                                    closed
+                                        ? "Open Membership?"
+                                        : "Close membership?"
+                                }
+                                open={showConfirmDialog}
+                                setOpen={setShowConfirmDialog}
+                                onConfirm={() =>
+                                    closed
+                                        ? onOpenGroupClick(
+                                              groupRespData.group.id
+                                          )
+                                        : onCloseGroupClick(
+                                              groupRespData.group.id
+                                          )
+                                }
+                            >
+                                {closed
+                                    ? `Do you want to open membership? `
+                                    : `Are you ready close membership? When membership is closed, you will be able to book an escape room.`}
+                            </ConfirmDialog>
                         </div>
                     </div>
 
