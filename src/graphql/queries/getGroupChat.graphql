@@ -9,12 +9,18 @@ query getGroupChat($id: ID!) {
         leader {
             id
             username
+            image {
+                url
+            }
         }
         description
         member_max
         members {
             id
             username
+            image {
+                url
+            }
         }
         preferred_rooms {
             id

@@ -35,12 +35,6 @@ const useStyles = makeStyles({
 interface CollapsibleGroupTableProps {
     groups: Group[]
     clickedGroup: (groupId: string) => void
-    // showGroupsWithNoOpenSlots: boolean
-    // showLeader?: boolean
-    // showOpenSlots?: boolean
-    // showMemberNumber?: boolean
-    // showPendingApps?: boolean
-
     actions?: IListAction[]
 }
 

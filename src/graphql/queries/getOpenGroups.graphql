@@ -13,6 +13,9 @@ query getOpenGroups {
         }
         leader {
             username
+            image {
+                url
+            }
         }
         preferred_rooms {
             id

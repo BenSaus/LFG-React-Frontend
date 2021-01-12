@@ -2602,9 +2602,17 @@ export type GetGroupChatQuery = (
     & { leader?: Maybe<(
       { __typename?: 'UsersPermissionsUser' }
       & Pick<UsersPermissionsUser, 'id' | 'username'>
+      & { image?: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'url'>
+      )> }
     )>, members?: Maybe<Array<Maybe<(
       { __typename?: 'UsersPermissionsUser' }
       & Pick<UsersPermissionsUser, 'id' | 'username'>
+      & { image?: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'url'>
+      )> }
     )>>>, preferred_rooms?: Maybe<Array<Maybe<(
       { __typename?: 'Room' }
       & Pick<Room, 'id' | 'name'>
@@ -2645,9 +2653,17 @@ export type GetMyGroupsQuery = (
     & { leader?: Maybe<(
       { __typename?: 'UsersPermissionsUser' }
       & Pick<UsersPermissionsUser, 'id' | 'username'>
+      & { image?: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'url'>
+      )> }
     )>, members?: Maybe<Array<Maybe<(
       { __typename?: 'UsersPermissionsUser' }
       & Pick<UsersPermissionsUser, 'id'>
+      & { image?: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'url'>
+      )> }
     )>>> }
   )>>> }
 );
@@ -2706,6 +2722,10 @@ export type GetOpenGroupsQuery = (
     )>>>, leader?: Maybe<(
       { __typename?: 'UsersPermissionsUser' }
       & Pick<UsersPermissionsUser, 'username'>
+      & { image?: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'url'>
+      )> }
     )>, preferred_rooms?: Maybe<Array<Maybe<(
       { __typename?: 'Room' }
       & Pick<Room, 'id' | 'name'>
@@ -2803,16 +2823,28 @@ export type ManageGetGroupQuery = (
       & { applicant?: Maybe<(
         { __typename?: 'UsersPermissionsUser' }
         & Pick<UsersPermissionsUser, 'id' | 'username' | 'age' | 'about'>
+        & { image?: Maybe<(
+          { __typename?: 'UploadFile' }
+          & Pick<UploadFile, 'url'>
+        )> }
       )> }
     )>>>, members?: Maybe<Array<Maybe<(
       { __typename?: 'UsersPermissionsUser' }
       & Pick<UsersPermissionsUser, 'id' | 'username' | 'age' | 'about'>
+      & { image?: Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'url'>
+      )> }
     )>>>, invites?: Maybe<Array<Maybe<(
       { __typename?: 'Invite' }
       & Pick<Invite, 'id' | 'message' | 'status'>
       & { invitee?: Maybe<(
         { __typename?: 'UsersPermissionsUser' }
         & Pick<UsersPermissionsUser, 'username'>
+        & { image?: Maybe<(
+          { __typename?: 'UploadFile' }
+          & Pick<UploadFile, 'url'>
+        )> }
       )> }
     )>>>, preferred_rooms?: Maybe<Array<Maybe<(
       { __typename?: 'Room' }
@@ -3523,12 +3555,18 @@ export const GetGroupChatDocument = gql`
     leader {
       id
       username
+      image {
+        url
+      }
     }
     description
     member_max
     members {
       id
       username
+      image {
+        url
+      }
     }
     preferred_rooms {
       id
@@ -3617,9 +3655,15 @@ export const GetMyGroupsDocument = gql`
     leader {
       id
       username
+      image {
+        url
+      }
     }
     members {
       id
+      image {
+        url
+      }
     }
   }
 }
@@ -3750,6 +3794,9 @@ export const GetOpenGroupsDocument = gql`
     }
     leader {
       username
+      image {
+        url
+      }
     }
     preferred_rooms {
       id
@@ -3948,6 +3995,9 @@ export const ManageGetGroupDocument = gql`
         username
         age
         about
+        image {
+          url
+        }
       }
     }
     members {
@@ -3955,6 +4005,9 @@ export const ManageGetGroupDocument = gql`
       username
       age
       about
+      image {
+        url
+      }
     }
     invites(where: {group_leader_dismissed: false}) {
       id
@@ -3962,6 +4015,9 @@ export const ManageGetGroupDocument = gql`
       status
       invitee {
         username
+        image {
+          url
+        }
       }
     }
     preferred_rooms {

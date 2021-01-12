@@ -15,6 +15,7 @@ import {
     Tooltip,
     makeStyles,
 } from "@material-ui/core"
+import UserBadge from "../../../UserBadge/UserBadge"
 
 const useStyles = makeStyles({
     userCell: {
@@ -51,11 +52,9 @@ const Invites: React.FC<InvitessProps> = (props) => {
                         <TableRow key={invite.id}>
                             <TableCell component="th" scope="row">
                                 <div className={classes.userCell}>
-                                    <Avatar
-                                        className={classes.avatar}
-                                        src="/static/images/avatar/2.jpg"
-                                    />
-                                    {invite.invitee?.username}
+                                    {invite.invitee ? (
+                                        <UserBadge user={invite.invitee} />
+                                    ) : null}
                                 </div>
                             </TableCell>
                             <TableCell>{invite.message}</TableCell>

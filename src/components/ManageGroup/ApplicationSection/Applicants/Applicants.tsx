@@ -17,6 +17,7 @@ import {
     Tooltip,
     makeStyles,
 } from "@material-ui/core"
+import UserBadge from "../../../UserBadge/UserBadge"
 
 const useStyles = makeStyles({
     userCell: {
@@ -82,11 +83,11 @@ const Applicants: React.FC<ApplicantsProps> = (props) => {
                         <TableRow key={application.id}>
                             <TableCell component="th" scope="row">
                                 <div className={classes.userCell}>
-                                    <Avatar
-                                        className={classes.avatar}
-                                        src="/static/images/avatar/2.jpg"
-                                    />
-                                    {application.applicant?.username}
+                                    {application.applicant ? (
+                                        <UserBadge
+                                            user={application.applicant}
+                                        />
+                                    ) : null}
                                 </div>
                             </TableCell>
                             <TableCell>{application.message}</TableCell>

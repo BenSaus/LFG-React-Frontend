@@ -17,6 +17,9 @@ query manageGetGroup($id: ID!) {
                 username
                 age
                 about
+                image {
+                    url
+                }
             }
         }
         members {
@@ -24,6 +27,9 @@ query manageGetGroup($id: ID!) {
             username
             age
             about
+            image {
+                url
+            }
         }
         invites(where: { group_leader_dismissed: false }) {
             id
@@ -31,6 +37,9 @@ query manageGetGroup($id: ID!) {
             status
             invitee {
                 username
+                image {
+                    url
+                }
             }
         }
         preferred_rooms {

@@ -19,6 +19,7 @@ import {
 import { KeyboardArrowDown, KeyboardArrowRight } from "@material-ui/icons"
 import IListAction from "../../../shared/IListAction"
 import groupUtil from "../../../utils/groupUtil"
+import UserBadge from "../../UserBadge/UserBadge"
 
 const useStyles = makeStyles({
     userCell: {
@@ -105,15 +106,23 @@ const CollapsibleRow: React.FC<CollapsibleRowProps> = (props) => {
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
                             <div style={{}}>
-                                {/* <p>Leader: {leaderJSX}</p> */}
-                                <p>Description: {group.description}</p>
-                                <p>Day/Time Preference: Any</p>
-                                <p>
+                                <Typography variant="h6">Leader:</Typography>
+                                {group.leader ? (
+                                    <UserBadge user={group.leader} />
+                                ) : null}
+
+                                <Typography variant="h6">
+                                    Description: {group.description}
+                                </Typography>
+                                <Typography variant="h6">
+                                    Day/Time Preference: Any
+                                </Typography>
+                                <Typography variant="h6">
                                     Age Range: {group.min_age} - {group.max_age}
-                                </p>
-                                <p>
+                                </Typography>
+                                <Typography variant="h6">
                                     Open Slots: {groupUtil.getOpenSlots(group)}
-                                </p>
+                                </Typography>
                             </div>
                         </Box>
                     </Collapse>

@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core"
 import React from "react"
 import * as Types from "../../../generated/graphql"
+import UserBadge from "../../UserBadge/UserBadge"
 
 const useStyles = makeStyles((theme) => ({
     memberContainer: {
@@ -31,15 +32,7 @@ const MembersList: React.FC<MembersListProps> = (props) => {
             <List>
                 <div className={classes.memberContainer}>
                     <ListItem button alignItems="flex-start">
-                        <ListItemAvatar>
-                            <Avatar src="/static/images/avatar/2.jpg" />
-                        </ListItemAvatar>
-                        <ListItemText>
-                            <Typography variant="subtitle1">
-                                {props.leader.username}
-                            </Typography>
-                            <Typography variant="caption">Leader</Typography>
-                        </ListItemText>
+                        <UserBadge user={props.leader} subtitle="Leader" />
                     </ListItem>
                 </div>
 
@@ -47,17 +40,7 @@ const MembersList: React.FC<MembersListProps> = (props) => {
                     <React.Fragment key={member.id}>
                         <div className={classes.memberContainer}>
                             <ListItem button alignItems="flex-start">
-                                <ListItemAvatar>
-                                    <Avatar src="/static/images/avatar/2.jpg" />
-                                </ListItemAvatar>
-                                <ListItemText>
-                                    <Typography variant="subtitle1">
-                                        {member.username}
-                                    </Typography>
-                                    <Typography variant="caption">
-                                        Member
-                                    </Typography>
-                                </ListItemText>
+                                <UserBadge user={member} subtitle="Member" />
                             </ListItem>
                         </div>
                     </React.Fragment>

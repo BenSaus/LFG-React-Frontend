@@ -18,17 +18,9 @@ import {
 } from "@material-ui/core"
 
 import IListAction from "../../shared/IListAction"
+import UserBadge from "../UserBadge/UserBadge"
 
-const useStyles = makeStyles({
-    userCell: {
-        display: "flex",
-        justifyContent: "flex-start",
-        alignItems: "center",
-    },
-    avatar: {
-        marginRight: "1rem",
-    },
-})
+const useStyles = makeStyles({})
 
 interface GroupListProps {
     groups: Group[]
@@ -120,15 +112,9 @@ const GroupList: React.FC<GroupListProps> = (props) => {
                                 </Typography>
                             </TableCell>
 
-                            {props.showLeader ? (
+                            {props.showLeader && group.leader ? (
                                 <TableCell component="th" scope="row">
-                                    <div className={classes.userCell}>
-                                        <Avatar
-                                            className={classes.avatar}
-                                            src="/static/images/avatar/2.jpg"
-                                        />
-                                        {group.leader?.username}
-                                    </div>
+                                    <UserBadge user={group.leader} />
                                 </TableCell>
                             ) : null}
                             {/* 

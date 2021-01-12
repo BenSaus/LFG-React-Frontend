@@ -10,9 +10,15 @@ query getMyGroups($id: ID!) {
         leader {
             id
             username
+            image {
+                url
+            }
         }
         members {
             id
+            image {
+                url
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
 import Avatar from "@material-ui/core/Avatar"
 import ConfirmDialog from "../../../../ConfirmDialog/ConfirmDialog"
+import UserBadge from "../../../../UserBadge/UserBadge"
 
 interface MemberProps {
     member: Types.UsersPermissionsUser
@@ -29,12 +30,7 @@ const Member: React.FC<MemberProps> = (props) => {
     return (
         <React.Fragment>
             <ListItem button alignItems="flex-start">
-                <ListItemAvatar>
-                    <Avatar src="/static/images/avatar/2.jpg" />
-                </ListItemAvatar>
-                <ListItemText>
-                    <p>{props.member.username}</p>
-                </ListItemText>
+                <UserBadge user={props.member} />
                 <ListItemSecondaryAction>
                     <IconButton
                         onClick={() => props.viewClicked(props.member.id)}
