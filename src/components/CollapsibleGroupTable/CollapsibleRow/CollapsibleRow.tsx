@@ -3,8 +3,15 @@ import * as Types from "../../../generated/graphql"
 import {
     Avatar,
     Box,
+    Button,
+    Card,
+    CardActionArea,
+    CardActions,
+    CardContent,
     Chip,
     Collapse,
+    Divider,
+    Grid,
     IconButton,
     makeStyles,
     Table,
@@ -29,6 +36,18 @@ const useStyles = makeStyles({
     },
     avatar: {
         marginRight: "1rem",
+    },
+    row: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        marginBottom: "1rem",
+    },
+    detailHeader: {
+        fontWeight: "bold",
+    },
+    detailData: {
+        marginLeft: "1rem",
     },
 })
 
@@ -105,25 +124,80 @@ const CollapsibleRow: React.FC<CollapsibleRowProps> = (props) => {
                 >
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
-                            <div style={{}}>
-                                <Typography variant="h6">Leader:</Typography>
-                                {group.leader ? (
-                                    <UserBadge user={group.leader} />
-                                ) : null}
+                            <Card
+                                variant="outlined"
+                                style={{ padding: "1rem" }}
+                            >
+                                <CardContent>
+                                    <div className={classes.row}>
+                                        <div className={classes.detailHeader}>
+                                            Leader:
+                                        </div>
+                                        {group.leader ? (
+                                            <div style={{ marginLeft: "1rem" }}>
+                                                <UserBadge
+                                                    user={group.leader}
+                                                />
+                                            </div>
+                                        ) : null}
+                                    </div>
 
-                                <Typography variant="h6">
-                                    Description: {group.description}
-                                </Typography>
-                                <Typography variant="h6">
-                                    Day/Time Preference: Any
-                                </Typography>
-                                <Typography variant="h6">
-                                    Age Range: {group.min_age} - {group.max_age}
-                                </Typography>
-                                <Typography variant="h6">
-                                    Open Slots: {groupUtil.getOpenSlots(group)}
-                                </Typography>
-                            </div>
+                                    <div className={classes.row}>
+                                        <div className={classes.detailHeader}>
+                                            Day/Time Preference:
+                                        </div>
+                                        <div className={classes.detailData}>
+                                            Any
+                                        </div>
+                                    </div>
+
+                                    <div className={classes.row}>
+                                        <div className={classes.detailHeader}>
+                                            Age Range:
+                                        </div>
+                                        <div className={classes.detailData}>
+                                            {group.min_age} - {group.max_age}
+                                        </div>
+
+                                        <div
+                                            className={classes.detailHeader}
+                                            style={{ marginLeft: "2rem" }}
+                                        >
+                                            Open Slots:
+                                        </div>
+                                        <div className={classes.detailData}>
+                                            {groupUtil.getOpenSlots(group)}
+                                        </div>
+                                    </div>
+
+                                    <div className={classes.row}>
+                                        <div className={classes.detailHeader}>
+                                            Description:
+                                        </div>
+                                        <div className={classes.detailData}>
+                                            {group.description}
+                                        </div>
+                                    </div>
+                                </CardContent>
+
+                                <CardActions
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    <div>
+                                        <Button
+                                            size="small"
+                                            variant="outlined"
+                                            color="primary"
+                                        >
+                                            Apply Now
+                                        </Button>
+                                    </div>
+                                </CardActions>
+                            </Card>
                         </Box>
                     </Collapse>
                 </TableCell>
