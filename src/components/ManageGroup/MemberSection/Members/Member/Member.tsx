@@ -23,7 +23,6 @@ const Member: React.FC<MemberProps> = (props) => {
     const [showConfirmDialog, setShowConfirmDialog] = useState(false)
 
     const onConfirm = () => {
-        console.log("Hit confirm!!!")
         props.removeClicked(props.member.id)
     }
 
