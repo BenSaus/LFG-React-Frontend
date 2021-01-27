@@ -15,9 +15,9 @@ const useStyles = makeStyles({
 
 interface MembersProps {
     members: Types.UsersPermissionsUser[]
-    membersMax: number
-    viewClicked: (memberId: string) => void
-    removeClicked: (memberId: string) => void
+    memberMax: number
+    onClickViewMember: (memberId: string) => void
+    onClickRemoveMember: (memberId: string) => void
     showOpenSlots: boolean
 }
 
@@ -30,8 +30,8 @@ const Members: React.FC<MembersProps> = (props) => {
         membersJsx = props.members.map((member) => {
             return (
                 <Member
-                    viewClicked={props.viewClicked}
-                    removeClicked={props.removeClicked}
+                    onClickView={props.onClickViewMember}
+                    onClickRemove={props.onClickRemoveMember}
                     member={member}
                     key={member.id}
                 />
@@ -40,7 +40,7 @@ const Members: React.FC<MembersProps> = (props) => {
     }
 
     if (props.showOpenSlots) {
-        const openSlotNum = props.membersMax - props.members.length
+        const openSlotNum = props.memberMax - props.members.length
 
         for (let x = 0; x < openSlotNum; x++) {
             openSlotsJSX.push(<OpenSlot key={x} />)

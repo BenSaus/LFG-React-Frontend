@@ -14,15 +14,15 @@ import UserBadge from "components/UserBadge/UserBadge"
 
 interface MemberProps {
     member: Types.UsersPermissionsUser
-    viewClicked: (memberId: string) => void
-    removeClicked: (memberId: string) => void
+    onClickView: (memberId: string) => void
+    onClickRemove: (memberId: string) => void
 }
 
 const Member: React.FC<MemberProps> = (props) => {
     const [showConfirmDialog, setShowConfirmDialog] = useState(false)
 
     const onConfirm = () => {
-        props.removeClicked(props.member.id)
+        props.onClickRemove(props.member.id)
     }
 
     return (
@@ -31,7 +31,7 @@ const Member: React.FC<MemberProps> = (props) => {
                 <UserBadge user={props.member} />
                 <ListItemSecondaryAction>
                     <IconButton
-                        onClick={() => props.viewClicked(props.member.id)}
+                        onClick={() => props.onClickView(props.member.id)}
                     >
                         <FindInPage />
                     </IconButton>
