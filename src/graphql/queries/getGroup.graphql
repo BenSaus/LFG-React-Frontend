@@ -19,5 +19,10 @@ query getGroup($id: ID!) {
             id
             name
         }
+        preferred_date_times {
+            id
+            date
+            time
+        }
     }
 }

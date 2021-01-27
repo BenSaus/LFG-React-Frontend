@@ -547,6 +547,7 @@ export type Group = {
   members?: Maybe<Array<Maybe<UsersPermissionsUser>>>;
   invites?: Maybe<Array<Maybe<Invite>>>;
   preferred_rooms?: Maybe<Array<Maybe<Room>>>;
+  preferred_date_times?: Maybe<Array<Maybe<PreferredDateTime>>>;
 };
 
 
@@ -575,6 +576,14 @@ export type GroupInvitesArgs = {
 
 
 export type GroupPreferred_RoomsArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+
+export type GroupPreferred_Date_TimesArgs = {
   sort?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
   start?: Maybe<Scalars['Int']>;
@@ -728,6 +737,7 @@ export type GroupInput = {
   leader?: Maybe<Scalars['ID']>;
   preferred_rooms?: Maybe<Array<Maybe<Scalars['ID']>>>;
   status?: Maybe<Enum_Group_Status>;
+  preferred_date_times?: Maybe<Array<Maybe<Scalars['ID']>>>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -746,6 +756,7 @@ export type EditGroupInput = {
   leader?: Maybe<Scalars['ID']>;
   preferred_rooms?: Maybe<Array<Maybe<Scalars['ID']>>>;
   status?: Maybe<Enum_Group_Status>;
+  preferred_date_times?: Maybe<Array<Maybe<Scalars['ID']>>>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -915,6 +926,126 @@ export type DeleteInviteInput = {
 export type DeleteInvitePayload = {
   __typename?: 'deleteInvitePayload';
   invite?: Maybe<Invite>;
+};
+
+export enum Enum_Preferreddatetime_Time {
+  Afternoon = 'afternoon',
+  LateAfternoon = 'late_afternoon',
+  Evening = 'evening',
+  LateEvening = 'late_evening'
+}
+
+export type PreferredDateTime = {
+  __typename?: 'PreferredDateTime';
+  id: Scalars['ID'];
+  created_at: Scalars['DateTime'];
+  updated_at: Scalars['DateTime'];
+  date?: Maybe<Scalars['Date']>;
+  time?: Maybe<Enum_Preferreddatetime_Time>;
+  group?: Maybe<Group>;
+};
+
+export type PreferredDateTimeConnection = {
+  __typename?: 'PreferredDateTimeConnection';
+  values?: Maybe<Array<Maybe<PreferredDateTime>>>;
+  groupBy?: Maybe<PreferredDateTimeGroupBy>;
+  aggregate?: Maybe<PreferredDateTimeAggregator>;
+};
+
+export type PreferredDateTimeAggregator = {
+  __typename?: 'PreferredDateTimeAggregator';
+  count?: Maybe<Scalars['Int']>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type PreferredDateTimeGroupBy = {
+  __typename?: 'PreferredDateTimeGroupBy';
+  id?: Maybe<Array<Maybe<PreferredDateTimeConnectionId>>>;
+  created_at?: Maybe<Array<Maybe<PreferredDateTimeConnectionCreated_At>>>;
+  updated_at?: Maybe<Array<Maybe<PreferredDateTimeConnectionUpdated_At>>>;
+  date?: Maybe<Array<Maybe<PreferredDateTimeConnectionDate>>>;
+  time?: Maybe<Array<Maybe<PreferredDateTimeConnectionTime>>>;
+  group?: Maybe<Array<Maybe<PreferredDateTimeConnectionGroup>>>;
+};
+
+export type PreferredDateTimeConnectionId = {
+  __typename?: 'PreferredDateTimeConnectionId';
+  key?: Maybe<Scalars['ID']>;
+  connection?: Maybe<PreferredDateTimeConnection>;
+};
+
+export type PreferredDateTimeConnectionCreated_At = {
+  __typename?: 'PreferredDateTimeConnectionCreated_at';
+  key?: Maybe<Scalars['DateTime']>;
+  connection?: Maybe<PreferredDateTimeConnection>;
+};
+
+export type PreferredDateTimeConnectionUpdated_At = {
+  __typename?: 'PreferredDateTimeConnectionUpdated_at';
+  key?: Maybe<Scalars['DateTime']>;
+  connection?: Maybe<PreferredDateTimeConnection>;
+};
+
+export type PreferredDateTimeConnectionDate = {
+  __typename?: 'PreferredDateTimeConnectionDate';
+  key?: Maybe<Scalars['ID']>;
+  connection?: Maybe<PreferredDateTimeConnection>;
+};
+
+export type PreferredDateTimeConnectionTime = {
+  __typename?: 'PreferredDateTimeConnectionTime';
+  key?: Maybe<Scalars['String']>;
+  connection?: Maybe<PreferredDateTimeConnection>;
+};
+
+export type PreferredDateTimeConnectionGroup = {
+  __typename?: 'PreferredDateTimeConnectionGroup';
+  key?: Maybe<Scalars['ID']>;
+  connection?: Maybe<PreferredDateTimeConnection>;
+};
+
+export type PreferredDateTimeInput = {
+  date?: Maybe<Scalars['Date']>;
+  time?: Maybe<Enum_Preferreddatetime_Time>;
+  group?: Maybe<Scalars['ID']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type EditPreferredDateTimeInput = {
+  date?: Maybe<Scalars['Date']>;
+  time?: Maybe<Enum_Preferreddatetime_Time>;
+  group?: Maybe<Scalars['ID']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type CreatePreferredDateTimeInput = {
+  data?: Maybe<PreferredDateTimeInput>;
+};
+
+export type CreatePreferredDateTimePayload = {
+  __typename?: 'createPreferredDateTimePayload';
+  preferredDateTime?: Maybe<PreferredDateTime>;
+};
+
+export type UpdatePreferredDateTimeInput = {
+  where?: Maybe<InputId>;
+  data?: Maybe<EditPreferredDateTimeInput>;
+};
+
+export type UpdatePreferredDateTimePayload = {
+  __typename?: 'updatePreferredDateTimePayload';
+  preferredDateTime?: Maybe<PreferredDateTime>;
+};
+
+export type DeletePreferredDateTimeInput = {
+  where?: Maybe<InputId>;
+};
+
+export type DeletePreferredDateTimePayload = {
+  __typename?: 'deletePreferredDateTimePayload';
+  preferredDateTime?: Maybe<PreferredDateTime>;
 };
 
 export type Room = {
@@ -1739,7 +1870,7 @@ export type DeleteUserPayload = {
   user?: Maybe<UsersPermissionsUser>;
 };
 
-export type Morph = AcceptApplicationPayload | RejectApplicationPayload | RemoveMemberPayload | LeaveGroupPayload | AcceptInvitePayload | RejectInvitePayload | DismissInvitePayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | UsersPermissionsMeExtra | Achievement | AchievementConnection | AchievementAggregator | AchievementGroupBy | AchievementConnectionId | AchievementConnectionCreated_At | AchievementConnectionUpdated_At | AchievementConnectionDescription | AchievementConnectionImage | AchievementConnectionName | CreateAchievementPayload | UpdateAchievementPayload | DeleteAchievementPayload | Application | ApplicationConnection | ApplicationAggregator | ApplicationGroupBy | ApplicationConnectionId | ApplicationConnectionCreated_At | ApplicationConnectionUpdated_At | ApplicationConnectionApplicant | ApplicationConnectionMessage | ApplicationConnectionGroup | ApplicationConnectionStatus | CreateApplicationPayload | UpdateApplicationPayload | DeleteApplicationPayload | Business | BusinessConnection | BusinessAggregator | BusinessGroupBy | BusinessConnectionId | BusinessConnectionCreated_At | BusinessConnectionUpdated_At | BusinessConnectionName | BusinessConnectionAddress | BusinessConnectionWebsite_Url | BusinessConnectionDescription | BusinessConnectionImage | CreateBusinessPayload | UpdateBusinessPayload | DeleteBusinessPayload | Group | GroupConnection | GroupAggregator | GroupAggregatorSum | GroupAggregatorAvg | GroupAggregatorMin | GroupAggregatorMax | GroupGroupBy | GroupConnectionId | GroupConnectionCreated_At | GroupConnectionUpdated_At | GroupConnectionDescription | GroupConnectionMember_Max | GroupConnectionBooking_Status | GroupConnectionMax_Age | GroupConnectionMin_Age | GroupConnectionBookdate | GroupConnectionName | GroupConnectionLeader | GroupConnectionStatus | CreateGroupPayload | UpdateGroupPayload | DeleteGroupPayload | Invite | InviteConnection | InviteAggregator | InviteGroupBy | InviteConnectionId | InviteConnectionCreated_At | InviteConnectionUpdated_At | InviteConnectionInvitee | InviteConnectionMessage | InviteConnectionGroup | InviteConnectionStatus | InviteConnectionGroup_Leader_Dismissed | CreateInvitePayload | UpdateInvitePayload | DeleteInvitePayload | Room | RoomConnection | RoomAggregator | RoomAggregatorSum | RoomAggregatorAvg | RoomAggregatorMin | RoomAggregatorMax | RoomGroupBy | RoomConnectionId | RoomConnectionCreated_At | RoomConnectionUpdated_At | RoomConnectionName | RoomConnectionDescription | RoomConnectionImage | RoomConnectionBusiness | RoomConnectionPlayer_Max | CreateRoomPayload | UpdateRoomPayload | DeleteRoomPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserAggregatorSum | UsersPermissionsUserAggregatorAvg | UsersPermissionsUserAggregatorMin | UsersPermissionsUserAggregatorMax | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionAge | UsersPermissionsUserConnectionImage | UsersPermissionsUserConnectionAbout | UsersPermissionsUserConnectionOpen_To_Invite | UsersPermissionsUserConnectionHide_Age | UsersPermissionsUserConnectionApproved | CreateUserPayload | UpdateUserPayload | DeleteUserPayload;
+export type Morph = AcceptApplicationPayload | RejectApplicationPayload | RemoveMemberPayload | LeaveGroupPayload | AcceptInvitePayload | RejectInvitePayload | DismissInvitePayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | UsersPermissionsMeExtra | Achievement | AchievementConnection | AchievementAggregator | AchievementGroupBy | AchievementConnectionId | AchievementConnectionCreated_At | AchievementConnectionUpdated_At | AchievementConnectionDescription | AchievementConnectionImage | AchievementConnectionName | CreateAchievementPayload | UpdateAchievementPayload | DeleteAchievementPayload | Application | ApplicationConnection | ApplicationAggregator | ApplicationGroupBy | ApplicationConnectionId | ApplicationConnectionCreated_At | ApplicationConnectionUpdated_At | ApplicationConnectionApplicant | ApplicationConnectionMessage | ApplicationConnectionGroup | ApplicationConnectionStatus | CreateApplicationPayload | UpdateApplicationPayload | DeleteApplicationPayload | Business | BusinessConnection | BusinessAggregator | BusinessGroupBy | BusinessConnectionId | BusinessConnectionCreated_At | BusinessConnectionUpdated_At | BusinessConnectionName | BusinessConnectionAddress | BusinessConnectionWebsite_Url | BusinessConnectionDescription | BusinessConnectionImage | CreateBusinessPayload | UpdateBusinessPayload | DeleteBusinessPayload | Group | GroupConnection | GroupAggregator | GroupAggregatorSum | GroupAggregatorAvg | GroupAggregatorMin | GroupAggregatorMax | GroupGroupBy | GroupConnectionId | GroupConnectionCreated_At | GroupConnectionUpdated_At | GroupConnectionDescription | GroupConnectionMember_Max | GroupConnectionBooking_Status | GroupConnectionMax_Age | GroupConnectionMin_Age | GroupConnectionBookdate | GroupConnectionName | GroupConnectionLeader | GroupConnectionStatus | CreateGroupPayload | UpdateGroupPayload | DeleteGroupPayload | Invite | InviteConnection | InviteAggregator | InviteGroupBy | InviteConnectionId | InviteConnectionCreated_At | InviteConnectionUpdated_At | InviteConnectionInvitee | InviteConnectionMessage | InviteConnectionGroup | InviteConnectionStatus | InviteConnectionGroup_Leader_Dismissed | CreateInvitePayload | UpdateInvitePayload | DeleteInvitePayload | PreferredDateTime | PreferredDateTimeConnection | PreferredDateTimeAggregator | PreferredDateTimeGroupBy | PreferredDateTimeConnectionId | PreferredDateTimeConnectionCreated_At | PreferredDateTimeConnectionUpdated_At | PreferredDateTimeConnectionDate | PreferredDateTimeConnectionTime | PreferredDateTimeConnectionGroup | CreatePreferredDateTimePayload | UpdatePreferredDateTimePayload | DeletePreferredDateTimePayload | Room | RoomConnection | RoomAggregator | RoomAggregatorSum | RoomAggregatorAvg | RoomAggregatorMin | RoomAggregatorMax | RoomGroupBy | RoomConnectionId | RoomConnectionCreated_At | RoomConnectionUpdated_At | RoomConnectionName | RoomConnectionDescription | RoomConnectionImage | RoomConnectionBusiness | RoomConnectionPlayer_Max | CreateRoomPayload | UpdateRoomPayload | DeleteRoomPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserAggregatorSum | UsersPermissionsUserAggregatorAvg | UsersPermissionsUserAggregatorMin | UsersPermissionsUserAggregatorMax | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionAge | UsersPermissionsUserConnectionImage | UsersPermissionsUserConnectionAbout | UsersPermissionsUserConnectionOpen_To_Invite | UsersPermissionsUserConnectionHide_Age | UsersPermissionsUserConnectionApproved | CreateUserPayload | UpdateUserPayload | DeleteUserPayload;
 
 export type InputId = {
   id: Scalars['ID'];
@@ -1775,6 +1906,9 @@ export type Query = {
   invite?: Maybe<Invite>;
   invites?: Maybe<Array<Maybe<Invite>>>;
   invitesConnection?: Maybe<InviteConnection>;
+  preferredDateTime?: Maybe<PreferredDateTime>;
+  preferredDateTimes?: Maybe<Array<Maybe<PreferredDateTime>>>;
+  preferredDateTimesConnection?: Maybe<PreferredDateTimeConnection>;
   room?: Maybe<Room>;
   rooms?: Maybe<Array<Maybe<Room>>>;
   roomsConnection?: Maybe<RoomConnection>;
@@ -1907,6 +2041,29 @@ export type QueryInvitesConnectionArgs = {
 };
 
 
+export type QueryPreferredDateTimeArgs = {
+  id: Scalars['ID'];
+  publicationState?: Maybe<PublicationState>;
+};
+
+
+export type QueryPreferredDateTimesArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+  publicationState?: Maybe<PublicationState>;
+};
+
+
+export type QueryPreferredDateTimesConnectionArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+
 export type QueryRoomArgs = {
   id: Scalars['ID'];
   publicationState?: Maybe<PublicationState>;
@@ -2007,6 +2164,9 @@ export type Mutation = {
   deleteGroup?: Maybe<DeleteGroupPayload>;
   /** Create an invitation */
   createInvite?: Maybe<CreateInvitePayload>;
+  createPreferredDateTime?: Maybe<CreatePreferredDateTimePayload>;
+  updatePreferredDateTime?: Maybe<UpdatePreferredDateTimePayload>;
+  deletePreferredDateTime?: Maybe<DeletePreferredDateTimePayload>;
   createRoom?: Maybe<CreateRoomPayload>;
   updateRoom?: Maybe<UpdateRoomPayload>;
   deleteRoom?: Maybe<DeleteRoomPayload>;
@@ -2094,6 +2254,21 @@ export type MutationDeleteGroupArgs = {
 
 export type MutationCreateInviteArgs = {
   input?: Maybe<CreateInviteInput>;
+};
+
+
+export type MutationCreatePreferredDateTimeArgs = {
+  input?: Maybe<CreatePreferredDateTimeInput>;
+};
+
+
+export type MutationUpdatePreferredDateTimeArgs = {
+  input?: Maybe<UpdatePreferredDateTimeInput>;
+};
+
+
+export type MutationDeletePreferredDateTimeArgs = {
+  input?: Maybe<DeletePreferredDateTimeInput>;
 };
 
 
@@ -2372,6 +2547,40 @@ export type CreateInviteMutation = (
   )> }
 );
 
+export type CreatePreferredDateTimeMutationVariables = Exact<{
+  groupId: Scalars['ID'];
+  date: Scalars['Date'];
+  time: Enum_Preferreddatetime_Time;
+}>;
+
+
+export type CreatePreferredDateTimeMutation = (
+  { __typename?: 'Mutation' }
+  & { createPreferredDateTime?: Maybe<(
+    { __typename?: 'createPreferredDateTimePayload' }
+    & { preferredDateTime?: Maybe<(
+      { __typename?: 'PreferredDateTime' }
+      & Pick<PreferredDateTime, 'id'>
+    )> }
+  )> }
+);
+
+export type DeletePreferredDateTimeMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeletePreferredDateTimeMutation = (
+  { __typename?: 'Mutation' }
+  & { deletePreferredDateTime?: Maybe<(
+    { __typename?: 'deletePreferredDateTimePayload' }
+    & { preferredDateTime?: Maybe<(
+      { __typename?: 'PreferredDateTime' }
+      & Pick<PreferredDateTime, 'id'>
+    )> }
+  )> }
+);
+
 export type DismissInviteMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2527,6 +2736,7 @@ export type UpdateGroupMutationVariables = Exact<{
   min_age?: Maybe<Scalars['Int']>;
   max_age?: Maybe<Scalars['Int']>;
   preferred_rooms?: Maybe<Array<Scalars['ID']>>;
+  preferred_date_times?: Maybe<Array<Scalars['ID']>>;
 }>;
 
 
@@ -2540,6 +2750,9 @@ export type UpdateGroupMutation = (
       & { preferred_rooms?: Maybe<Array<Maybe<(
         { __typename?: 'Room' }
         & Pick<Room, 'id' | 'name'>
+      )>>>, preferred_date_times?: Maybe<Array<Maybe<(
+        { __typename?: 'PreferredDateTime' }
+        & Pick<PreferredDateTime, 'id' | 'date' | 'time'>
       )>>> }
     )> }
   )> }
@@ -2585,6 +2798,9 @@ export type GetGroupQuery = (
     )>>>, preferred_rooms?: Maybe<Array<Maybe<(
       { __typename?: 'Room' }
       & Pick<Room, 'id' | 'name'>
+    )>>>, preferred_date_times?: Maybe<Array<Maybe<(
+      { __typename?: 'PreferredDateTime' }
+      & Pick<PreferredDateTime, 'id' | 'date' | 'time'>
     )>>> }
   )> }
 );
@@ -3103,6 +3319,76 @@ export function useCreateInviteMutation(baseOptions?: Apollo.MutationHookOptions
 export type CreateInviteMutationHookResult = ReturnType<typeof useCreateInviteMutation>;
 export type CreateInviteMutationResult = Apollo.MutationResult<CreateInviteMutation>;
 export type CreateInviteMutationOptions = Apollo.BaseMutationOptions<CreateInviteMutation, CreateInviteMutationVariables>;
+export const CreatePreferredDateTimeDocument = gql`
+    mutation createPreferredDateTime($groupId: ID!, $date: Date!, $time: ENUM_PREFERREDDATETIME_TIME!) {
+  createPreferredDateTime(input: {data: {group: $groupId, date: $date, time: $time}}) {
+    preferredDateTime {
+      id
+    }
+  }
+}
+    `;
+export type CreatePreferredDateTimeMutationFn = Apollo.MutationFunction<CreatePreferredDateTimeMutation, CreatePreferredDateTimeMutationVariables>;
+
+/**
+ * __useCreatePreferredDateTimeMutation__
+ *
+ * To run a mutation, you first call `useCreatePreferredDateTimeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePreferredDateTimeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPreferredDateTimeMutation, { data, loading, error }] = useCreatePreferredDateTimeMutation({
+ *   variables: {
+ *      groupId: // value for 'groupId'
+ *      date: // value for 'date'
+ *      time: // value for 'time'
+ *   },
+ * });
+ */
+export function useCreatePreferredDateTimeMutation(baseOptions?: Apollo.MutationHookOptions<CreatePreferredDateTimeMutation, CreatePreferredDateTimeMutationVariables>) {
+        return Apollo.useMutation<CreatePreferredDateTimeMutation, CreatePreferredDateTimeMutationVariables>(CreatePreferredDateTimeDocument, baseOptions);
+      }
+export type CreatePreferredDateTimeMutationHookResult = ReturnType<typeof useCreatePreferredDateTimeMutation>;
+export type CreatePreferredDateTimeMutationResult = Apollo.MutationResult<CreatePreferredDateTimeMutation>;
+export type CreatePreferredDateTimeMutationOptions = Apollo.BaseMutationOptions<CreatePreferredDateTimeMutation, CreatePreferredDateTimeMutationVariables>;
+export const DeletePreferredDateTimeDocument = gql`
+    mutation deletePreferredDateTime($id: ID!) {
+  deletePreferredDateTime(input: {where: {id: $id}}) {
+    preferredDateTime {
+      id
+    }
+  }
+}
+    `;
+export type DeletePreferredDateTimeMutationFn = Apollo.MutationFunction<DeletePreferredDateTimeMutation, DeletePreferredDateTimeMutationVariables>;
+
+/**
+ * __useDeletePreferredDateTimeMutation__
+ *
+ * To run a mutation, you first call `useDeletePreferredDateTimeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePreferredDateTimeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePreferredDateTimeMutation, { data, loading, error }] = useDeletePreferredDateTimeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeletePreferredDateTimeMutation(baseOptions?: Apollo.MutationHookOptions<DeletePreferredDateTimeMutation, DeletePreferredDateTimeMutationVariables>) {
+        return Apollo.useMutation<DeletePreferredDateTimeMutation, DeletePreferredDateTimeMutationVariables>(DeletePreferredDateTimeDocument, baseOptions);
+      }
+export type DeletePreferredDateTimeMutationHookResult = ReturnType<typeof useDeletePreferredDateTimeMutation>;
+export type DeletePreferredDateTimeMutationResult = Apollo.MutationResult<DeletePreferredDateTimeMutation>;
+export type DeletePreferredDateTimeMutationOptions = Apollo.BaseMutationOptions<DeletePreferredDateTimeMutation, DeletePreferredDateTimeMutationVariables>;
 export const DismissInviteDocument = gql`
     mutation dismissInvite($id: ID!) {
   dismissInvite(id: $id) {
@@ -3403,8 +3689,8 @@ export type SetMemberMaxMutationHookResult = ReturnType<typeof useSetMemberMaxMu
 export type SetMemberMaxMutationResult = Apollo.MutationResult<SetMemberMaxMutation>;
 export type SetMemberMaxMutationOptions = Apollo.BaseMutationOptions<SetMemberMaxMutation, SetMemberMaxMutationVariables>;
 export const UpdateGroupDocument = gql`
-    mutation updateGroup($id: ID!, $name: String, $description: String, $member_max: Int, $min_age: Int, $max_age: Int, $preferred_rooms: [ID!]) {
-  updateGroup(input: {where: {id: $id}, data: {name: $name, description: $description, member_max: $member_max, min_age: $min_age, max_age: $max_age, preferred_rooms: $preferred_rooms}}) {
+    mutation updateGroup($id: ID!, $name: String, $description: String, $member_max: Int, $min_age: Int, $max_age: Int, $preferred_rooms: [ID!], $preferred_date_times: [ID!]) {
+  updateGroup(input: {where: {id: $id}, data: {name: $name, description: $description, member_max: $member_max, min_age: $min_age, max_age: $max_age, preferred_rooms: $preferred_rooms, preferred_date_times: $preferred_date_times}}) {
     group {
       id
       name
@@ -3415,6 +3701,11 @@ export const UpdateGroupDocument = gql`
       preferred_rooms {
         id
         name
+      }
+      preferred_date_times {
+        id
+        date
+        time
       }
     }
   }
@@ -3442,6 +3733,7 @@ export type UpdateGroupMutationFn = Apollo.MutationFunction<UpdateGroupMutation,
  *      min_age: // value for 'min_age'
  *      max_age: // value for 'max_age'
  *      preferred_rooms: // value for 'preferred_rooms'
+ *      preferred_date_times: // value for 'preferred_date_times'
  *   },
  * });
  */
@@ -3513,6 +3805,11 @@ export const GetGroupDocument = gql`
     preferred_rooms {
       id
       name
+    }
+    preferred_date_times {
+      id
+      date
+      time
     }
   }
 }

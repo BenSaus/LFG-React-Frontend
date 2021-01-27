@@ -5,6 +5,8 @@ import {
     GetGroupDocument,
     GetRoomsDocument,
     UpdateGroupDocument,
+    DeletePreferredDateTimeDocument,
+    CreatePreferredDateTimeDocument,
 } from "../../generated/graphql"
 import GroupForm from "../../components/GroupForm/GroupForm"
 import * as Types from "../../generated/graphql"
@@ -35,6 +37,7 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
         max_age: 0,
         description: "",
         preferred_rooms: [],
+        preferred_dateTimes: [],
     })
 
     // GraphQL
@@ -46,6 +49,8 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
             id: props.match.params.id,
         },
         onCompleted: (data) => {
+            console.log("Group data load complete", data)
+
             const roomIds = data.group.preferred_rooms.map(
                 (room: Types.Room) => room.id
             )
@@ -57,14 +62,22 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
                 max_age: data.group.max_age,
                 description: data.group.description,
                 preferred_rooms: roomIds,
+                preferred_dateTimes: data.group.preferred_date_times,
             })
-            console.log(roomIds)
 
             setFormDataReady(true)
         },
     })
 
-    const [updateGroup, { data: updateData }] = useMutation(UpdateGroupDocument)
+    const [updateGroup, { data: updateResp }] = useMutation(UpdateGroupDocument)
+    const [
+        deletePreferredDateTime,
+        { data: deletePrefDateTimeResp },
+    ] = useMutation(DeletePreferredDateTimeDocument)
+
+    const [createPreferredDateTime] = useMutation(
+        CreatePreferredDateTimeDocument
+    )
 
     // Render
     if (!formDataReady) return <p>Loading...</p>
@@ -74,6 +87,39 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
     }
 
     const onSubmit = async (values: any) => {
+        console.log("onSubmit", values)
+
+        const oldPreferredDateTimes = data.group.preferred_date_times
+
+        // delete all old preferred date times
+        for (let pref of oldPreferredDateTimes) {
+            // await deletePreferredDateTime({variables: {
+            //     id: pref.id
+            // }})
+            console.log("delete", pref)
+        }
+
+        // create all preferred date times
+        let prefDateTimeIds: string[] = []
+        for (let pref of values.preferred_dateTimes) {
+            console.log("create", pref)
+
+            const resp = await createPreferredDateTime({
+                variables: {
+                    groupId: data.group.id,
+                    date: pref.date,
+                    time: pref.time,
+                },
+            })
+
+            console.log("create resp:", resp)
+            prefDateTimeIds.push(
+                resp.data.createPreferredDateTime.preferredDateTime.id
+            )
+        }
+
+        // get their id's
+
         const resp = await updateGroup({
             variables: {
                 id: props.match.params.id,
@@ -83,8 +129,11 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
                 min_age: values.min_age,
                 description: values.description,
                 preferred_rooms: values.preferred_rooms,
+                preferred_date_times: prefDateTimeIds,
             },
         })
+
+        console.log("resp: ", resp)
 
         props.history.push(`/group/manage/${props.match.params.id}`)
     }

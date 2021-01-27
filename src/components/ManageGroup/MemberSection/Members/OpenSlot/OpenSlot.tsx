@@ -40,13 +40,6 @@ const OpenSlot: React.FC<OpenSlotProps> = ({}) => {
                         Open slot
                     </Typography>
                 </div>
-                <ListItemSecondaryAction>
-                    <IconButton
-                    // onClick={() => props.viewClicked(props.member.id)}
-                    >
-                        {/* <Clear /> */}
-                    </IconButton>
-                </ListItemSecondaryAction>
             </ListItem>
         </React.Fragment>
     )

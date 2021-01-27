@@ -28,6 +28,7 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
         max_age: 90,
         description: "",
         preferred_rooms: [],
+        preferred_dateTimes: [],
     }
 
     // GraphQL
@@ -55,6 +56,8 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
                     leader: myId, // TODO: This should be set server side!!!!!!!!!!!!!
                     description: values.description,
                     preferred_rooms: values.preferred_rooms,
+                    // TODO: Add in date times
+                    // preferred_dateTimes: values.preferred_dateTimes,
                     members: [],
                 },
             })

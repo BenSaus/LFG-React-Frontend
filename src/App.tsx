@@ -3,6 +3,9 @@ import "./App.css"
 
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
 
+import { MuiPickersUtilsProvider } from "@material-ui/pickers"
+import LuxonUtils from "@date-io/luxon"
+
 import Layout from "./containers/Layout/Layout"
 import Login from "./containers/Login/Login"
 import OpenGroups from "./containers/OpenGroups/OpenGroups"
@@ -86,9 +89,11 @@ function App() {
         <BrowserRouter basename={`${process.env.PUBLIC_URL}`}>
             <ThemeProvider theme={theme}>
                 <CssBaseline>
-                    <div className="App">
-                        <Layout>{routes}</Layout>
-                    </div>
+                    <MuiPickersUtilsProvider utils={LuxonUtils}>
+                        <div className="App">
+                            <Layout>{routes}</Layout>
+                        </div>
+                    </MuiPickersUtilsProvider>
                 </CssBaseline>
             </ThemeProvider>
         </BrowserRouter>

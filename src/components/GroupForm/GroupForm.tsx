@@ -1,11 +1,6 @@
 import { useFormik } from "formik"
-import React, { ChangeEvent, useState } from "react"
-import {
-    createStyles,
-    makeStyles,
-    useTheme,
-    Theme,
-} from "@material-ui/core/styles"
+import React, { useEffect, useState } from "react"
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import * as Types from "../../generated/graphql"
 import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
@@ -14,7 +9,11 @@ import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import Card from "@material-ui/core/Card"
 import RoomList from "../../components/RoomList/RoomList"
-import { CardContent, CardHeader } from "@material-ui/core"
+import { CardContent } from "@material-ui/core"
+
+import PreferredDateList, {
+    DateTimeItem,
+} from "./PreferredDateList/PreferredDateList"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -50,6 +49,7 @@ interface GroupFormProps {
         max_age: number
         description: string
         preferred_rooms: string[]
+        preferred_dateTimes: Types.PreferredDateTime[]
     }
     roomData: Types.Room[]
     submitButtonText: string
@@ -59,18 +59,32 @@ interface GroupFormProps {
 const GroupForm: React.FC<GroupFormProps> = (props) => {
     const classes = useStyles()
 
-    console.log("pref rooms:", props.formData.preferred_rooms)
-
     // State
-    // Ages are controlled outside of formik because of event handling
+    // Ages, Preferred Rooms, and Preferred DateTimes are controlled outside of formik because of event handling
     const [age, setAge] = React.useState<number[]>([
         props.formData.min_age,
         props.formData.max_age,
     ])
-
     const [preferredRooms, setPreferredRooms] = useState<string[]>(
         props.formData.preferred_rooms
     )
+    const [preferredDateTimes, setPreferredDateTimes] = useState<
+        DateTimeItem[]
+    >()
+
+    // Load and reformat DateTime objects for PreferredDateList component
+    useEffect(() => {
+        const dateTimeItems: DateTimeItem[] = props.formData.preferred_dateTimes.map(
+            (dateTime) => {
+                return {
+                    date: dateTime.date,
+                    time: dateTime.time,
+                }
+            }
+        )
+
+        setPreferredDateTimes(dateTimeItems)
+    }, [])
 
     const formik = useFormik({
         initialValues: {
@@ -84,8 +98,8 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
             modifiedData.min_age = age[0]
             modifiedData.max_age = age[1]
             modifiedData.preferred_rooms = preferredRooms
+            modifiedData.preferred_dateTimes = preferredDateTimes
 
-            // console.log(modifiedData)
             props.onSubmit(modifiedData)
         },
     })
@@ -104,6 +118,13 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
         setPreferredRooms(updatedRoomsArray)
     }
 
+    const onPreferredDateTimesChangedHandler = (
+        updatedDateTimeArray: DateTimeItem[]
+    ) => {
+        setPreferredDateTimes(updatedDateTimeArray)
+        console.log("SetPreferredDateTimes", updatedDateTimeArray)
+    }
+
     // Render
     let openSlotsJSX = null
     if (props.openSlotsEditable) {
@@ -120,7 +141,7 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                                     <Typography
                                         className={classes.ageCardTitle}
                                     >
-                                        Open Slots
+                                        Maximum Group Size
                                     </Typography>
                                 </div>
 
@@ -204,7 +225,24 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                         >
                             <CardContent>
                                 <div className={classes.textAlignLeft}>
-                                    <Typography>Day and Time</Typography>
+                                    <Typography>
+                                        Preferred Days and Times
+                                    </Typography>
+
+                                    {preferredDateTimes ? (
+                                        <PreferredDateList
+                                            preferredDateTimeItems={
+                                                preferredDateTimes
+                                            }
+                                            onChange={(
+                                                dates: DateTimeItem[]
+                                            ) => {
+                                                onPreferredDateTimesChangedHandler(
+                                                    dates
+                                                )
+                                            }}
+                                        />
+                                    ) : null}
                                 </div>
                             </CardContent>
                         </Card>
@@ -238,7 +276,7 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
                         color="primary"
                         className={classes.button}
                         variant="contained"
-                        onClick={(event) => {
+                        onClick={(event: any) => {
                             event.preventDefault()
                             props.onCancel()
                         }}
