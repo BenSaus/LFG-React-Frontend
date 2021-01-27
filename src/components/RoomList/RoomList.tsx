@@ -1,14 +1,17 @@
 import React from "react"
-import * as Types from "../../generated/graphql"
-import Checkbox from "@material-ui/core/Checkbox"
-import ListItemText from "@material-ui/core/ListItemText"
-import ListItemIcon from "@material-ui/core/ListItemIcon"
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
-import ListItem from "@material-ui/core/ListItem"
-import Tooltip from "@material-ui/core/Tooltip"
-import IconButton from "@material-ui/core/IconButton"
+import * as Types from "generated/graphql"
+
+import {
+    Checkbox,
+    ListItemText,
+    ListItemIcon,
+    ListItemSecondaryAction,
+    ListItem,
+    IconButton,
+} from "@material-ui/core"
 import SearchIcon from "@material-ui/icons/Search"
 import List from "@material-ui/core/List"
+
 import { makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles((theme) => ({

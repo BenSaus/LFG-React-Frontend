@@ -1,3 +1,7 @@
+import React, { useState } from "react"
+
+import * as Types from "generated/graphql"
+
 import {
     Button,
     makeStyles,
@@ -5,9 +9,6 @@ import {
     TextField,
     Typography,
 } from "@material-ui/core"
-import React, { useState } from "react"
-
-import * as Types from "../../generated/graphql"
 
 const useStyles = makeStyles((theme) => ({
     paper: {

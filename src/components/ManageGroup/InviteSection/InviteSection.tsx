@@ -1,5 +1,5 @@
 import React from "react"
-import * as Types from "../../../generated/graphql"
+import * as Types from "generated/graphql"
 import Invites from "./Invites/Invites"
 
 interface InviteSectionProps {

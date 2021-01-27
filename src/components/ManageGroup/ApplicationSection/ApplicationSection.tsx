@@ -1,6 +1,6 @@
 import React from "react"
 import Applicants from "./Applicants/Applicants"
-import * as Types from "../../../generated/graphql"
+import * as Types from "generated/graphql"
 
 interface ApplicationSectionProps {
     onAcceptApplication: (id: string) => Promise<void>

@@ -1,6 +1,7 @@
-import { Avatar, makeStyles, Typography } from "@material-ui/core"
 import React from "react"
-import * as Types from "../../generated/graphql"
+
+import { Avatar, makeStyles, Typography } from "@material-ui/core"
+import * as Types from "generated/graphql"
 
 const useStyles = makeStyles({
     userCell: {

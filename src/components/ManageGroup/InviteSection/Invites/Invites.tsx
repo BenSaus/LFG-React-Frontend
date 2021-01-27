@@ -1,5 +1,5 @@
 import React from "react"
-import * as Types from "../../../../generated/graphql"
+import * as Types from "generated/graphql"
 
 import Clear from "@material-ui/icons/Clear"
 import {
@@ -11,11 +11,11 @@ import {
     TableContainer,
     IconButton,
     Chip,
-    Avatar,
     Tooltip,
     makeStyles,
 } from "@material-ui/core"
-import UserBadge from "../../../UserBadge/UserBadge"
+
+import UserBadge from "components/UserBadge/UserBadge"
 
 const useStyles = makeStyles({
     userCell: {

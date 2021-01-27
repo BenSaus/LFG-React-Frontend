@@ -1,16 +1,11 @@
+import React from "react"
 import {
     Avatar,
     makeStyles,
-    ListItemText,
-    ListItemAvatar,
-    ListItem,
-    List,
     Typography,
     Card,
     CardContent,
 } from "@material-ui/core"
-import React from "react"
-import * as Types from "../../../../generated/graphql"
 
 const useStyles = makeStyles((theme) => ({
     root: {},

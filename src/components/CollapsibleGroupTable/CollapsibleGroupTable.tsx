@@ -1,25 +1,19 @@
 import React from "react"
-import * as Types from "../../generated/graphql"
-import { Group } from "../../generated/graphql"
-import groupUtil from "../../utils/groupUtil"
-import { makeStyles } from "@material-ui/core/styles"
-import IListAction from "../../shared/IListAction"
+import * as Types from "generated/graphql"
+import { Group } from "generated/graphql"
+
 import {
-    Avatar,
-    Box,
-    Chip,
-    Collapse,
-    IconButton,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
     TableRow,
-    Tooltip,
-    Typography,
 } from "@material-ui/core"
+import { makeStyles } from "@material-ui/core/styles"
+
 import CollapsibleRow from "./CollapsibleRow/CollapsibleRow"
+import IListAction from "shared/IListAction"
 
 const useStyles = makeStyles({
     userCell: {
@@ -40,9 +34,6 @@ interface CollapsibleGroupTableProps {
 
 const CollapsibleGroupTable: React.FC<CollapsibleGroupTableProps> = (props) => {
     const classes = useStyles()
-
-    let filteredGroups: Types.Group[]
-    const [open, setOpen] = React.useState(false)
 
     return (
         <TableContainer>

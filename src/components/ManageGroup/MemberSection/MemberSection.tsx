@@ -1,6 +1,6 @@
 import React from "react"
 import Members from "./Members/Members"
-import * as Types from "../../../generated/graphql"
+import * as Types from "generated/graphql"
 
 interface MembersSectionProps {
     onClickViewMember: (id: string) => Promise<void>

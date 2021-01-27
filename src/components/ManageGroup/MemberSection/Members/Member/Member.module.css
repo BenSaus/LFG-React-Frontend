@@ -1,9 +1,0 @@
-.Member {
-    width: 100%;
-    border: 1px solid black;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0.25rem 0;
-    padding: 0.25rem;
-}

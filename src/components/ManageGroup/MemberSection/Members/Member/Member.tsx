@@ -1,17 +1,16 @@
 import React, { useState } from "react"
-import * as Types from "../../../../../generated/graphql"
+import * as Types from "generated/graphql"
+
+import ListItem, { ListItemProps } from "@material-ui/core/ListItem"
+import ListItemAvatar from "@material-ui/core/ListItemAvatar"
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
 
 import IconButton from "@material-ui/core/IconButton"
 import FindInPage from "@material-ui/icons/FindInPage"
 import Delete from "@material-ui/icons/Delete"
 
-import ListItem, { ListItemProps } from "@material-ui/core/ListItem"
-import ListItemText from "@material-ui/core/ListItemText"
-import ListItemAvatar from "@material-ui/core/ListItemAvatar"
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
-import Avatar from "@material-ui/core/Avatar"
-import ConfirmDialog from "../../../../ConfirmDialog/ConfirmDialog"
-import UserBadge from "../../../../UserBadge/UserBadge"
+import ConfirmDialog from "components/ConfirmDialog/ConfirmDialog"
+import UserBadge from "components/UserBadge/UserBadge"
 
 interface MemberProps {
     member: Types.UsersPermissionsUser

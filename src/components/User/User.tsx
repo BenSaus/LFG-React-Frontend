@@ -1,9 +1,11 @@
 import React from "react"
+
 import * as Types from "../../generated/graphql"
-import Achievements from "./Achievements/Achievements"
+
+import { Typography, Card } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
-import Card from "@material-ui/core/Card"
-import { Typography } from "@material-ui/core"
+
+import Achievements from "./Achievements/Achievements"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,8 +33,6 @@ interface UserProps {
 const User: React.FC<UserProps> = (props) => {
     // Style
     const classes = useStyles()
-
-    console.log(props.user)
 
     let achievementsJsx = null
     if (props.user.achievements) {
