@@ -1,15 +1,18 @@
 import React, { useState } from "react"
-import { useMutation, useQuery } from "@apollo/client"
 import { RouteComponentProps } from "react-router"
+
+import { useMutation, useQuery } from "@apollo/client"
 import {
     GetGroupDocument,
     GetRoomsDocument,
     UpdateGroupDocument,
-} from "../../generated/graphql"
-import GroupForm from "../../components/GroupForm/GroupForm"
-import * as Types from "../../generated/graphql"
+} from "generated/graphql"
+import * as Types from "generated/graphql"
+
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
+
+import GroupForm from "components/GroupForm/GroupForm"
 
 const useStyles = makeStyles((theme) => ({
     groupFormContainer: {
@@ -58,7 +61,6 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
                 description: data.group.description,
                 preferred_rooms: roomIds,
             })
-            console.log(roomIds)
 
             setFormDataReady(true)
         },

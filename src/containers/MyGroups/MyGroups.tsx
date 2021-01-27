@@ -1,18 +1,20 @@
 import React, { useState } from "react"
-import { useMutation, useQuery } from "@apollo/client"
-import GroupTable from "../../components/GroupTable/GroupTable"
-import { RouteComponentProps } from "react-router"
-import { RootType } from "../../store/rootReducer"
 import { useSelector } from "react-redux"
-import { LeaveGroupDocument } from "../../generated/graphql"
-import * as Types from "../../generated/graphql"
-import { AuthState } from "../../store/slices/auth"
+import { RouteComponentProps } from "react-router"
+
+import { useMutation, useQuery } from "@apollo/client"
 import {
+    LeaveGroupDocument,
     GetMyGroupsDocument,
     GetMyLeadGroupsDocument,
-} from "../../generated/graphql"
-import Button from "@material-ui/core/Button"
+} from "generated/graphql"
+import * as Types from "generated/graphql"
+
+import { RootType } from "store/rootReducer"
+import { AuthState } from "store/slices/auth"
+
 import {
+    Button,
     Card,
     CardActions,
     CardContent,
@@ -21,9 +23,11 @@ import {
     Theme,
     Typography,
 } from "@material-ui/core"
-import IListAction from "../../shared/IListAction"
 import { Delete, FindInPage, Group, HighlightOff } from "@material-ui/icons"
-import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog"
+
+import IListAction from "shared/IListAction"
+import ConfirmDialog from "components/ConfirmDialog/ConfirmDialog"
+import GroupTable from "components/GroupTable/GroupTable"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -109,7 +113,6 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
     // Render
     if (loadingGroups && loadingLeadGroups) return <p>Loading...</p>
     if (errorLeadGroups || errorGroups) {
-        console.log(errorLeadGroups, errorGroups)
         return <p>Error :(</p>
     }
 
@@ -152,7 +155,6 @@ const MyGroups: React.FC<MyGroupsProps> = (props) => {
     ]
 
     let leadGroupsJSX = <p>No Groups Found</p>
-    console.log("leadingGroups", leadingGroups)
 
     if (leadingGroups.length > 0) {
         leadGroupsJSX = (

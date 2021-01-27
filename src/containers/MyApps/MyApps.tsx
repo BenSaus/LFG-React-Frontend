@@ -1,10 +1,12 @@
 import React from "react"
-import { useQuery } from "@apollo/client"
-import ApplicationList from "../../components/ApplicationList/ApplicationList"
+import ApplicationList from "components/ApplicationList/ApplicationList"
 import { useSelector } from "react-redux"
-import { RootType } from "../../store/rootReducer"
-import { AuthState } from "../../store/slices/auth"
-import { GetMyApplicationsDocument } from "../../generated/graphql"
+
+import { RootType } from "store/rootReducer"
+import { AuthState } from "store/slices/auth"
+
+import { useQuery } from "@apollo/client"
+import { GetMyApplicationsDocument } from "generated/graphql"
 
 interface MyAppsProps {}
 

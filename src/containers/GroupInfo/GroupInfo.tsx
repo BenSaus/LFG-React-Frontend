@@ -1,14 +1,15 @@
 import React from "react"
-import { useQuery } from "@apollo/client"
 import { RouteComponentProps } from "react-router"
-import * as Types from "../../generated/graphql"
 import { Link } from "react-router-dom"
-import { GetGroupDocument } from "../../generated/graphql"
-import groupUtil from "../../utils/groupUtil"
-import Button from "@material-ui/core/Button"
-import Card from "@material-ui/core/Card"
+
+import { useQuery } from "@apollo/client"
+import * as Types from "generated/graphql"
+import { GetGroupDocument } from "generated/graphql"
+
+import { Button, Card, CardContent, Typography } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
-import { CardContent, Typography } from "@material-ui/core"
+
+import groupUtil from "utils/groupUtil"
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -45,6 +46,12 @@ const GroupInfo: React.FC<GroupInfoProps> = (props) => {
         variables: { id: groupId },
     })
 
+    // Handlers
+    const onApply = () => {
+        props.history.push(`/apply/${groupId}`)
+    }
+
+    // Render
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error :(</p>
 
@@ -70,10 +77,6 @@ const GroupInfo: React.FC<GroupInfoProps> = (props) => {
                 }
             }
         }
-    }
-
-    const onApply = () => {
-        props.history.push(`/apply/${groupId}`)
     }
 
     let open_slots = groupUtil.getOpenSlots(groupInfo)

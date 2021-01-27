@@ -1,10 +1,9 @@
-import { useMutation, useQuery } from "@apollo/client"
 import React, { useState } from "react"
 import { RouteComponentProps } from "react-router"
-import * as Types from "../../generated/graphql"
-import { RootType } from "../../store/rootReducer"
-import { AuthState } from "../../store/slices/auth"
 import { useSelector } from "react-redux"
+
+import { useMutation, useQuery } from "@apollo/client"
+import * as Types from "generated/graphql"
 import {
     AcceptApplicationDocument,
     ManageGetGroupDocument,
@@ -14,10 +13,14 @@ import {
     RemoveMemberDocument,
     SetMemberMaxDocument,
     DismissInviteDocument,
-} from "../../generated/graphql"
-import MembersSection from "../../components/ManageGroup/MemberSection/MemberSection"
-import ApplicationSection from "../../components/ManageGroup/ApplicationSection/ApplicationSection"
-import InviteSection from "../../components/ManageGroup/InviteSection/InviteSection"
+} from "generated/graphql"
+
+import { RootType } from "store/rootReducer"
+import { AuthState } from "store/slices/auth"
+
+import MembersSection from "components/ManageGroup/MemberSection/MemberSection"
+import ApplicationSection from "components/ManageGroup/ApplicationSection/ApplicationSection"
+import InviteSection from "components/ManageGroup/InviteSection/InviteSection"
 
 import {
     Typography,
@@ -26,17 +29,13 @@ import {
     CardActions,
     Button,
     IconButton,
-    Chip,
     Tooltip,
-    Switch,
-    Box,
 } from "@material-ui/core"
 
-import { PersonAdd, Delete } from "@material-ui/icons"
-
-import Settings from "@material-ui/icons/Settings"
+import { PersonAdd, Delete, Settings } from "@material-ui/icons"
 import { makeStyles } from "@material-ui/core/styles"
-import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog"
+
+import ConfirmDialog from "components/ConfirmDialog/ConfirmDialog"
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -78,8 +77,6 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         {
             variables: { id: props.match.params.id },
             onCompleted: (data) => {
-                console.log(data.group.invites)
-
                 setApplications(data.group.applications)
                 setInvites(data.group.invites)
                 setMembers(data.group.members)

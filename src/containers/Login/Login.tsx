@@ -1,10 +1,13 @@
-import { Button, TextField } from "@material-ui/core"
-import { useFormik } from "formik"
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, RouteComponentProps } from "react-router"
-import { RootType } from "../../store/rootReducer"
-import { login } from "../../store/slices/auth"
+
+import { RootType } from "store/rootReducer"
+import { login } from "store/slices/auth"
+
+import { useFormik } from "formik"
+
+import { Button, TextField } from "@material-ui/core"
 
 interface LoginProps extends RouteComponentProps {}
 
@@ -27,8 +30,6 @@ const Login: React.FC<LoginProps> = (props) => {
             password: "",
         },
         onSubmit: async (values, actions) => {
-            console.log(values)
-
             // TODO: sanitize and check that both are valid here...
             try {
                 await dispatch(
@@ -40,8 +41,6 @@ const Login: React.FC<LoginProps> = (props) => {
         },
     })
 
-    console.log("Login", loading, isAuthenticated)
-
     if (loading) {
         return (
             <React.Fragment>
@@ -52,7 +51,6 @@ const Login: React.FC<LoginProps> = (props) => {
     }
 
     if (isAuthenticated) {
-        console.log("Login isAuthenticated", isAuthenticated)
         return <Redirect to="/openGroups" />
     }
 
@@ -61,24 +59,6 @@ const Login: React.FC<LoginProps> = (props) => {
             <h1>Login</h1>
 
             <form onSubmit={formik.handleSubmit}>
-                {/* <label htmlFor="">Username:</label>
-                <input
-                    id="username"
-                    name="username"
-                    type="text"
-                    value={formik.values.username}
-                    onChange={formik.handleChange}
-                />
-                <br />
-                <label htmlFor="">Password:</label>
-                <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                /> */}
-
                 <TextField
                     style={{ margin: "0.25rem" }}
                     id="username"

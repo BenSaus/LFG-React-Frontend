@@ -1,12 +1,14 @@
-import { useQuery, useMutation } from "@apollo/client"
-import React, { useState } from "react"
-
+import React from "react"
 import { RouteComponentProps } from "react-router"
-import { CreateGroupDocument, GetRoomsDocument } from "../../generated/graphql"
-import GroupForm from "../../components/GroupForm/GroupForm"
+
 import { useSelector } from "react-redux"
-import { RootType } from "../../store/rootReducer"
-import { AuthState } from "../../store/slices/auth"
+import { RootType } from "store/rootReducer"
+import { AuthState } from "store/slices/auth"
+
+import { useQuery, useMutation } from "@apollo/client"
+import { CreateGroupDocument, GetRoomsDocument } from "generated/graphql"
+
+import GroupForm from "components/GroupForm/GroupForm"
 
 interface CreateGroupProps extends RouteComponentProps {}
 
@@ -14,10 +16,8 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
     // Redux
     const auth = useSelector<RootType, AuthState>((state) => state.auth)
     let myId: string = ""
-    let myUsername: string = ""
     if (auth.user !== null) {
         myId = auth.user.id
-        myUsername = auth.user.username
     }
 
     // State
@@ -40,11 +40,7 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error :(</p>
 
-    console.log("roomData", roomData)
-
     const onSubmit = async (values: any) => {
-        console.log("Create Group Submit", values)
-
         try {
             const resp = await createGroup({
                 variables: {
@@ -58,19 +54,15 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
                     members: [],
                 },
             })
-            console.log(resp)
 
             const groupId = resp.data.createGroup.group.id
 
-            console.log("Moving to " + `/group/manage/${groupId}`)
             props.history.push(`/group/manage/${groupId}`)
         } catch (error) {
-            console.dir(error, { depth: null })
             console.dir(
                 "Error Code:",
                 error.graphQLErrors[0].extensions.exception.code
             )
-            alert(error.message)
         }
     }
 

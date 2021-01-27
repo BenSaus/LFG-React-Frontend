@@ -1,33 +1,39 @@
-import { gql, useMutation, useQuery } from "@apollo/client"
 import React, { useState } from "react"
-import InviteList from "../../components/InviteList/InviteList"
-import * as Types from "../../generated/graphql"
 import { useSelector } from "react-redux"
-import { RootType } from "../../store/rootReducer"
-import { AuthState } from "../../store/slices/auth"
+
+import { useMutation, useQuery } from "@apollo/client"
+import * as Types from "generated/graphql"
 import {
     AcceptInviteDocument,
     RejectInviteDocument,
-} from "../../generated/graphql"
-import { GetMyInvitesDocument } from "../../generated/graphql"
+    GetMyInvitesDocument,
+} from "generated/graphql"
+
+import InviteList from "components/InviteList/InviteList"
+
+import { AuthState } from "store/slices/auth"
+import { RootType } from "store/rootReducer"
 
 interface MyInvitesProps {}
 
 const MyInvites: React.FC<MyInvitesProps> = () => {
+    // State
+    const [invites, setInvites] = useState<Types.Invite[]>()
+
+    // Redux
     const auth = useSelector<RootType, AuthState>((state) => state.auth)
     let myId: string = ""
     if (auth.user !== null) {
         myId = auth.user.id
     }
 
-    const [invites, setInvites] = useState<Types.Invite[]>()
+    // GraphQL
     const { loading, error, data } = useQuery(GetMyInvitesDocument, {
         variables: {
             invitee: myId,
         },
         onCompleted: () => {
             setInvites(data.invites)
-            console.log(data.invites)
         },
     })
 
@@ -38,12 +44,8 @@ const MyInvites: React.FC<MyInvitesProps> = () => {
         RejectInviteDocument
     )
 
-    if (loading) return <p>Loading...</p>
-    if (error) return <h2>Error :(</h2>
-
+    // Handlers
     const onInviteAcceptClicked = (inviteId: string) => {
-        console.log("Clicked inviteId: ", inviteId)
-
         // TODO: Why is this check here? Should this check be in the reject function too?
         if (invites) {
             // This component only shows invites that are undecided,
@@ -59,8 +61,6 @@ const MyInvites: React.FC<MyInvitesProps> = () => {
     }
 
     const onInviteRejectClicked = (inviteId: string) => {
-        console.log("Clicked Reject: ", inviteId)
-
         removeInvite(inviteId)
 
         rejectInvite({
@@ -76,6 +76,10 @@ const MyInvites: React.FC<MyInvitesProps> = () => {
         )
         setInvites(updatedInvites)
     }
+
+    // Render
+    if (loading) return <p>Loading...</p>
+    if (error) return <h2>Error :(</h2>
 
     return (
         <div>

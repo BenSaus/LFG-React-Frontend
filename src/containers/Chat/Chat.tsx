@@ -1,20 +1,16 @@
-import { useMutation, useQuery } from "@apollo/client"
-import React, { useState } from "react"
+import React from "react"
 import { RouteComponentProps } from "react-router"
-import {
-    GetGroupChatDocument,
-    LeaveGroupDocument,
-} from "../../generated/graphql"
+
 import { useSelector } from "react-redux"
-import { RootType } from "../../store/rootReducer"
-import { AuthState } from "../../store/slices/auth"
-import styles from "./Chat.module.css"
-import * as Types from "../../generated/graphql"
+import { RootType } from "store/rootReducer"
+import { AuthState } from "store/slices/auth"
+
+import { useQuery } from "@apollo/client"
+import { GetGroupChatDocument } from "generated/graphql"
+
 import {
-    Avatar,
     Box,
     Button,
-    Chip,
     Grid,
     IconButton,
     makeStyles,
@@ -22,10 +18,10 @@ import {
     Tooltip,
     Typography,
 } from "@material-ui/core"
-import MembersList from "../../components/Chat/MemberList/MemberList"
-import MessageList from "../../components/Chat/MessageList/MessageList"
 import { Lock, LockOpen, Settings } from "@material-ui/icons"
-import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog"
+
+import MembersList from "components/Chat/MemberList/MemberList"
+import MessageList from "components/Chat/MessageList/MessageList"
 
 const useStyles = makeStyles((theme) => ({
     chatGrid: {

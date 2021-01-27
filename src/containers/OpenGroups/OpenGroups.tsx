@@ -1,20 +1,19 @@
 import React from "react"
-import GroupTable from "../../components/GroupTable/GroupTable"
 import { RouteComponentProps } from "react-router"
-import { GetOpenGroupsDocument } from "../../generated/graphql"
+
 import { useQuery } from "@apollo/client"
+import { GetOpenGroupsDocument } from "generated/graphql"
+
 import { Card, CardContent, Typography } from "@material-ui/core"
-import { Assignment, FindInPage } from "@material-ui/icons"
-import IListAction from "../../shared/IListAction"
-import CollapsibleGroupTable from "../../components/CollapsibleGroupTable/CollapsibleGroupTable"
+import { Assignment } from "@material-ui/icons"
+
+import IListAction from "shared/IListAction"
+import CollapsibleGroupTable from "components/CollapsibleGroupTable/CollapsibleGroupTable"
 
 interface OpenGroupsProps extends RouteComponentProps {}
 
 const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
     const { loading, error, data } = useQuery(GetOpenGroupsDocument)
-
-    if (loading) return <p>Loading...</p>
-    if (error) return <p>Error :(</p>
 
     const onGroupClick = (groupId: string) => {
         props.history.push("/group/" + groupId)
@@ -23,6 +22,9 @@ const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
     const onApplyClick = (groupId: string) => {
         props.history.push("/apply/" + groupId)
     }
+
+    if (loading) return <p>Loading...</p>
+    if (error) return <p>Error :(</p>
 
     const groupActions: IListAction[] = [
         {
