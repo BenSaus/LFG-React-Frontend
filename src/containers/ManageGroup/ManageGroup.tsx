@@ -5,14 +5,9 @@ import { useSelector } from "react-redux"
 import { useMutation, useQuery } from "@apollo/client"
 import * as Types from "generated/graphql"
 import {
-    AcceptApplicationDocument,
     ManageGetGroupDocument,
-    RejectApplicationDocument,
     DismissInviteDocument,
 } from "generated/graphql"
-
-import { RootType } from "store/rootReducer"
-import { AuthState } from "store/slices/auth"
 
 import MemberSection from "components/ManageGroup/MemberSection/MemberSection"
 import ApplicationSection from "components/ManageGroup/ApplicationSection/ApplicationSection"
@@ -52,15 +47,7 @@ interface ManageGroupProps extends RouteComponentProps<ManageGroupParams> {}
 const ManageGroup: React.FC<ManageGroupProps> = (props) => {
     const classes = useStyles()
 
-    // Redux
-    const auth = useSelector<RootType, AuthState>((state) => state.auth)
-    let myId: string = ""
-    if (auth.user !== null) {
-        myId = auth.user.id
-    }
-
     // State
-    const [applications, setApplications] = useState<Types.Application[]>([])
     const [invites, setInvites] = useState<Types.Invite[]>([])
     const [members, setMembers] = useState<Types.UsersPermissionsUser[]>([])
 
@@ -70,17 +57,11 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
         {
             variables: { id: props.match.params.id },
             onCompleted: (data) => {
-                setApplications(data.group.applications)
+                // setApplications(data.group.applications)
                 setInvites(data.group.invites)
                 setMembers(data.group.members)
             },
         }
-    )
-    const [acceptApplication, { data: acceptData }] = useMutation(
-        AcceptApplicationDocument
-    )
-    const [rejectApplication, { data: rejectData }] = useMutation(
-        RejectApplicationDocument
     )
 
     const [dismissInvite, { data: dismissData }] = useMutation(
@@ -88,52 +69,6 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
     )
 
     // Handlers
-    const onAcceptApplication = async (applicationId: string) => {
-        const result = await acceptApplication({
-            variables: {
-                id: applicationId,
-            },
-            context: {
-                headers: {
-                    Authorization: "Bearer " + auth.token,
-                },
-            },
-        })
-        // TODO: Check result here
-
-        const acceptedApplication = applications.find(
-            (app) => app.id === applicationId
-        )
-        const acceptedApplicant = acceptedApplication?.applicant
-
-        if (acceptedApplicant !== null && acceptedApplicant !== undefined) {
-            const updatedMembers = [...members]
-            updatedMembers.push(acceptedApplicant)
-
-            setMembers(updatedMembers)
-            const updatedApplications = applications.filter(
-                (app) => app.id !== applicationId
-            )
-            setApplications(updatedApplications)
-        } else {
-            // TODO: Throw error here
-        }
-    }
-
-    const onRejectApplication = async (applicationId: string) => {
-        const result = await rejectApplication({
-            variables: {
-                id: applicationId,
-            },
-        })
-        // TODO: Check result here
-
-        const updatedApplications = applications.filter(
-            (app) => app.id !== applicationId
-        )
-        setApplications(updatedApplications)
-    }
-
     const onDismissInviteClick = async (inviteId: string) => {
         const resp = await dismissInvite({
             variables: {
@@ -152,6 +87,27 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             (member: Types.UsersPermissionsUser) => member.id !== memberId
         )
         setMembers(updatedMembers)
+    }
+
+    const onAcceptApplication = async (appId: string) => {
+        const acceptedApp = groupRespData.group.applications.find(
+            (app: Types.Application) => app.id === appId
+        )
+
+        // TODO: Check that the app was found here...
+
+        const updatedMembers = [...members]
+
+        // Note: in the graphql query the applicant has the same data as a member
+        const newMember: Types.UsersPermissionsUser = {
+            ...acceptedApp.applicant,
+        }
+        updatedMembers.push(newMember)
+        setMembers(updatedMembers)
+    }
+
+    const onClickViewMember = async (memberId: string) => {
+        props.history.push(`/user/${memberId}`)
     }
 
     // Render
@@ -178,20 +134,10 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
             <React.Fragment>
                 <Card className={classes.card}>
                     <CardContent>
-                        <Typography
-                            className={classes.cardTitle}
-                            variant="h5"
-                            component="h2"
-                        >
-                            Applications
-                        </Typography>
                         <ApplicationSection
-                            applications={applications}
-                            onViewProfile={() => {
-                                console.log("View profile")
-                            }}
+                            applications={groupRespData.group.applications}
                             onAcceptApplication={onAcceptApplication}
-                            onRejectApplication={onRejectApplication}
+                            onViewApplicant={onClickViewMember}
                         />
                     </CardContent>
                 </Card>
@@ -253,6 +199,7 @@ const ManageGroup: React.FC<ManageGroupProps> = (props) => {
                         groupData={groupRespData.group}
                         members={members}
                         onRemoveMember={onRemoveMember}
+                        onViewMember={onClickViewMember}
                     />
                 </CardContent>
             </Card>

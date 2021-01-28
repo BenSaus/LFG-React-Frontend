@@ -26,6 +26,7 @@ interface MembersSectionProps {
     groupData: Types.Group
     members: Types.UsersPermissionsUser[]
     onRemoveMember: (id: string) => void
+    onViewMember: (memberId: string) => void
 }
 
 const MembersSection: React.FC<MembersSectionProps> = (props) => {
@@ -42,9 +43,6 @@ const MembersSection: React.FC<MembersSectionProps> = (props) => {
     )
 
     // Handlers
-    const onClickViewMember = async (memberId: string) => {
-        // props.history.push(`/user/${memberId}`)
-    }
 
     const onClickRemoveMember = async (memberId: string) => {
         const resp = await removeMember({
@@ -100,7 +98,7 @@ const MembersSection: React.FC<MembersSectionProps> = (props) => {
                 <Members
                     memberMax={props.groupData.member_max}
                     members={props.members}
-                    onClickViewMember={onClickViewMember}
+                    onClickViewMember={props.onViewMember}
                     onClickRemoveMember={onClickRemoveMember}
                     showOpenSlots={!groupClosed}
                 />
