@@ -6,7 +6,7 @@ import {
     makeStyles,
     Typography,
 } from "@material-ui/core"
-import { Clear } from "@material-ui/icons"
+// import { Clear } from "@material-ui/icons"
 import React from "react"
 
 const useStyles = makeStyles({

@@ -1,3 +1,4 @@
+import React from "react"
 import {
     Avatar,
     makeStyles,
@@ -7,9 +8,9 @@ import {
     List,
     Typography,
 } from "@material-ui/core"
-import React from "react"
-import * as Types from "../../../generated/graphql"
-import UserBadge from "../../UserBadge/UserBadge"
+
+import * as Types from "generated/graphql"
+import UserBadge from "components/UserBadge/UserBadge"
 
 const useStyles = makeStyles((theme) => ({
     memberContainer: {

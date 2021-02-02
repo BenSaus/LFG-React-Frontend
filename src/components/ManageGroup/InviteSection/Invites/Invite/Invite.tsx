@@ -1,9 +1,6 @@
 import React from "react"
-import * as Types from "../../../../../generated/graphql"
+import * as Types from "generated/graphql"
 
-import IconButton from "@material-ui/core/IconButton"
-import Clear from "@material-ui/icons/Clear"
-import Chip from "@material-ui/core/Chip"
 import {
     ListItem,
     ListItemSecondaryAction,
@@ -11,6 +8,9 @@ import {
     ListItemAvatar,
     Avatar,
 } from "@material-ui/core"
+import IconButton from "@material-ui/core/IconButton"
+import Clear from "@material-ui/icons/Clear"
+import Chip from "@material-ui/core/Chip"
 
 interface InviteProps {
     invite: Types.Invite

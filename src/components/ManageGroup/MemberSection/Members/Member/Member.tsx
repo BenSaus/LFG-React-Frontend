@@ -1,29 +1,28 @@
 import React, { useState } from "react"
-import * as Types from "../../../../../generated/graphql"
+import * as Types from "generated/graphql"
+
+import ListItem, { ListItemProps } from "@material-ui/core/ListItem"
+import ListItemAvatar from "@material-ui/core/ListItemAvatar"
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
 
 import IconButton from "@material-ui/core/IconButton"
 import FindInPage from "@material-ui/icons/FindInPage"
 import Delete from "@material-ui/icons/Delete"
 
-import ListItem, { ListItemProps } from "@material-ui/core/ListItem"
-import ListItemText from "@material-ui/core/ListItemText"
-import ListItemAvatar from "@material-ui/core/ListItemAvatar"
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
-import Avatar from "@material-ui/core/Avatar"
-import ConfirmDialog from "../../../../ConfirmDialog/ConfirmDialog"
-import UserBadge from "../../../../UserBadge/UserBadge"
+import ConfirmDialog from "components/ConfirmDialog/ConfirmDialog"
+import UserBadge from "components/UserBadge/UserBadge"
 
 interface MemberProps {
     member: Types.UsersPermissionsUser
-    viewClicked: (memberId: string) => void
-    removeClicked: (memberId: string) => void
+    onClickView: (memberId: string) => void
+    onClickRemove: (memberId: string) => void
 }
 
 const Member: React.FC<MemberProps> = (props) => {
     const [showConfirmDialog, setShowConfirmDialog] = useState(false)
 
     const onConfirm = () => {
-        props.removeClicked(props.member.id)
+        props.onClickRemove(props.member.id)
     }
 
     return (
@@ -32,7 +31,7 @@ const Member: React.FC<MemberProps> = (props) => {
                 <UserBadge user={props.member} />
                 <ListItemSecondaryAction>
                     <IconButton
-                        onClick={() => props.viewClicked(props.member.id)}
+                        onClick={() => props.onClickView(props.member.id)}
                     >
                         <FindInPage />
                     </IconButton>

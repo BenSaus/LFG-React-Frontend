@@ -2,12 +2,18 @@ import { useFormik } from "formik"
 import React, { useEffect, useState } from "react"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import * as Types from "../../generated/graphql"
-import Button from "@material-ui/core/Button"
-import TextField from "@material-ui/core/TextField"
-import Slider from "@material-ui/core/Slider"
-import Typography from "@material-ui/core/Typography"
-import Grid from "@material-ui/core/Grid"
-import Card from "@material-ui/core/Card"
+
+import {
+    Button,
+    TextField,
+    Slider,
+    Typography,
+    Grid,
+    Card,
+    CardContent,
+} from "@material-ui/core"
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+
 import RoomList from "../../components/RoomList/RoomList"
 import { CardContent } from "@material-ui/core"
 

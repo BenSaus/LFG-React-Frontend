@@ -1,8 +1,9 @@
-import { Button } from "@material-ui/core"
 import React from "react"
-import { useSelector } from "react-redux"
 import { RouteComponentProps } from "react-router"
-import { RootType } from "../../store/rootReducer"
+import { useSelector } from "react-redux"
+import { RootType } from "store/rootReducer"
+
+import { Button } from "@material-ui/core"
 
 interface LandingPageProps extends RouteComponentProps {}
 

@@ -1,24 +1,27 @@
 import React, { useState } from "react"
 import { useSelector } from "react-redux"
-// import Toolbar from "../../components/Navigation/Toolbar/Toolbar"
 import { withRouter } from "react-router"
+import { RouteComponentProps } from "react-router-dom"
 
 import { RootType } from "../../store/rootReducer"
-import AppBar from "@material-ui/core/AppBar"
-import Button from "@material-ui/core/Button"
-import Toolbar from "@material-ui/core/Toolbar"
-import Typography from "@material-ui/core/Typography"
-import IconButton from "@material-ui/core/IconButton"
-import Badge from "@material-ui/core/Badge"
+
+import {
+    AppBar,
+    Button,
+    Toolbar,
+    Typography,
+    IconButton,
+    Badge,
+    Menu,
+    MenuItem,
+    Container,
+} from "@material-ui/core"
+
 import NotificationsIcon from "@material-ui/icons/Notifications"
 import SearchIcon from "@material-ui/icons/Search"
 import AccountCircle from "@material-ui/icons/AccountCircle"
-import Menu from "@material-ui/core/Menu"
-import MenuItem from "@material-ui/core/MenuItem"
+
 import { makeStyles } from "@material-ui/core/styles"
-import { Link, RouteComponentProps } from "react-router-dom"
-import Container from "@material-ui/core/Container"
-import { Paper } from "@material-ui/core"
 
 interface LayoutParams {}
 interface LayoutProps extends RouteComponentProps<LayoutParams> {}
@@ -35,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 export const Layout: React.FC<LayoutProps> = (props) => {
     const classes = useStyles()
 
+    // State
     const [anchorEl, setAnchorEl] = React.useState(null)
     const [showSideDrawer, setShowSideDrawer] = useState(false)
 
@@ -42,6 +46,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
         (state) => state.auth.token !== null
     )
 
+    // Handlers
     const onNavLinkClick = (pageUrl: string) => {
         props.history.push(pageUrl)
         setAnchorEl(null)
@@ -55,6 +60,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
         setAnchorEl(null)
     }
 
+    // Render
     let navLinksJSX = null
     if (isAuthenticated) {
         navLinksJSX = (

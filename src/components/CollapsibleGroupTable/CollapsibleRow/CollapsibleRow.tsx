@@ -1,32 +1,23 @@
 import React from "react"
-import * as Types from "../../../generated/graphql"
+import * as Types from "generated/graphql"
 import {
-    Avatar,
     Box,
     Button,
     Card,
-    CardActionArea,
     CardActions,
     CardContent,
-    Chip,
     Collapse,
-    Divider,
-    Grid,
     IconButton,
     makeStyles,
-    Table,
-    TableBody,
     TableCell,
-    TableContainer,
-    TableHead,
     TableRow,
     Tooltip,
     Typography,
 } from "@material-ui/core"
 import { KeyboardArrowDown, KeyboardArrowRight } from "@material-ui/icons"
-import IListAction from "../../../shared/IListAction"
-import groupUtil from "../../../utils/groupUtil"
-import UserBadge from "../../UserBadge/UserBadge"
+import IListAction from "shared/IListAction"
+import groupUtil from "utils/groupUtil"
+import UserBadge from "components/UserBadge/UserBadge"
 
 const useStyles = makeStyles({
     userCell: {

@@ -1,17 +1,26 @@
 import React, { useState } from "react"
-import { useMutation, useQuery } from "@apollo/client"
 import { RouteComponentProps } from "react-router"
+
+import { useMutation, useQuery } from "@apollo/client"
 import {
     GetGroupDocument,
     GetRoomsDocument,
     UpdateGroupDocument,
+<<<<<<< HEAD
     DeletePreferredDateTimeDocument,
     CreatePreferredDateTimeDocument,
 } from "../../generated/graphql"
 import GroupForm from "../../components/GroupForm/GroupForm"
 import * as Types from "../../generated/graphql"
+=======
+} from "generated/graphql"
+import * as Types from "generated/graphql"
+
+>>>>>>> master
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
+
+import GroupForm from "components/GroupForm/GroupForm"
 
 const useStyles = makeStyles((theme) => ({
     groupFormContainer: {

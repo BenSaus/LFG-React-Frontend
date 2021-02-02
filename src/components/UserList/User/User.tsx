@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import * as Types from "../../../generated/graphql"
-import styles from "./User.module.css"
+import * as Types from "generated/graphql"
+import styles from "./User.module.css" // TODO: Remove this
 
 interface UserProps {
     user: Types.UsersPermissionsUser

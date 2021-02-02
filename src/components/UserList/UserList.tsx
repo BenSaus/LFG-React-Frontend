@@ -1,3 +1,5 @@
+import React from "react"
+
 import {
     Avatar,
     IconButton,
@@ -10,9 +12,9 @@ import {
     Tooltip,
     Typography,
 } from "@material-ui/core"
-import React from "react"
-import * as Types from "../../generated/graphql"
-import IListAction from "../../shared/IListAction"
+
+import * as Types from "generated/graphql"
+import IListAction from "shared/IListAction"
 
 const useStyles = makeStyles((theme) => ({}))
 

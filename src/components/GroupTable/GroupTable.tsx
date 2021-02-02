@@ -1,10 +1,9 @@
 import React from "react"
-import * as Types from "../../generated/graphql"
-import { Group } from "../../generated/graphql"
-import groupUtil from "../../utils/groupUtil"
+import * as Types from "generated/graphql"
+import { Group } from "generated/graphql"
+
 import { makeStyles } from "@material-ui/core/styles"
 import {
-    Avatar,
     Chip,
     IconButton,
     Table,
@@ -17,8 +16,9 @@ import {
     Typography,
 } from "@material-ui/core"
 
-import IListAction from "../../shared/IListAction"
+import IListAction from "shared/IListAction"
 import UserBadge from "../UserBadge/UserBadge"
+import groupUtil from "utils/groupUtil"
 
 const useStyles = makeStyles({})
 
@@ -28,7 +28,6 @@ interface GroupListProps {
     showGroupsWithNoOpenSlots: boolean
     showLeader?: boolean
     showOpenSlots?: boolean
-    // showAgeRange?: boolean
     showMemberNumber?: boolean
     showPendingApps?: boolean
 
@@ -117,16 +116,6 @@ const GroupList: React.FC<GroupListProps> = (props) => {
                                     <UserBadge user={group.leader} />
                                 </TableCell>
                             ) : null}
-                            {/* 
-                            {props.showAgeRange ? (
-                                <TableCell align="center">
-                                    <Chip
-                                        color="default"
-                                        size="small"
-                                        label={`${group.min_age} - ${group.max_age}`}
-                                    />
-                                </TableCell>
-                            ) : null} */}
 
                             {props.showMemberNumber ? (
                                 <TableCell align="center">

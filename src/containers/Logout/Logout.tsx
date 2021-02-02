@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { Redirect } from "react-router"
-import { logout } from "../../store/slices/auth"
+import { logout } from "store/slices/auth"
 
 interface LogoutProps {}
 

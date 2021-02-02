@@ -1,3 +1,4 @@
+import React from "react"
 import {
     Avatar,
     makeStyles,
@@ -8,8 +9,6 @@ import {
     Typography,
 } from "@material-ui/core"
 import Message from "./Message/Message"
-import React from "react"
-import * as Types from "../../../generated/graphql"
 
 const useStyles = makeStyles((theme) => ({
     messageList: {

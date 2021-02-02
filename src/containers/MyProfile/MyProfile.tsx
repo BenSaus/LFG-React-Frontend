@@ -1,8 +1,8 @@
 import React from "react"
 import { useSelector } from "react-redux"
 import { Redirect } from "react-router"
-import { RootType } from "../../store/rootReducer"
-import { AuthState } from "../../store/slices/auth"
+import { RootType } from "store/rootReducer"
+import { AuthState } from "store/slices/auth"
 
 interface MyProfileProps {}
 

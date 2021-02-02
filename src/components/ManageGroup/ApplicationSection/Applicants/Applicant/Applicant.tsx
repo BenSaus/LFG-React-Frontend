@@ -1,7 +1,6 @@
 import React from "react"
-import * as Types from "../../../../../generated/graphql"
-import ThumbUp from "@material-ui/icons/ThumbUp"
-import ThumbDown from "@material-ui/icons/ThumbDown"
+import * as Types from "generated/graphql"
+
 import {
     ListItem,
     ListItemSecondaryAction,
@@ -10,15 +9,9 @@ import {
     Avatar,
     IconButton,
 } from "@material-ui/core"
+import ThumbUp from "@material-ui/icons/ThumbUp"
+import ThumbDown from "@material-ui/icons/ThumbDown"
 import { makeStyles } from "@material-ui/core/styles"
-
-const useStyles = makeStyles({
-    listItemText: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-start",
-    },
-})
 
 interface ApplicantProps {
     acceptApplication: (applicationId: string) => void
@@ -27,8 +20,6 @@ interface ApplicantProps {
 }
 
 const Applicant: React.FC<ApplicantProps> = (props) => {
-    const classes = useStyles()
-
     return (
         <ListItem>
             <ListItemAvatar>
@@ -36,7 +27,6 @@ const Applicant: React.FC<ApplicantProps> = (props) => {
             </ListItemAvatar>
             <ListItemText>
                 <span>{props.application.applicant?.username}</span>
-                {/* <span>Age: {props.application.applicant?.age}</span> */}
                 <p>{props.application.message}</p>
             </ListItemText>
             <ListItemSecondaryAction>

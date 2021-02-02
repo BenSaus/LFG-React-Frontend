@@ -1,14 +1,14 @@
 import React, { useState } from "react"
-import { RouteComponentProps } from "react-router"
-import { useMutation, useQuery } from "@apollo/client"
-import { RootType } from "../../store/rootReducer"
+import { RootType } from "store/rootReducer"
 import { useSelector } from "react-redux"
-import { UserState } from "../../store/slices/user"
+import { RouteComponentProps } from "react-router"
+import { AuthState } from "store/slices/auth"
+
+import { useMutation } from "@apollo/client"
 import {
     ApplyToGroupDocument,
     GetApplicationsToThisGroupDocument,
-} from "../../generated/graphql"
-import { AuthState } from "../../store/slices/auth"
+} from "generated/graphql"
 
 interface ApplyParams {
     id: string | undefined

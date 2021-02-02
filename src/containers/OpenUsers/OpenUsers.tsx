@@ -1,16 +1,14 @@
-import { useMutation, useQuery } from "@apollo/client"
 import React, { useState } from "react"
 import { useSelector } from "react-redux"
 import { RouteComponentProps } from "react-router-dom"
-import UserList from "../../components/UserList/UserList"
-import IListAction from "../../shared/IListAction"
-import {
-    GetOpenUsersDocument,
-    CreateInviteDocument,
-} from "../../generated/graphql"
-import { RootType } from "../../store/rootReducer"
-import { AuthState } from "../../store/slices/auth"
-import * as Types from "../../generated/graphql"
+
+import { RootType } from "store/rootReducer"
+import { AuthState } from "store/slices/auth"
+
+import { useMutation, useQuery } from "@apollo/client"
+import * as Types from "generated/graphql"
+import { GetOpenUsersDocument, CreateInviteDocument } from "generated/graphql"
+
 import {
     Button,
     Card,
@@ -20,7 +18,10 @@ import {
     Typography,
 } from "@material-ui/core"
 import { Close, FindInPage, PersonAdd } from "@material-ui/icons"
-import InviteModal from "../../components/InviteModal/InviteModal"
+
+import UserList from "components/UserList/UserList"
+import IListAction from "shared/IListAction"
+import InviteModal from "components/InviteModal/InviteModal"
 
 interface OpenUsersParams {
     groupId: string
@@ -31,7 +32,7 @@ interface OpenUsersProps extends RouteComponentProps<OpenUsersParams> {}
 const OpenUsers: React.FC<OpenUsersProps> = (props) => {
     const groupId = props.match.params.groupId
 
-    // state
+    // State
     const [filteredUsers, setFilteredUsers] = useState<
         Types.UsersPermissionsUser[]
     >([])
@@ -143,7 +144,6 @@ const OpenUsers: React.FC<OpenUsersProps> = (props) => {
     // Render
     if (loading) return <p>Loading...</p>
     if (error) {
-        console.log(error)
         return <p>Error :(</p>
     }
 

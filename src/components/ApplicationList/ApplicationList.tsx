@@ -1,5 +1,5 @@
 import React from "react"
-import * as Types from "../../generated/graphql"
+import * as Types from "generated/graphql"
 import styles from "./ApplicationList.module.css"
 import Application from "./Application/Application"
 
