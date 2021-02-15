@@ -4,6 +4,7 @@ import "./App.css"
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
 
 import { MuiPickersUtilsProvider } from "@material-ui/pickers"
+import DateFnsUtils from "@date-io/date-fns"
 import LuxonUtils from "@date-io/luxon"
 
 import Layout from "./containers/Layout/Layout"
@@ -89,7 +90,7 @@ function App() {
         <BrowserRouter basename={`${process.env.PUBLIC_URL}`}>
             <ThemeProvider theme={theme}>
                 <CssBaseline>
-                    <MuiPickersUtilsProvider utils={LuxonUtils}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <div className="App">
                             <Layout>{routes}</Layout>
                         </div>

@@ -1,6 +1,5 @@
 import { useFormik } from "formik"
 import React, { useEffect, useState } from "react"
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import * as Types from "../../generated/graphql"
 
 import {
@@ -15,7 +14,6 @@ import {
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 
 import RoomList from "../../components/RoomList/RoomList"
-import { CardContent } from "@material-ui/core"
 
 import PreferredDateList, {
     DateTimeItem,
@@ -104,6 +102,8 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
             modifiedData.min_age = age[0]
             modifiedData.max_age = age[1]
             modifiedData.preferred_rooms = preferredRooms
+
+            console.log("Group Form Submit", preferredDateTimes)
             modifiedData.preferred_dateTimes = preferredDateTimes
 
             props.onSubmit(modifiedData)

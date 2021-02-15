@@ -15,6 +15,8 @@ import { Add, Delete } from "@material-ui/icons"
 import { DatePicker } from "@material-ui/pickers"
 import React, { useState } from "react"
 import * as Types from "../../../generated/graphql"
+
+import { parseISO, format } from "date-fns"
 import { DateTime } from "luxon"
 
 const useStyles = makeStyles((theme) => ({
@@ -47,13 +49,15 @@ interface PreferredDateListProps {
 const PreferredDateList: React.FC<PreferredDateListProps> = (props) => {
     const classes = useStyles()
 
+    console.log("dates", props.preferredDateTimeItems)
+
     const [dates, setDates] = useState(props.preferredDateTimeItems)
 
     const onAddDateTime = () => {
         const updatedDates = [...dates]
 
         updatedDates.push({
-            date: DateTime.local().toISO({ includeOffset: true }),
+            date: DateTime.local().toISO({ includeOffset: true }), // BROKE
             time: Types.Enum_Preferreddatetime_Time.Afternoon,
         })
 
@@ -76,11 +80,15 @@ const PreferredDateList: React.FC<PreferredDateListProps> = (props) => {
     const onDateChange = (index: number, value: any) => {
         let updatedDates = [...dates]
 
-        console.log("change", index, value)
+        if (value) {
+            // https://stackoverflow.com/questions/60382084/material-ui-datepicker-showing-wrong-date/64805720#64805720
+            console.log("change", index, value.toString())
+            console.log("change", index, value.toISOString())
 
-        updatedDates[index].date = value.toISO({ includeOffset: true })
-        setDates(updatedDates)
-        props.onChange(updatedDates)
+            updatedDates[index].date = value.toISOString()
+            setDates(updatedDates)
+            props.onChange(updatedDates)
+        }
     }
 
     const onTimeChange = (index: number, value: any) => {
@@ -101,7 +109,7 @@ const PreferredDateList: React.FC<PreferredDateListProps> = (props) => {
                         <ListItemText className={classes.controlContainer}>
                             <DatePicker
                                 disablePast
-                                value={daytime.date}
+                                value={parseISO(daytime.date)}
                                 onChange={(dateTime) => {
                                     onDateChange(index, dateTime)
                                 }}
