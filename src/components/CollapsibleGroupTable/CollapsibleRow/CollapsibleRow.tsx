@@ -18,6 +18,7 @@ import { KeyboardArrowDown, KeyboardArrowRight } from "@material-ui/icons"
 import IListAction from "shared/IListAction"
 import groupUtil from "utils/groupUtil"
 import UserBadge from "components/UserBadge/UserBadge"
+import { Chip } from "@material-ui/core"
 
 const useStyles = makeStyles({
     userCell: {
@@ -45,6 +46,7 @@ const useStyles = makeStyles({
 interface CollapsibleRowProps {
     group: Types.Group
     actions?: IListAction[]
+    onApply?: (groupId: string) => void
 }
 
 const CollapsibleRow: React.FC<CollapsibleRowProps> = (props) => {
@@ -89,6 +91,13 @@ const CollapsibleRow: React.FC<CollapsibleRowProps> = (props) => {
                 </TableCell>
                 <TableCell align="left">Day / Time</TableCell>
                 <TableCell align="left">{roomPreferenceJSX}</TableCell>
+                <TableCell align="left">
+                    <Chip
+                        color="default"
+                        size="small"
+                        label={groupUtil.getOpenSlots(props.group)}
+                    />
+                </TableCell>
 
                 <TableCell align="center">
                     {props.actions?.map((action) => (
@@ -183,6 +192,10 @@ const CollapsibleRow: React.FC<CollapsibleRowProps> = (props) => {
                                             size="small"
                                             variant="outlined"
                                             color="primary"
+                                            onClick={() => {
+                                                if (props.onApply)
+                                                    props.onApply(group.id)
+                                            }}
                                         >
                                             Apply Now
                                         </Button>
