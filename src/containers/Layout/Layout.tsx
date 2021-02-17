@@ -22,6 +22,7 @@ import SearchIcon from "@material-ui/icons/Search"
 import AccountCircle from "@material-ui/icons/AccountCircle"
 
 import { makeStyles } from "@material-ui/core/styles"
+import { requirePropFactory } from "@material-ui/core"
 
 interface LayoutParams {}
 interface LayoutProps extends RouteComponentProps<LayoutParams> {}
@@ -65,12 +66,6 @@ export const Layout: React.FC<LayoutProps> = (props) => {
     if (isAuthenticated) {
         navLinksJSX = (
             <React.Fragment>
-                <IconButton
-                    color="inherit"
-                    onClick={() => onNavLinkClick("/openGroups")}
-                >
-                    <SearchIcon />
-                </IconButton>
                 <IconButton color="inherit">
                     <Badge badgeContent={17} color="secondary">
                         <NotificationsIcon />
@@ -123,9 +118,21 @@ export const Layout: React.FC<LayoutProps> = (props) => {
         <React.Fragment>
             <AppBar position="relative">
                 <Toolbar>
-                    <Typography variant="h6" noWrap>
+                    {/* <Typography
+                        variant="h6"
+                        noWrap
+                        
+                        style={{ cursor: "pointer" }}
+                    >
                         Looking For Group
-                    </Typography>
+                    </Typography> */}
+
+                    <img
+                        src={require("assets/images/logo.png")}
+                        onClick={() => onNavLinkClick("/openGroups")}
+                        style={{ width: "140px", cursor: "pointer" }}
+                    />
+
                     <div className={classes.grow}></div>
                     {navLinksJSX}
                 </Toolbar>
