@@ -87,11 +87,8 @@ export const Layout: React.FC<LayoutProps> = (props) => {
                     <MenuItem onClick={() => onNavLinkClick("/myGroups")}>
                         Groups
                     </MenuItem>
-                    <MenuItem onClick={() => onNavLinkClick("/myInvites")}>
-                        Invites
-                    </MenuItem>
-                    <MenuItem onClick={() => onNavLinkClick("/myApps")}>
-                        Applications
+                    <MenuItem onClick={() => onNavLinkClick("/myInvitesApps")}>
+                        Invites and Apps
                     </MenuItem>
                 </Menu>
 
@@ -118,15 +115,6 @@ export const Layout: React.FC<LayoutProps> = (props) => {
         <React.Fragment>
             <AppBar position="relative">
                 <Toolbar>
-                    {/* <Typography
-                        variant="h6"
-                        noWrap
-                        
-                        style={{ cursor: "pointer" }}
-                    >
-                        Looking For Group
-                    </Typography> */}
-
                     <div
                         style={{
                             backgroundColor: "white",
