@@ -127,11 +127,23 @@ export const Layout: React.FC<LayoutProps> = (props) => {
                         Looking For Group
                     </Typography> */}
 
-                    <img
-                        src={require("assets/images/logo.png")}
-                        onClick={() => onNavLinkClick("/openGroups")}
-                        style={{ width: "140px", cursor: "pointer" }}
-                    />
+                    <div
+                        style={{
+                            backgroundColor: "white",
+                            margin: "0.25rem",
+                            padding: "0.1rem 0.5rem",
+                            borderRadius: "5px",
+                        }}
+                    >
+                        <img
+                            src={require("assets/images/logo.png")}
+                            onClick={() => onNavLinkClick("/openGroups")}
+                            style={{
+                                width: "140px",
+                                cursor: "pointer",
+                            }}
+                        />
+                    </div>
 
                     <div className={classes.grow}></div>
                     {navLinksJSX}
