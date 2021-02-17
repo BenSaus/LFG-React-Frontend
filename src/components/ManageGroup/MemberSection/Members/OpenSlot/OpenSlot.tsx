@@ -24,7 +24,7 @@ interface OpenSlotProps {
     removeOpenSlot?: () => void
 }
 
-const OpenSlot: React.FC<OpenSlotProps> = ({}) => {
+const OpenSlot: React.FC<OpenSlotProps> = () => {
     const classes = useStyles()
 
     return (

@@ -43,6 +43,8 @@ const GroupList: React.FC<GroupListProps> = (props) => {
         filteredGroups = props.groups.filter((group) => {
             if (groupUtil.getOpenSlots(group) > 0) {
                 return true
+            } else {
+                return false
             }
         })
     } else {

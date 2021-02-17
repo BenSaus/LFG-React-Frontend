@@ -56,8 +56,6 @@ const CollapsibleRow: React.FC<CollapsibleRowProps> = (props) => {
 
     let roomPreferenceJSX = "Any"
 
-    console.log(group.preferred_rooms)
-
     if (group.preferred_rooms && group.preferred_rooms.length > 0) {
         roomPreferenceJSX = ""
         for (let x = 0; x < group.preferred_rooms.length; x++) {

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import "./App.css"
 
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
+import { BrowserRouter, Route, Switch } from "react-router-dom"
 
 import Layout from "./containers/Layout/Layout"
 import Login from "./containers/Login/Login"
