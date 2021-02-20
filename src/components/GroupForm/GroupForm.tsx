@@ -128,7 +128,6 @@ const GroupForm: React.FC<GroupFormProps> = (props) => {
         updatedDateTimeArray: DateTimeItem[]
     ) => {
         setPreferredDateTimes(updatedDateTimeArray)
-        console.log("SetPreferredDateTimes", updatedDateTimeArray)
     }
 
     // Render

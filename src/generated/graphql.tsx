@@ -940,8 +940,8 @@ export type PreferredDateTime = {
   id: Scalars['ID'];
   created_at: Scalars['DateTime'];
   updated_at: Scalars['DateTime'];
-  date?: Maybe<Scalars['Date']>;
-  time?: Maybe<Enum_Preferreddatetime_Time>;
+  date: Scalars['DateTime'];
+  time: Enum_Preferreddatetime_Time;
   group?: Maybe<Group>;
 };
 
@@ -988,7 +988,7 @@ export type PreferredDateTimeConnectionUpdated_At = {
 
 export type PreferredDateTimeConnectionDate = {
   __typename?: 'PreferredDateTimeConnectionDate';
-  key?: Maybe<Scalars['ID']>;
+  key?: Maybe<Scalars['DateTime']>;
   connection?: Maybe<PreferredDateTimeConnection>;
 };
 
@@ -1005,7 +1005,7 @@ export type PreferredDateTimeConnectionGroup = {
 };
 
 export type PreferredDateTimeInput = {
-  date?: Maybe<Scalars['Date']>;
+  date: Scalars['DateTime'];
   time?: Maybe<Enum_Preferreddatetime_Time>;
   group?: Maybe<Scalars['ID']>;
   created_by?: Maybe<Scalars['ID']>;
@@ -1013,7 +1013,7 @@ export type PreferredDateTimeInput = {
 };
 
 export type EditPreferredDateTimeInput = {
-  date?: Maybe<Scalars['Date']>;
+  date?: Maybe<Scalars['DateTime']>;
   time?: Maybe<Enum_Preferreddatetime_Time>;
   group?: Maybe<Scalars['ID']>;
   created_by?: Maybe<Scalars['ID']>;
@@ -2549,7 +2549,7 @@ export type CreateInviteMutation = (
 
 export type CreatePreferredDateTimeMutationVariables = Exact<{
   groupId: Scalars['ID'];
-  date: Scalars['Date'];
+  date: Scalars['DateTime'];
   time: Enum_Preferreddatetime_Time;
 }>;
 
@@ -3320,7 +3320,7 @@ export type CreateInviteMutationHookResult = ReturnType<typeof useCreateInviteMu
 export type CreateInviteMutationResult = Apollo.MutationResult<CreateInviteMutation>;
 export type CreateInviteMutationOptions = Apollo.BaseMutationOptions<CreateInviteMutation, CreateInviteMutationVariables>;
 export const CreatePreferredDateTimeDocument = gql`
-    mutation createPreferredDateTime($groupId: ID!, $date: Date!, $time: ENUM_PREFERREDDATETIME_TIME!) {
+    mutation createPreferredDateTime($groupId: ID!, $date: DateTime!, $time: ENUM_PREFERREDDATETIME_TIME!) {
   createPreferredDateTime(input: {data: {group: $groupId, date: $date, time: $time}}) {
     preferredDateTime {
       id

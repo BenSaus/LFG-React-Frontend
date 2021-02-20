@@ -88,23 +88,20 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
     }
 
     const onSubmit = async (values: any) => {
-        console.log("onSubmit", values)
-
         const oldPreferredDateTimes = data.group.preferred_date_times
 
         // delete all old preferred date times
         for (let pref of oldPreferredDateTimes) {
-            // await deletePreferredDateTime({variables: {
-            //     id: pref.id
-            // }})
-            console.log("delete", pref)
+            await deletePreferredDateTime({
+                variables: {
+                    id: pref.id,
+                },
+            })
         }
 
         // create all preferred date times
         let prefDateTimeIds: string[] = []
         for (let pref of values.preferred_dateTimes) {
-            console.log("create", pref)
-
             const resp = await createPreferredDateTime({
                 variables: {
                     groupId: data.group.id,
@@ -113,14 +110,12 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
                 },
             })
 
-            console.log("create resp:", resp)
             prefDateTimeIds.push(
                 resp.data.createPreferredDateTime.preferredDateTime.id
             )
         }
 
         // get their id's
-
         const resp = await updateGroup({
             variables: {
                 id: props.match.params.id,
@@ -133,8 +128,6 @@ const EditGroup: React.FC<EditGroupProps> = (props) => {
                 preferred_date_times: prefDateTimeIds,
             },
         })
-
-        console.log("resp: ", resp)
 
         props.history.push(`/group/manage/${props.match.params.id}`)
     }

@@ -49,8 +49,6 @@ interface PreferredDateListProps {
 const PreferredDateList: React.FC<PreferredDateListProps> = (props) => {
     const classes = useStyles()
 
-    console.log("dates", props.preferredDateTimeItems)
-
     const [dates, setDates] = useState(props.preferredDateTimeItems)
 
     const onAddDateTime = () => {
@@ -62,9 +60,6 @@ const PreferredDateList: React.FC<PreferredDateListProps> = (props) => {
         })
 
         setDates(updatedDates)
-
-        console.log("preffered", props.preferredDateTimeItems)
-        console.log("updated", updatedDates)
         props.onChange(updatedDates)
     }
 
@@ -82,8 +77,6 @@ const PreferredDateList: React.FC<PreferredDateListProps> = (props) => {
 
         if (value) {
             // https://stackoverflow.com/questions/60382084/material-ui-datepicker-showing-wrong-date/64805720#64805720
-            console.log("change", index, value.toString())
-            console.log("change", index, value.toISOString())
 
             updatedDates[index].date = value.toISOString()
             setDates(updatedDates)
@@ -93,8 +86,6 @@ const PreferredDateList: React.FC<PreferredDateListProps> = (props) => {
 
     const onTimeChange = (index: number, value: any) => {
         let updatedDates = [...dates]
-
-        console.log("change", index, value)
 
         updatedDates[index].time = value
         setDates(updatedDates)

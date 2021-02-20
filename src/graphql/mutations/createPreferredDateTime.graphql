@@ -1,7 +1,7 @@
 # Only group leader can do this
 mutation createPreferredDateTime(
     $groupId: ID!
-    $date: Date!
+    $date: DateTime!
     $time: ENUM_PREFERREDDATETIME_TIME!
 ) {
     createPreferredDateTime(

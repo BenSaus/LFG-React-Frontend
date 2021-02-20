@@ -6,7 +6,11 @@ import { RootType } from "store/rootReducer"
 import { AuthState } from "store/slices/auth"
 
 import { useQuery, useMutation } from "@apollo/client"
-import { CreateGroupDocument, GetRoomsDocument } from "generated/graphql"
+import {
+    CreateGroupDocument,
+    CreatePreferredDateTimeDocument,
+    GetRoomsDocument,
+} from "generated/graphql"
 
 import GroupForm from "components/GroupForm/GroupForm"
 
@@ -33,8 +37,9 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
 
     // GraphQL
     const { loading, error, data: roomData } = useQuery(GetRoomsDocument)
-    const [createGroup, { data: createData, error: createError }] = useMutation(
-        CreateGroupDocument
+    const [createGroup] = useMutation(CreateGroupDocument)
+    const [createPreferredDateTime] = useMutation(
+        CreatePreferredDateTimeDocument
     )
 
     // Render
@@ -52,13 +57,23 @@ const CreateGroup: React.FC<CreateGroupProps> = (props) => {
                     leader: myId, // TODO: This should be set server side!!!!!!!!!!!!!
                     description: values.description,
                     preferred_rooms: values.preferred_rooms,
-                    // TODO: Add in date times
-                    // preferred_dateTimes: values.preferred_dateTimes,
+                    preferred_date_times: [],
                     members: [],
                 },
             })
 
             const groupId = resp.data.createGroup.group.id
+
+            // create all preferred date times
+            for (let pref of values.preferred_dateTimes) {
+                await createPreferredDateTime({
+                    variables: {
+                        groupId: groupId,
+                        date: pref.date,
+                        time: pref.time,
+                    },
+                })
+            }
 
             props.history.push(`/group/manage/${groupId}`)
         } catch (error) {
