@@ -22,6 +22,7 @@ import SearchIcon from "@material-ui/icons/Search"
 import AccountCircle from "@material-ui/icons/AccountCircle"
 
 import { makeStyles } from "@material-ui/core/styles"
+import { requirePropFactory } from "@material-ui/core"
 
 interface LayoutParams {}
 interface LayoutProps extends RouteComponentProps<LayoutParams> {}
@@ -65,12 +66,6 @@ export const Layout: React.FC<LayoutProps> = (props) => {
     if (isAuthenticated) {
         navLinksJSX = (
             <React.Fragment>
-                <IconButton
-                    color="inherit"
-                    onClick={() => onNavLinkClick("/openGroups")}
-                >
-                    <SearchIcon />
-                </IconButton>
                 <IconButton color="inherit">
                     <Badge badgeContent={17} color="secondary">
                         <NotificationsIcon />
@@ -92,11 +87,8 @@ export const Layout: React.FC<LayoutProps> = (props) => {
                     <MenuItem onClick={() => onNavLinkClick("/myGroups")}>
                         Groups
                     </MenuItem>
-                    <MenuItem onClick={() => onNavLinkClick("/myInvites")}>
-                        Invites
-                    </MenuItem>
-                    <MenuItem onClick={() => onNavLinkClick("/myApps")}>
-                        Applications
+                    <MenuItem onClick={() => onNavLinkClick("/myInvitesApps")}>
+                        Invites and Apps
                     </MenuItem>
                 </Menu>
 
@@ -123,9 +115,24 @@ export const Layout: React.FC<LayoutProps> = (props) => {
         <React.Fragment>
             <AppBar position="relative">
                 <Toolbar>
-                    <Typography variant="h6" noWrap>
-                        Looking For Group
-                    </Typography>
+                    <div
+                        style={{
+                            backgroundColor: "white",
+                            margin: "0.25rem",
+                            padding: "0.1rem 0.5rem",
+                            borderRadius: "5px",
+                        }}
+                    >
+                        <img
+                            src={require("assets/images/logo.png")}
+                            onClick={() => onNavLinkClick("/openGroups")}
+                            style={{
+                                width: "140px",
+                                cursor: "pointer",
+                            }}
+                        />
+                    </div>
+
                     <div className={classes.grow}></div>
                     {navLinksJSX}
                 </Toolbar>

@@ -6,7 +6,7 @@ import { AuthState } from "store/slices/auth"
 
 interface MyProfileProps {}
 
-const MyProfile: React.FC<MyProfileProps> = ({}) => {
+const MyProfile: React.FC<MyProfileProps> = () => {
     const auth = useSelector<RootType, AuthState>((state) => state.auth)
     let myId = auth?.user?.id
     return <Redirect to={`/user/${myId}`} />

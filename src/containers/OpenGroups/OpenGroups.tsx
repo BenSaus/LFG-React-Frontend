@@ -26,13 +26,13 @@ const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error :(</p>
 
-    const groupActions: IListAction[] = [
-        {
-            tooltip: "Apply to Group",
-            iconJSX: <Assignment />,
-            onClick: onApplyClick,
-        },
-    ]
+    // const groupActions: IListAction[] = [
+    //     {
+    //         tooltip: "Apply to Group",
+    //         iconJSX: <Assignment />,
+    //         onClick: onApplyClick,
+    //     },
+    // ]
 
     if (data?.groups) {
         return (
@@ -45,7 +45,8 @@ const OpenGroups: React.FC<OpenGroupsProps> = (props) => {
                         <CollapsibleGroupTable
                             groups={data.groups}
                             clickedGroup={onGroupClick}
-                            actions={groupActions}
+                            // actions={groupActions}
+                            onApply={onApplyClick}
                         />
                     </CardContent>
                 </Card>

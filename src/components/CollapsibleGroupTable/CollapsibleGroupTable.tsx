@@ -30,6 +30,7 @@ interface CollapsibleGroupTableProps {
     groups: Group[]
     clickedGroup: (groupId: string) => void
     actions?: IListAction[]
+    onApply?: (groupId: string) => void
 }
 
 const CollapsibleGroupTable: React.FC<CollapsibleGroupTableProps> = (props) => {
@@ -51,12 +52,18 @@ const CollapsibleGroupTable: React.FC<CollapsibleGroupTableProps> = (props) => {
                         <TableCell style={{ fontWeight: "bold" }} align="left">
                             Room Preference
                         </TableCell>
-                        <TableCell
-                            style={{ fontWeight: "bold" }}
-                            align="center"
-                        >
-                            Actions
+                        <TableCell style={{ fontWeight: "bold" }} align="left">
+                            Open Slots
                         </TableCell>
+
+                        {props.actions !== undefined ? (
+                            <TableCell
+                                style={{ fontWeight: "bold" }}
+                                align="center"
+                            >
+                                Actions
+                            </TableCell>
+                        ) : null}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -65,6 +72,7 @@ const CollapsibleGroupTable: React.FC<CollapsibleGroupTableProps> = (props) => {
                             group={group}
                             key={group.id}
                             actions={props.actions}
+                            onApply={props.onApply}
                         />
                     ))}
                 </TableBody>
