@@ -8,6 +8,7 @@ mutation createGroup(
     $leader: ID!
     $members: [ID!]!
     $preferred_rooms: [ID!]
+    $preferred_date_times: [ID!]
 ) {
     createGroup(
         input: {
@@ -20,6 +21,7 @@ mutation createGroup(
                 leader: $leader
                 members: $members
                 preferred_rooms: $preferred_rooms
+                preferred_date_times: $preferred_date_times
                 booking_status: notBooked
             }
         }
@@ -34,6 +36,11 @@ mutation createGroup(
             preferred_rooms {
                 id
                 name
+            }
+            preferred_date_times {
+                id
+                date
+                time
             }
         }
     }

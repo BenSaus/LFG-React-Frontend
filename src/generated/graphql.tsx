@@ -127,7 +127,7 @@ export type Achievement = {
   updated_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   image?: Maybe<UploadFile>;
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   users?: Maybe<Array<Maybe<UsersPermissionsUser>>>;
 };
 
@@ -201,7 +201,7 @@ export type AchievementConnectionName = {
 export type AchievementInput = {
   description?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   users?: Maybe<Array<Maybe<Scalars['ID']>>>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
@@ -258,7 +258,7 @@ export type Application = {
   applicant?: Maybe<UsersPermissionsUser>;
   message?: Maybe<Scalars['String']>;
   group?: Maybe<Group>;
-  status?: Maybe<Enum_Application_Status>;
+  status: Enum_Application_Status;
 };
 
 export type ApplicationConnection = {
@@ -378,7 +378,7 @@ export type Business = {
   id: Scalars['ID'];
   created_at: Scalars['DateTime'];
   updated_at: Scalars['DateTime'];
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   address?: Maybe<Scalars['String']>;
   website_url?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
@@ -468,7 +468,7 @@ export type BusinessConnectionImage = {
 };
 
 export type BusinessInput = {
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   address?: Maybe<Scalars['String']>;
   website_url?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
@@ -535,14 +535,14 @@ export type Group = {
   created_at: Scalars['DateTime'];
   updated_at: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
-  member_max?: Maybe<Scalars['Int']>;
-  booking_status?: Maybe<Enum_Group_Booking_Status>;
-  max_age?: Maybe<Scalars['Int']>;
-  min_age?: Maybe<Scalars['Int']>;
+  member_max: Scalars['Int'];
+  booking_status: Enum_Group_Booking_Status;
+  max_age: Scalars['Int'];
+  min_age: Scalars['Int'];
   bookdate?: Maybe<Scalars['DateTime']>;
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   leader?: Maybe<UsersPermissionsUser>;
-  status?: Maybe<Enum_Group_Status>;
+  status: Enum_Group_Status;
   applications?: Maybe<Array<Maybe<Application>>>;
   members?: Maybe<Array<Maybe<UsersPermissionsUser>>>;
   invites?: Maybe<Array<Maybe<Invite>>>;
@@ -725,15 +725,15 @@ export type GroupConnectionStatus = {
 
 export type GroupInput = {
   description?: Maybe<Scalars['String']>;
-  member_max?: Maybe<Scalars['Int']>;
-  booking_status?: Maybe<Enum_Group_Booking_Status>;
+  member_max: Scalars['Int'];
+  booking_status: Enum_Group_Booking_Status;
   applications?: Maybe<Array<Maybe<Scalars['ID']>>>;
   members?: Maybe<Array<Maybe<Scalars['ID']>>>;
   invites?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  max_age?: Maybe<Scalars['Int']>;
-  min_age?: Maybe<Scalars['Int']>;
+  max_age: Scalars['Int'];
+  min_age: Scalars['Int'];
   bookdate?: Maybe<Scalars['DateTime']>;
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   leader?: Maybe<Scalars['ID']>;
   preferred_rooms?: Maybe<Array<Maybe<Scalars['ID']>>>;
   status?: Maybe<Enum_Group_Status>;
@@ -803,7 +803,7 @@ export type Invite = {
   invitee?: Maybe<UsersPermissionsUser>;
   message?: Maybe<Scalars['String']>;
   group?: Maybe<Group>;
-  status?: Maybe<Enum_Invite_Status>;
+  status: Enum_Invite_Status;
   group_leader_dismissed?: Maybe<Scalars['Boolean']>;
 };
 
@@ -1057,7 +1057,7 @@ export type Room = {
   description?: Maybe<Scalars['String']>;
   image?: Maybe<UploadFile>;
   business?: Maybe<Business>;
-  player_max?: Maybe<Scalars['Int']>;
+  player_max: Scalars['Int'];
   groups_preferred?: Maybe<Array<Maybe<Group>>>;
 };
 
@@ -1172,7 +1172,7 @@ export type RoomInput = {
   image?: Maybe<Scalars['ID']>;
   business?: Maybe<Scalars['ID']>;
   groups_preferred?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  player_max?: Maybe<Scalars['Int']>;
+  player_max: Scalars['Int'];
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -2504,6 +2504,7 @@ export type CreateGroupMutationVariables = Exact<{
   leader: Scalars['ID'];
   members: Array<Scalars['ID']>;
   preferred_rooms?: Maybe<Array<Scalars['ID']>>;
+  preferred_date_times?: Maybe<Array<Scalars['ID']>>;
 }>;
 
 
@@ -2517,6 +2518,9 @@ export type CreateGroupMutation = (
       & { preferred_rooms?: Maybe<Array<Maybe<(
         { __typename?: 'Room' }
         & Pick<Room, 'id' | 'name'>
+      )>>>, preferred_date_times?: Maybe<Array<Maybe<(
+        { __typename?: 'PreferredDateTime' }
+        & Pick<PreferredDateTime, 'id' | 'date' | 'time'>
       )>>> }
     )> }
   )> }
@@ -2735,6 +2739,7 @@ export type UpdateGroupMutationVariables = Exact<{
   member_max?: Maybe<Scalars['Int']>;
   min_age?: Maybe<Scalars['Int']>;
   max_age?: Maybe<Scalars['Int']>;
+  status?: Maybe<Enum_Group_Status>;
   preferred_rooms?: Maybe<Array<Scalars['ID']>>;
   preferred_date_times?: Maybe<Array<Scalars['ID']>>;
 }>;
@@ -2746,7 +2751,7 @@ export type UpdateGroupMutation = (
     { __typename?: 'updateGroupPayload' }
     & { group?: Maybe<(
       { __typename?: 'Group' }
-      & Pick<Group, 'id' | 'name' | 'description' | 'member_max' | 'min_age' | 'max_age'>
+      & Pick<Group, 'id' | 'name' | 'description' | 'member_max' | 'min_age' | 'max_age' | 'status'>
       & { preferred_rooms?: Maybe<Array<Maybe<(
         { __typename?: 'Room' }
         & Pick<Room, 'id' | 'name'>
@@ -3225,8 +3230,8 @@ export type CloseGroupMutationHookResult = ReturnType<typeof useCloseGroupMutati
 export type CloseGroupMutationResult = Apollo.MutationResult<CloseGroupMutation>;
 export type CloseGroupMutationOptions = Apollo.BaseMutationOptions<CloseGroupMutation, CloseGroupMutationVariables>;
 export const CreateGroupDocument = gql`
-    mutation createGroup($name: String!, $description: String!, $member_max: Int!, $max_age: Int!, $min_age: Int!, $leader: ID!, $members: [ID!]!, $preferred_rooms: [ID!]) {
-  createGroup(input: {data: {name: $name, description: $description, member_max: $member_max, max_age: $max_age, min_age: $min_age, leader: $leader, members: $members, preferred_rooms: $preferred_rooms, booking_status: notBooked}}) {
+    mutation createGroup($name: String!, $description: String!, $member_max: Int!, $max_age: Int!, $min_age: Int!, $leader: ID!, $members: [ID!]!, $preferred_rooms: [ID!], $preferred_date_times: [ID!]) {
+  createGroup(input: {data: {name: $name, description: $description, member_max: $member_max, max_age: $max_age, min_age: $min_age, leader: $leader, members: $members, preferred_rooms: $preferred_rooms, preferred_date_times: $preferred_date_times, booking_status: notBooked}}) {
     group {
       id
       name
@@ -3237,6 +3242,11 @@ export const CreateGroupDocument = gql`
       preferred_rooms {
         id
         name
+      }
+      preferred_date_times {
+        id
+        date
+        time
       }
     }
   }
@@ -3265,6 +3275,7 @@ export type CreateGroupMutationFn = Apollo.MutationFunction<CreateGroupMutation,
  *      leader: // value for 'leader'
  *      members: // value for 'members'
  *      preferred_rooms: // value for 'preferred_rooms'
+ *      preferred_date_times: // value for 'preferred_date_times'
  *   },
  * });
  */
@@ -3689,8 +3700,8 @@ export type SetMemberMaxMutationHookResult = ReturnType<typeof useSetMemberMaxMu
 export type SetMemberMaxMutationResult = Apollo.MutationResult<SetMemberMaxMutation>;
 export type SetMemberMaxMutationOptions = Apollo.BaseMutationOptions<SetMemberMaxMutation, SetMemberMaxMutationVariables>;
 export const UpdateGroupDocument = gql`
-    mutation updateGroup($id: ID!, $name: String, $description: String, $member_max: Int, $min_age: Int, $max_age: Int, $preferred_rooms: [ID!], $preferred_date_times: [ID!]) {
-  updateGroup(input: {where: {id: $id}, data: {name: $name, description: $description, member_max: $member_max, min_age: $min_age, max_age: $max_age, preferred_rooms: $preferred_rooms, preferred_date_times: $preferred_date_times}}) {
+    mutation updateGroup($id: ID!, $name: String, $description: String, $member_max: Int, $min_age: Int, $max_age: Int, $status: ENUM_GROUP_STATUS, $preferred_rooms: [ID!], $preferred_date_times: [ID!]) {
+  updateGroup(input: {where: {id: $id}, data: {name: $name, description: $description, member_max: $member_max, min_age: $min_age, max_age: $max_age, status: $status, preferred_rooms: $preferred_rooms, preferred_date_times: $preferred_date_times}}) {
     group {
       id
       name
@@ -3698,6 +3709,7 @@ export const UpdateGroupDocument = gql`
       member_max
       min_age
       max_age
+      status
       preferred_rooms {
         id
         name
@@ -3732,6 +3744,7 @@ export type UpdateGroupMutationFn = Apollo.MutationFunction<UpdateGroupMutation,
  *      member_max: // value for 'member_max'
  *      min_age: // value for 'min_age'
  *      max_age: // value for 'max_age'
+ *      status: // value for 'status'
  *      preferred_rooms: // value for 'preferred_rooms'
  *      preferred_date_times: // value for 'preferred_date_times'
  *   },
