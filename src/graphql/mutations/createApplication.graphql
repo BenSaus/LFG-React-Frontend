@@ -1,8 +1,8 @@
 # WARNING: TODO: Only non-group member can do this AND No Duplicates allowed
-mutation createApplication($group: ID!, $applicant: ID!, $message: String!) {
+mutation createApplication($group: ID!, $message: String!) {
     createApplication(
         input: {
-            data: { applicant: $applicant, message: $message, group: $group }
+            data: { message: $message, group: $group }
         }
     ) {
         application {

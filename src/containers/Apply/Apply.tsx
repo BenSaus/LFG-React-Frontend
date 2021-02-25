@@ -31,7 +31,6 @@ const Apply: React.FC<ApplyProps> = (props) => {
 
     const [createApplication, { data }] = useMutation(CreateApplicationDocument, {
         variables: {
-            applicant: myId,
             group: props.match.params.id,
             message: message,
         },
