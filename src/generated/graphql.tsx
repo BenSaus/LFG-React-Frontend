@@ -2457,28 +2457,6 @@ export type AcceptInviteMutation = (
   )> }
 );
 
-export type ApplyToGroupMutationVariables = Exact<{
-  group: Scalars['ID'];
-  applicant: Scalars['ID'];
-  message: Scalars['String'];
-}>;
-
-
-export type ApplyToGroupMutation = (
-  { __typename?: 'Mutation' }
-  & { createApplication?: Maybe<(
-    { __typename?: 'createApplicationPayload' }
-    & { application?: Maybe<(
-      { __typename?: 'Application' }
-      & Pick<Application, 'id' | 'message'>
-      & { group?: Maybe<(
-        { __typename?: 'Group' }
-        & Pick<Group, 'name'>
-      )> }
-    )> }
-  )> }
-);
-
 export type CloseGroupMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2491,6 +2469,28 @@ export type CloseGroupMutation = (
     & { group?: Maybe<(
       { __typename?: 'Group' }
       & Pick<Group, 'id' | 'status'>
+    )> }
+  )> }
+);
+
+export type CreateApplicationMutationVariables = Exact<{
+  group: Scalars['ID'];
+  applicant: Scalars['ID'];
+  message: Scalars['String'];
+}>;
+
+
+export type CreateApplicationMutation = (
+  { __typename?: 'Mutation' }
+  & { createApplication?: Maybe<(
+    { __typename?: 'createApplicationPayload' }
+    & { application?: Maybe<(
+      { __typename?: 'Application' }
+      & Pick<Application, 'id' | 'message'>
+      & { group?: Maybe<(
+        { __typename?: 'Group' }
+        & Pick<Group, 'name'>
+      )> }
     )> }
   )> }
 );
@@ -3154,46 +3154,6 @@ export function useAcceptInviteMutation(baseOptions?: Apollo.MutationHookOptions
 export type AcceptInviteMutationHookResult = ReturnType<typeof useAcceptInviteMutation>;
 export type AcceptInviteMutationResult = Apollo.MutationResult<AcceptInviteMutation>;
 export type AcceptInviteMutationOptions = Apollo.BaseMutationOptions<AcceptInviteMutation, AcceptInviteMutationVariables>;
-export const ApplyToGroupDocument = gql`
-    mutation applyToGroup($group: ID!, $applicant: ID!, $message: String!) {
-  createApplication(input: {data: {applicant: $applicant, message: $message, group: $group}}) {
-    application {
-      id
-      message
-      group {
-        name
-      }
-    }
-  }
-}
-    `;
-export type ApplyToGroupMutationFn = Apollo.MutationFunction<ApplyToGroupMutation, ApplyToGroupMutationVariables>;
-
-/**
- * __useApplyToGroupMutation__
- *
- * To run a mutation, you first call `useApplyToGroupMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useApplyToGroupMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [applyToGroupMutation, { data, loading, error }] = useApplyToGroupMutation({
- *   variables: {
- *      group: // value for 'group'
- *      applicant: // value for 'applicant'
- *      message: // value for 'message'
- *   },
- * });
- */
-export function useApplyToGroupMutation(baseOptions?: Apollo.MutationHookOptions<ApplyToGroupMutation, ApplyToGroupMutationVariables>) {
-        return Apollo.useMutation<ApplyToGroupMutation, ApplyToGroupMutationVariables>(ApplyToGroupDocument, baseOptions);
-      }
-export type ApplyToGroupMutationHookResult = ReturnType<typeof useApplyToGroupMutation>;
-export type ApplyToGroupMutationResult = Apollo.MutationResult<ApplyToGroupMutation>;
-export type ApplyToGroupMutationOptions = Apollo.BaseMutationOptions<ApplyToGroupMutation, ApplyToGroupMutationVariables>;
 export const CloseGroupDocument = gql`
     mutation closeGroup($id: ID!) {
   updateGroup(input: {where: {id: $id}, data: {status: closed}}) {
@@ -3229,6 +3189,46 @@ export function useCloseGroupMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CloseGroupMutationHookResult = ReturnType<typeof useCloseGroupMutation>;
 export type CloseGroupMutationResult = Apollo.MutationResult<CloseGroupMutation>;
 export type CloseGroupMutationOptions = Apollo.BaseMutationOptions<CloseGroupMutation, CloseGroupMutationVariables>;
+export const CreateApplicationDocument = gql`
+    mutation createApplication($group: ID!, $applicant: ID!, $message: String!) {
+  createApplication(input: {data: {applicant: $applicant, message: $message, group: $group}}) {
+    application {
+      id
+      message
+      group {
+        name
+      }
+    }
+  }
+}
+    `;
+export type CreateApplicationMutationFn = Apollo.MutationFunction<CreateApplicationMutation, CreateApplicationMutationVariables>;
+
+/**
+ * __useCreateApplicationMutation__
+ *
+ * To run a mutation, you first call `useCreateApplicationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateApplicationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createApplicationMutation, { data, loading, error }] = useCreateApplicationMutation({
+ *   variables: {
+ *      group: // value for 'group'
+ *      applicant: // value for 'applicant'
+ *      message: // value for 'message'
+ *   },
+ * });
+ */
+export function useCreateApplicationMutation(baseOptions?: Apollo.MutationHookOptions<CreateApplicationMutation, CreateApplicationMutationVariables>) {
+        return Apollo.useMutation<CreateApplicationMutation, CreateApplicationMutationVariables>(CreateApplicationDocument, baseOptions);
+      }
+export type CreateApplicationMutationHookResult = ReturnType<typeof useCreateApplicationMutation>;
+export type CreateApplicationMutationResult = Apollo.MutationResult<CreateApplicationMutation>;
+export type CreateApplicationMutationOptions = Apollo.BaseMutationOptions<CreateApplicationMutation, CreateApplicationMutationVariables>;
 export const CreateGroupDocument = gql`
     mutation createGroup($name: String!, $description: String!, $member_max: Int!, $max_age: Int!, $min_age: Int!, $leader: ID!, $members: [ID!]!, $preferred_rooms: [ID!], $preferred_date_times: [ID!]) {
   createGroup(input: {data: {name: $name, description: $description, member_max: $member_max, max_age: $max_age, min_age: $min_age, leader: $leader, members: $members, preferred_rooms: $preferred_rooms, preferred_date_times: $preferred_date_times, booking_status: notBooked}}) {

@@ -6,7 +6,7 @@ import { AuthState } from "store/slices/auth"
 
 import { useMutation } from "@apollo/client"
 import {
-    ApplyToGroupDocument,
+    CreateApplicationDocument,
     GetApplicationsToThisGroupDocument,
 } from "generated/graphql"
 
@@ -29,7 +29,7 @@ const Apply: React.FC<ApplyProps> = (props) => {
     let [message, setMessage] = useState("")
     // const [canApply, setCanApply] = useState<boolean | null>(null)
 
-    const [createApplication, { data }] = useMutation(ApplyToGroupDocument, {
+    const [createApplication, { data }] = useMutation(CreateApplicationDocument, {
         variables: {
             applicant: myId,
             group: props.match.params.id,
@@ -62,15 +62,14 @@ const Apply: React.FC<ApplyProps> = (props) => {
     // )
 
     // Render
-    // if (loading) return <p>Loading...</p>
-    // if (error) {
-    //     console.log(error)
-    //     return <p>Error :(</p>
-    // }
-
     const onSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault()
-        createApplication()
+
+        try {
+            createApplication()
+        } catch (error) {
+            console.error(error)
+        }
         setAppSent(true)
     }
 
